@@ -150,7 +150,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-[#082a2c] border-b border-[#0d3538] text-white sticky top-0 z-40 shadow-md">
+    <header className="bg-black border-b border-neutral-800 text-white sticky top-0 z-40 shadow-md">
       <div className="max-w-7xl mx-auto px-3 sm:px-5">
         {/* Top bar with Branding and Menu Toggle */}
         <div className="flex items-center justify-between py-2 text-xs">
@@ -174,7 +174,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <span>Débora Costa (Psicóloga • CRP 03/24682)</span>
               </span>
-              <span className="text-xs font-semibold text-amber-300 bg-[#0d3538]/80 px-2 py-0.5 rounded-md border border-[#124247]/80 truncate">
+              <span className="text-xs font-semibold text-amber-300 bg-neutral-900/80 px-2 py-0.5 rounded-md border border-neutral-800 truncate">
                 {TAB_LABELS[activeTab]}
               </span>
             </div>
@@ -196,7 +196,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={() => setIsMenuOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0d3538]/90 hover:bg-[#124247] text-white text-xs font-semibold rounded-lg border border-[#1a5257]/80 shadow-xs transition-all"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-neutral-900/90 hover:bg-neutral-800 text-white text-xs font-semibold rounded-lg border border-neutral-700/80 shadow-xs transition-all"
               aria-expanded={isMenuOpen}
             >
               <Menu className="w-4 h-4 text-indigo-300" />
