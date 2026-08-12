@@ -21,6 +21,7 @@ import {
   CalendarDays,
   Layers,
   Brain,
+  GraduationCap,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -311,6 +312,30 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>Planejamento de Sessão</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("orientacao-professores")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "orientacao-professores"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <GraduationCap className="w-4 h-4" />
+                  <span>Orientação Professores</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("atendimento-familias")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "atendimento-familias"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <HeartHandshake className="w-4 h-4" />
+                  <span>Atendimento Famílias</span>
                 </button>
 
                 <button

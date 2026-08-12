@@ -23,6 +23,8 @@ import {
   Atividade,
   PerfilDesenvolvimentoAluno,
   PlanejamentoSessao as PlanejamentoSessaoTipo,
+  OrientacaoProfessor,
+  AtendimentoFamilia,
 } from "./types";
 import {
   loadData,
@@ -36,6 +38,8 @@ import {
   atividadesStorage,
   perfisDesenvolvimentoStorage,
   planejamentosSessaoStorage,
+  orientacoesProfessoresStorage,
+  atendimentosFamiliaStorage,
 } from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
@@ -70,6 +74,10 @@ import { AreasDesenvolvimento } from "./components/AreasDesenvolvimento/AreasDes
 import { FormPerfilDesenvolvimentoModal } from "./components/AreasDesenvolvimento/FormPerfilDesenvolvimentoModal";
 import { PlanejamentoSessao } from "./components/PlanejamentoSessao/PlanejamentoSessao";
 import { FormPlanejamentoSessaoModal } from "./components/PlanejamentoSessao/FormPlanejamentoSessaoModal";
+import { GestaoOrientacoesProfessores } from "./components/OrientacaoProfessores/GestaoOrientacoesProfessores";
+import { FormOrientacaoProfessorModal } from "./components/OrientacaoProfessores/FormOrientacaoProfessorModal";
+import { GestaoAtendimentosFamilia } from "./components/AtendimentoFamilias/GestaoAtendimentosFamilia";
+import { FormAtendimentoFamiliaModal } from "./components/AtendimentoFamilias/FormAtendimentoFamiliaModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -88,6 +96,8 @@ export default function App() {
   const [atividadesBanco, setAtividadesBanco] = useState<Atividade[]>([]);
   const [perfisDesenvolvimento, setPerfisDesenvolvimento] = useState<PerfilDesenvolvimentoAluno[]>([]);
   const [planejamentosSessao, setPlanejamentosSessao] = useState<PlanejamentoSessaoTipo[]>([]);
+  const [orientacoesProfessores, setOrientacoesProfessores] = useState<OrientacaoProfessor[]>([]);
+  const [atendimentosFamilia, setAtendimentosFamilia] = useState<AtendimentoFamilia[]>([]);
 
   // Modals state
   const [isFormEscolaOpen, setIsFormEscolaOpen] = useState(false);
@@ -110,6 +120,12 @@ export default function App() {
 
   const [isFormPlanejamentoOpen, setIsFormPlanejamentoOpen] = useState(false);
   const [planejamentoParaEditar, setPlanejamentoParaEditar] = useState<PlanejamentoSessaoTipo | null>(null);
+
+  const [isFormOrientacaoOpen, setIsFormOrientacaoOpen] = useState(false);
+  const [orientacaoParaEditar, setOrientacaoParaEditar] = useState<OrientacaoProfessor | null>(null);
+
+  const [isFormAtendimentoFamiliaOpen, setIsFormAtendimentoFamiliaOpen] = useState(false);
+  const [atendimentoFamiliaParaEditar, setAtendimentoFamiliaParaEditar] = useState<AtendimentoFamilia | null>(null);
   const [isFormPacienteOpen, setIsFormPacienteOpen] = useState(false);
   const [pacienteParaEditar, setPacienteParaEditar] = useState<Paciente | null>(null);
 
@@ -152,7 +168,43 @@ export default function App() {
     setAtividadesBanco(data.atividades);
     setPerfisDesenvolvimento(data.perfisDesenvolvimento);
     setPlanejamentosSessao(data.planejamentosSessao);
+    setOrientacoesProfessores(data.orientacoesProfessores);
+    setAtendimentosFamilia(data.atendimentosFamilia);
   }, []);
+
+  // Handlers for Orientacao a Professores
+  const handleSalvarOrientacao = (o: OrientacaoProfessor) => {
+    const index = orientacoesProfessores.findIndex((x) => x.id === o.id);
+    const updated =
+      index >= 0
+        ? orientacoesProfessores.map((x) => (x.id === o.id ? o : x))
+        : [o, ...orientacoesProfessores];
+    setOrientacoesProfessores(updated);
+    orientacoesProfessoresStorage.save(updated);
+  };
+
+  const handleDeletarOrientacao = (id: string) => {
+    const updated = orientacoesProfessores.filter((x) => x.id !== id);
+    setOrientacoesProfessores(updated);
+    orientacoesProfessoresStorage.save(updated);
+  };
+
+  // Handlers for Atendimento a Familias
+  const handleSalvarAtendimentoFamilia = (a: AtendimentoFamilia) => {
+    const index = atendimentosFamilia.findIndex((x) => x.id === a.id);
+    const updated =
+      index >= 0
+        ? atendimentosFamilia.map((x) => (x.id === a.id ? a : x))
+        : [a, ...atendimentosFamilia];
+    setAtendimentosFamilia(updated);
+    atendimentosFamiliaStorage.save(updated);
+  };
+
+  const handleDeletarAtendimentoFamilia = (id: string) => {
+    const updated = atendimentosFamilia.filter((x) => x.id !== id);
+    setAtendimentosFamilia(updated);
+    atendimentosFamiliaStorage.save(updated);
+  };
 
   // Handlers for Planejamento de Sessao
   const handleSalvarPlanejamento = (planejamento: PlanejamentoSessaoTipo) => {
@@ -327,6 +379,8 @@ export default function App() {
     setAtividadesBanco(data.atividades);
     setPerfisDesenvolvimento(data.perfisDesenvolvimento);
     setPlanejamentosSessao(data.planejamentosSessao);
+    setOrientacoesProfessores(data.orientacoesProfessores);
+    setAtendimentosFamilia(data.atendimentosFamilia);
     setActiveTab("dashboard");
   };
 
@@ -717,6 +771,39 @@ export default function App() {
             onDeletarPlanejamento={handleDeletarPlanejamento}
           />
         )}
+
+        {activeTab === "orientacao-professores" && (
+          <GestaoOrientacoesProfessores
+            orientacoes={orientacoesProfessores}
+            pacientes={pacientes}
+            escolas={escolas}
+            onOpenNovaOrientacao={() => {
+              setOrientacaoParaEditar(null);
+              setIsFormOrientacaoOpen(true);
+            }}
+            onEditarOrientacao={(o) => {
+              setOrientacaoParaEditar(o);
+              setIsFormOrientacaoOpen(true);
+            }}
+            onDeletarOrientacao={handleDeletarOrientacao}
+          />
+        )}
+
+        {activeTab === "atendimento-familias" && (
+          <GestaoAtendimentosFamilia
+            atendimentos={atendimentosFamilia}
+            pacientes={pacientes}
+            onOpenNovoAtendimento={() => {
+              setAtendimentoFamiliaParaEditar(null);
+              setIsFormAtendimentoFamiliaOpen(true);
+            }}
+            onEditarAtendimento={(a) => {
+              setAtendimentoFamiliaParaEditar(a);
+              setIsFormAtendimentoFamiliaOpen(true);
+            }}
+            onDeletarAtendimento={handleDeletarAtendimentoFamilia}
+          />
+        )}
       </main>
 
       {/* MODALS */}
@@ -886,6 +973,23 @@ export default function App() {
         pacientes={pacientes}
         onSalvarPlanejamento={handleSalvarPlanejamento}
         planejamentoParaEditar={planejamentoParaEditar}
+      />
+
+      <FormOrientacaoProfessorModal
+        isOpen={isFormOrientacaoOpen}
+        onClose={() => setIsFormOrientacaoOpen(false)}
+        pacientes={pacientes}
+        escolas={escolas}
+        onSalvarOrientacao={handleSalvarOrientacao}
+        orientacaoParaEditar={orientacaoParaEditar}
+      />
+
+      <FormAtendimentoFamiliaModal
+        isOpen={isFormAtendimentoFamiliaOpen}
+        onClose={() => setIsFormAtendimentoFamiliaOpen(false)}
+        pacientes={pacientes}
+        onSalvarAtendimento={handleSalvarAtendimentoFamilia}
+        atendimentoParaEditar={atendimentoFamiliaParaEditar}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}
