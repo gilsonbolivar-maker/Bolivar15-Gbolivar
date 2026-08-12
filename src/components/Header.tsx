@@ -16,6 +16,8 @@ import {
   Smartphone,
   CloudUpload,
   Building2,
+  AlertTriangle,
+  CheckSquare,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -222,6 +224,30 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <Building2 className="w-4 h-4" />
                   <span>Escolas</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("casos-prioritarios")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "casos-prioritarios"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Casos Prioritários</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("checklist-diario")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "checklist-diario"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <CheckSquare className="w-4 h-4" />
+                  <span>Checklist Diário</span>
                 </button>
 
                 <button

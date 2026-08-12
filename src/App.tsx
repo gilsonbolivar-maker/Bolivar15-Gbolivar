@@ -16,12 +16,16 @@ import {
   ContraEncaminhamento,
   TabMenu,
   Escola,
+  CasoPrioritario,
+  ItemChecklist,
 } from "./types";
 import {
   loadData,
   saveData,
   resetAllData,
   escolasStorage,
+  casosPrioritariosStorage,
+  checklistDiarioStorage,
 } from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
@@ -43,6 +47,9 @@ import { ApkDownloadModal } from "./components/ApkDownloadModal";
 import { BackupDriveModal, BackupPayload } from "./components/BackupDriveModal";
 import { GestaoEscolas } from "./components/Escolas/GestaoEscolas";
 import { FormEscolaModal } from "./components/Escolas/FormEscolaModal";
+import { GestaoCasosPrioritarios } from "./components/CasosPrioritarios/GestaoCasosPrioritarios";
+import { FormCasoPrioritarioModal } from "./components/CasosPrioritarios/FormCasoPrioritarioModal";
+import { ChecklistDiario } from "./components/ChecklistDiario/ChecklistDiario";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -54,10 +61,15 @@ export default function App() {
   const [sessoesGrupo, setSessoesGrupo] = useState<SessaoGrupo[]>([]);
   const [encaminhamentos, setEncaminhamentos] = useState<Encaminhamento[]>([]);
   const [escolas, setEscolas] = useState<Escola[]>([]);
+  const [casosPrioritarios, setCasosPrioritarios] = useState<CasoPrioritario[]>([]);
+  const [checklistDiario, setChecklistDiario] = useState<ItemChecklist[]>([]);
 
   // Modals state
   const [isFormEscolaOpen, setIsFormEscolaOpen] = useState(false);
   const [escolaParaEditar, setEscolaParaEditar] = useState<Escola | null>(null);
+
+  const [isFormCasoPrioritarioOpen, setIsFormCasoPrioritarioOpen] = useState(false);
+  const [casoPrioritarioParaEditar, setCasoPrioritarioParaEditar] = useState<CasoPrioritario | null>(null);
   const [isFormPacienteOpen, setIsFormPacienteOpen] = useState(false);
   const [pacienteParaEditar, setPacienteParaEditar] = useState<Paciente | null>(null);
 
@@ -93,6 +105,8 @@ export default function App() {
     setSessoesGrupo(data.sessoesGrupo);
     setEncaminhamentos(data.encaminhamentos);
     setEscolas(data.escolas);
+    setCasosPrioritarios(data.casosPrioritarios);
+    setChecklistDiario(data.checklistDiario);
   }, []);
 
   // Handlers for Escolas
@@ -110,6 +124,44 @@ export default function App() {
     const updated = escolas.filter((e) => e.id !== id);
     setEscolas(updated);
     escolasStorage.save(updated);
+  };
+
+  // Handlers for Casos Prioritarios
+  const handleSalvarCasoPrioritario = (caso: CasoPrioritario) => {
+    const index = casosPrioritarios.findIndex((c) => c.id === caso.id);
+    const updated =
+      index >= 0
+        ? casosPrioritarios.map((c) => (c.id === caso.id ? caso : c))
+        : [caso, ...casosPrioritarios];
+    setCasosPrioritarios(updated);
+    casosPrioritariosStorage.save(updated);
+  };
+
+  const handleDeletarCasoPrioritario = (id: string) => {
+    const updated = casosPrioritarios.filter((c) => c.id !== id);
+    setCasosPrioritarios(updated);
+    casosPrioritariosStorage.save(updated);
+  };
+
+  // Handlers for Checklist Diario
+  const handleAlternarItemChecklist = (id: string) => {
+    const updated = checklistDiario.map((item) =>
+      item.id === id ? { ...item, concluido: !item.concluido } : item
+    );
+    setChecklistDiario(updated);
+    checklistDiarioStorage.save(updated);
+  };
+
+  const handleAdicionarItemChecklist = (texto: string) => {
+    const updated = [...checklistDiario, { id: `chk-${Date.now()}`, texto, concluido: false }];
+    setChecklistDiario(updated);
+    checklistDiarioStorage.save(updated);
+  };
+
+  const handleRemoverItemChecklist = (id: string) => {
+    const updated = checklistDiario.filter((item) => item.id !== id);
+    setChecklistDiario(updated);
+    checklistDiarioStorage.save(updated);
   };
 
   const handleRestoreBackup = (restored: BackupPayload) => {
@@ -136,6 +188,8 @@ export default function App() {
     setSessoesGrupo(data.sessoesGrupo);
     setEncaminhamentos(data.encaminhamentos);
     setEscolas(data.escolas);
+    setCasosPrioritarios(data.casosPrioritarios);
+    setChecklistDiario(data.checklistDiario);
     setActiveTab("dashboard");
   };
 
@@ -426,6 +480,31 @@ export default function App() {
             onDeletarEscola={handleDeletarEscola}
           />
         )}
+
+        {activeTab === "casos-prioritarios" && (
+          <GestaoCasosPrioritarios
+            casos={casosPrioritarios}
+            pacientes={pacientes}
+            onOpenNovoCaso={() => {
+              setCasoPrioritarioParaEditar(null);
+              setIsFormCasoPrioritarioOpen(true);
+            }}
+            onEditarCaso={(caso) => {
+              setCasoPrioritarioParaEditar(caso);
+              setIsFormCasoPrioritarioOpen(true);
+            }}
+            onDeletarCaso={handleDeletarCasoPrioritario}
+          />
+        )}
+
+        {activeTab === "checklist-diario" && (
+          <ChecklistDiario
+            itens={checklistDiario}
+            onAlternarItem={handleAlternarItemChecklist}
+            onAdicionarItem={handleAdicionarItemChecklist}
+            onRemoverItem={handleRemoverItemChecklist}
+          />
+        )}
       </main>
 
       {/* MODALS */}
@@ -548,6 +627,14 @@ export default function App() {
         onClose={() => setIsFormEscolaOpen(false)}
         onSalvarEscola={handleSalvarEscola}
         escolaParaEditar={escolaParaEditar}
+      />
+
+      <FormCasoPrioritarioModal
+        isOpen={isFormCasoPrioritarioOpen}
+        onClose={() => setIsFormCasoPrioritarioOpen(false)}
+        pacientes={pacientes}
+        onSalvarCaso={handleSalvarCasoPrioritario}
+        casoParaEditar={casoPrioritarioParaEditar}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}
