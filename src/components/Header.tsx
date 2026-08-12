@@ -23,6 +23,9 @@ import {
   Brain,
   GraduationCap,
   BookOpen,
+  Package,
+  FolderKanban,
+  Target,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -349,6 +352,42 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>Relatórios Formais</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("banco-materiais")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "banco-materiais"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <Package className="w-4 h-4" />
+                  <span>Banco de Materiais</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("ideias-projetos")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "ideias-projetos"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <FolderKanban className="w-4 h-4" />
+                  <span>Ideias de Projetos</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("metas-profissionais")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "metas-profissionais"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <Target className="w-4 h-4" />
+                  <span>Metas Profissionais</span>
                 </button>
 
                 <button

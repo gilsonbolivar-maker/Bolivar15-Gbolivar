@@ -26,6 +26,9 @@ import {
   OrientacaoProfessor,
   AtendimentoFamilia,
   RelatorioFormal,
+  MaterialItem,
+  IdeiaProjeto,
+  MetaProfissional,
 } from "./types";
 import {
   loadData,
@@ -42,6 +45,9 @@ import {
   orientacoesProfessoresStorage,
   atendimentosFamiliaStorage,
   relatoriosFormaisStorage,
+  materiaisStorage,
+  projetosStorage,
+  metasProfissionaisStorage,
 } from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
@@ -83,6 +89,12 @@ import { FormAtendimentoFamiliaModal } from "./components/AtendimentoFamilias/Fo
 import { GestaoRelatoriosFormais } from "./components/RelatoriosFormais/GestaoRelatoriosFormais";
 import { FormRelatorioFormalModal } from "./components/RelatoriosFormais/FormRelatorioFormalModal";
 import { VisualizarRelatorioModal } from "./components/RelatoriosFormais/VisualizarRelatorioModal";
+import { BancoMateriais } from "./components/BancoMateriais/BancoMateriais";
+import { FormMaterialModal } from "./components/BancoMateriais/FormMaterialModal";
+import { IdeiasProjetos } from "./components/IdeiasProjetos/IdeiasProjetos";
+import { FormIdeiaProjetoModal } from "./components/IdeiasProjetos/FormIdeiaProjetoModal";
+import { MetasProfissionais } from "./components/MetasProfissionais/MetasProfissionais";
+import { FormMetaProfissionalModal } from "./components/MetasProfissionais/FormMetaProfissionalModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -104,6 +116,9 @@ export default function App() {
   const [orientacoesProfessores, setOrientacoesProfessores] = useState<OrientacaoProfessor[]>([]);
   const [atendimentosFamilia, setAtendimentosFamilia] = useState<AtendimentoFamilia[]>([]);
   const [relatoriosFormais, setRelatoriosFormais] = useState<RelatorioFormal[]>([]);
+  const [materiais, setMateriais] = useState<MaterialItem[]>([]);
+  const [projetos, setProjetos] = useState<IdeiaProjeto[]>([]);
+  const [metasProfissionais, setMetasProfissionais] = useState<MetaProfissional[]>([]);
 
   // Modals state
   const [isFormEscolaOpen, setIsFormEscolaOpen] = useState(false);
@@ -138,6 +153,15 @@ export default function App() {
 
   const [isVisualizarRelatorioOpen, setIsVisualizarRelatorioOpen] = useState(false);
   const [relatorioParaVisualizar, setRelatorioParaVisualizar] = useState<RelatorioFormal | null>(null);
+
+  const [isFormMaterialOpen, setIsFormMaterialOpen] = useState(false);
+  const [materialParaEditar, setMaterialParaEditar] = useState<MaterialItem | null>(null);
+
+  const [isFormProjetoOpen, setIsFormProjetoOpen] = useState(false);
+  const [projetoParaEditar, setProjetoParaEditar] = useState<IdeiaProjeto | null>(null);
+
+  const [isFormMetaOpen, setIsFormMetaOpen] = useState(false);
+  const [metaParaEditar, setMetaParaEditar] = useState<MetaProfissional | null>(null);
   const [isFormPacienteOpen, setIsFormPacienteOpen] = useState(false);
   const [pacienteParaEditar, setPacienteParaEditar] = useState<Paciente | null>(null);
 
@@ -183,7 +207,61 @@ export default function App() {
     setOrientacoesProfessores(data.orientacoesProfessores);
     setAtendimentosFamilia(data.atendimentosFamilia);
     setRelatoriosFormais(data.relatoriosFormais);
+    setMateriais(data.materiais);
+    setProjetos(data.projetos);
+    setMetasProfissionais(data.metasProfissionais);
   }, []);
+
+  // Handlers for Banco de Materiais
+  const handleSalvarMaterial = (m: MaterialItem) => {
+    const index = materiais.findIndex((x) => x.id === m.id);
+    const updated = index >= 0 ? materiais.map((x) => (x.id === m.id ? m : x)) : [m, ...materiais];
+    setMateriais(updated);
+    materiaisStorage.save(updated);
+  };
+
+  const handleDeletarMaterial = (id: string) => {
+    const updated = materiais.filter((x) => x.id !== id);
+    setMateriais(updated);
+    materiaisStorage.save(updated);
+  };
+
+  // Handlers for Ideias de Projetos
+  const handleSalvarProjeto = (p: IdeiaProjeto) => {
+    const index = projetos.findIndex((x) => x.id === p.id);
+    const updated = index >= 0 ? projetos.map((x) => (x.id === p.id ? p : x)) : [p, ...projetos];
+    setProjetos(updated);
+    projetosStorage.save(updated);
+  };
+
+  const handleDeletarProjeto = (id: string) => {
+    const updated = projetos.filter((x) => x.id !== id);
+    setProjetos(updated);
+    projetosStorage.save(updated);
+  };
+
+  // Handlers for Metas Profissionais
+  const handleSalvarMeta = (m: MetaProfissional) => {
+    const index = metasProfissionais.findIndex((x) => x.id === m.id);
+    const updated =
+      index >= 0 ? metasProfissionais.map((x) => (x.id === m.id ? m : x)) : [m, ...metasProfissionais];
+    setMetasProfissionais(updated);
+    metasProfissionaisStorage.save(updated);
+  };
+
+  const handleDeletarMeta = (id: string) => {
+    const updated = metasProfissionais.filter((x) => x.id !== id);
+    setMetasProfissionais(updated);
+    metasProfissionaisStorage.save(updated);
+  };
+
+  const handleAlternarMetaConcluida = (id: string) => {
+    const updated = metasProfissionais.map((m) =>
+      m.id === id ? { ...m, concluida: !m.concluida } : m
+    );
+    setMetasProfissionais(updated);
+    metasProfissionaisStorage.save(updated);
+  };
 
   // Handlers for Relatorios Formais
   const handleSalvarRelatorioFormal = (r: RelatorioFormal) => {
@@ -412,6 +490,9 @@ export default function App() {
     setOrientacoesProfessores(data.orientacoesProfessores);
     setAtendimentosFamilia(data.atendimentosFamilia);
     setRelatoriosFormais(data.relatoriosFormais);
+    setMateriais(data.materiais);
+    setProjetos(data.projetos);
+    setMetasProfissionais(data.metasProfissionais);
     setActiveTab("dashboard");
   };
 
@@ -855,6 +936,52 @@ export default function App() {
             }}
           />
         )}
+
+        {activeTab === "banco-materiais" && (
+          <BancoMateriais
+            materiais={materiais}
+            onOpenNovoMaterial={() => {
+              setMaterialParaEditar(null);
+              setIsFormMaterialOpen(true);
+            }}
+            onEditarMaterial={(m) => {
+              setMaterialParaEditar(m);
+              setIsFormMaterialOpen(true);
+            }}
+            onDeletarMaterial={handleDeletarMaterial}
+          />
+        )}
+
+        {activeTab === "ideias-projetos" && (
+          <IdeiasProjetos
+            projetos={projetos}
+            onOpenNovoProjeto={() => {
+              setProjetoParaEditar(null);
+              setIsFormProjetoOpen(true);
+            }}
+            onEditarProjeto={(p) => {
+              setProjetoParaEditar(p);
+              setIsFormProjetoOpen(true);
+            }}
+            onDeletarProjeto={handleDeletarProjeto}
+          />
+        )}
+
+        {activeTab === "metas-profissionais" && (
+          <MetasProfissionais
+            metas={metasProfissionais}
+            onOpenNovaMeta={() => {
+              setMetaParaEditar(null);
+              setIsFormMetaOpen(true);
+            }}
+            onEditarMeta={(m) => {
+              setMetaParaEditar(m);
+              setIsFormMetaOpen(true);
+            }}
+            onDeletarMeta={handleDeletarMeta}
+            onAlternarConcluida={handleAlternarMetaConcluida}
+          />
+        )}
       </main>
 
       {/* MODALS */}
@@ -1056,6 +1183,27 @@ export default function App() {
         onClose={() => setIsVisualizarRelatorioOpen(false)}
         relatorio={relatorioParaVisualizar}
         paciente={pacientes.find((p) => p.id === relatorioParaVisualizar?.pacienteId) || null}
+      />
+
+      <FormMaterialModal
+        isOpen={isFormMaterialOpen}
+        onClose={() => setIsFormMaterialOpen(false)}
+        onSalvarMaterial={handleSalvarMaterial}
+        materialParaEditar={materialParaEditar}
+      />
+
+      <FormIdeiaProjetoModal
+        isOpen={isFormProjetoOpen}
+        onClose={() => setIsFormProjetoOpen(false)}
+        onSalvarProjeto={handleSalvarProjeto}
+        projetoParaEditar={projetoParaEditar}
+      />
+
+      <FormMetaProfissionalModal
+        isOpen={isFormMetaOpen}
+        onClose={() => setIsFormMetaOpen(false)}
+        onSalvarMeta={handleSalvarMeta}
+        metaParaEditar={metaParaEditar}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}
