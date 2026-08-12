@@ -18,6 +18,7 @@ import {
   Escola,
   CasoPrioritario,
   ItemChecklist,
+  Compromisso,
 } from "./types";
 import {
   loadData,
@@ -26,6 +27,7 @@ import {
   escolasStorage,
   casosPrioritariosStorage,
   checklistDiarioStorage,
+  compromissosStorage,
 } from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
@@ -50,6 +52,8 @@ import { FormEscolaModal } from "./components/Escolas/FormEscolaModal";
 import { GestaoCasosPrioritarios } from "./components/CasosPrioritarios/GestaoCasosPrioritarios";
 import { FormCasoPrioritarioModal } from "./components/CasosPrioritarios/FormCasoPrioritarioModal";
 import { ChecklistDiario } from "./components/ChecklistDiario/ChecklistDiario";
+import { Agenda } from "./components/Agenda/Agenda";
+import { FormCompromissoModal } from "./components/Agenda/FormCompromissoModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -63,6 +67,7 @@ export default function App() {
   const [escolas, setEscolas] = useState<Escola[]>([]);
   const [casosPrioritarios, setCasosPrioritarios] = useState<CasoPrioritario[]>([]);
   const [checklistDiario, setChecklistDiario] = useState<ItemChecklist[]>([]);
+  const [compromissos, setCompromissos] = useState<Compromisso[]>([]);
 
   // Modals state
   const [isFormEscolaOpen, setIsFormEscolaOpen] = useState(false);
@@ -70,6 +75,9 @@ export default function App() {
 
   const [isFormCasoPrioritarioOpen, setIsFormCasoPrioritarioOpen] = useState(false);
   const [casoPrioritarioParaEditar, setCasoPrioritarioParaEditar] = useState<CasoPrioritario | null>(null);
+
+  const [isFormCompromissoOpen, setIsFormCompromissoOpen] = useState(false);
+  const [compromissoParaEditar, setCompromissoParaEditar] = useState<Compromisso | null>(null);
   const [isFormPacienteOpen, setIsFormPacienteOpen] = useState(false);
   const [pacienteParaEditar, setPacienteParaEditar] = useState<Paciente | null>(null);
 
@@ -107,7 +115,33 @@ export default function App() {
     setEscolas(data.escolas);
     setCasosPrioritarios(data.casosPrioritarios);
     setChecklistDiario(data.checklistDiario);
+    setCompromissos(data.compromissos);
   }, []);
+
+  // Handlers for Agenda (Compromissos)
+  const handleSalvarCompromisso = (compromisso: Compromisso) => {
+    const index = compromissos.findIndex((c) => c.id === compromisso.id);
+    const updated =
+      index >= 0
+        ? compromissos.map((c) => (c.id === compromisso.id ? compromisso : c))
+        : [compromisso, ...compromissos];
+    setCompromissos(updated);
+    compromissosStorage.save(updated);
+  };
+
+  const handleDeletarCompromisso = (id: string) => {
+    const updated = compromissos.filter((c) => c.id !== id);
+    setCompromissos(updated);
+    compromissosStorage.save(updated);
+  };
+
+  const handleAlternarCompromissoConcluido = (id: string) => {
+    const updated = compromissos.map((c) =>
+      c.id === id ? { ...c, concluido: !c.concluido } : c
+    );
+    setCompromissos(updated);
+    compromissosStorage.save(updated);
+  };
 
   // Handlers for Escolas
   const handleSalvarEscola = (escola: Escola) => {
@@ -190,6 +224,7 @@ export default function App() {
     setEscolas(data.escolas);
     setCasosPrioritarios(data.casosPrioritarios);
     setChecklistDiario(data.checklistDiario);
+    setCompromissos(data.compromissos);
     setActiveTab("dashboard");
   };
 
@@ -505,6 +540,24 @@ export default function App() {
             onRemoverItem={handleRemoverItemChecklist}
           />
         )}
+
+        {activeTab === "agenda" && (
+          <Agenda
+            compromissos={compromissos}
+            pacientes={pacientes}
+            escolas={escolas}
+            onOpenNovoCompromisso={() => {
+              setCompromissoParaEditar(null);
+              setIsFormCompromissoOpen(true);
+            }}
+            onEditarCompromisso={(c) => {
+              setCompromissoParaEditar(c);
+              setIsFormCompromissoOpen(true);
+            }}
+            onDeletarCompromisso={handleDeletarCompromisso}
+            onAlternarConcluido={handleAlternarCompromissoConcluido}
+          />
+        )}
       </main>
 
       {/* MODALS */}
@@ -635,6 +688,15 @@ export default function App() {
         pacientes={pacientes}
         onSalvarCaso={handleSalvarCasoPrioritario}
         casoParaEditar={casoPrioritarioParaEditar}
+      />
+
+      <FormCompromissoModal
+        isOpen={isFormCompromissoOpen}
+        onClose={() => setIsFormCompromissoOpen(false)}
+        pacientes={pacientes}
+        escolas={escolas}
+        onSalvarCompromisso={handleSalvarCompromisso}
+        compromissoParaEditar={compromissoParaEditar}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}

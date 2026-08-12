@@ -18,6 +18,7 @@ import {
   Building2,
   AlertTriangle,
   CheckSquare,
+  CalendarDays,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -248,6 +249,18 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <CheckSquare className="w-4 h-4" />
                   <span>Checklist Diário</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("agenda")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "agenda"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <CalendarDays className="w-4 h-4" />
+                  <span>Agenda</span>
                 </button>
 
                 <button
