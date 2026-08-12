@@ -22,6 +22,7 @@ import {
   Layers,
   Brain,
   GraduationCap,
+  BookOpen,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -336,6 +337,18 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <HeartHandshake className="w-4 h-4" />
                   <span>Atendimento Famílias</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("relatorios-formais")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "relatorios-formais"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <BookOpen className="w-4 h-4" />
+                  <span>Relatórios Formais</span>
                 </button>
 
                 <button

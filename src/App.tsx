@@ -25,6 +25,7 @@ import {
   PlanejamentoSessao as PlanejamentoSessaoTipo,
   OrientacaoProfessor,
   AtendimentoFamilia,
+  RelatorioFormal,
 } from "./types";
 import {
   loadData,
@@ -40,6 +41,7 @@ import {
   planejamentosSessaoStorage,
   orientacoesProfessoresStorage,
   atendimentosFamiliaStorage,
+  relatoriosFormaisStorage,
 } from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
@@ -78,6 +80,9 @@ import { GestaoOrientacoesProfessores } from "./components/OrientacaoProfessores
 import { FormOrientacaoProfessorModal } from "./components/OrientacaoProfessores/FormOrientacaoProfessorModal";
 import { GestaoAtendimentosFamilia } from "./components/AtendimentoFamilias/GestaoAtendimentosFamilia";
 import { FormAtendimentoFamiliaModal } from "./components/AtendimentoFamilias/FormAtendimentoFamiliaModal";
+import { GestaoRelatoriosFormais } from "./components/RelatoriosFormais/GestaoRelatoriosFormais";
+import { FormRelatorioFormalModal } from "./components/RelatoriosFormais/FormRelatorioFormalModal";
+import { VisualizarRelatorioModal } from "./components/RelatoriosFormais/VisualizarRelatorioModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -98,6 +103,7 @@ export default function App() {
   const [planejamentosSessao, setPlanejamentosSessao] = useState<PlanejamentoSessaoTipo[]>([]);
   const [orientacoesProfessores, setOrientacoesProfessores] = useState<OrientacaoProfessor[]>([]);
   const [atendimentosFamilia, setAtendimentosFamilia] = useState<AtendimentoFamilia[]>([]);
+  const [relatoriosFormais, setRelatoriosFormais] = useState<RelatorioFormal[]>([]);
 
   // Modals state
   const [isFormEscolaOpen, setIsFormEscolaOpen] = useState(false);
@@ -126,6 +132,12 @@ export default function App() {
 
   const [isFormAtendimentoFamiliaOpen, setIsFormAtendimentoFamiliaOpen] = useState(false);
   const [atendimentoFamiliaParaEditar, setAtendimentoFamiliaParaEditar] = useState<AtendimentoFamilia | null>(null);
+
+  const [isFormRelatorioFormalOpen, setIsFormRelatorioFormalOpen] = useState(false);
+  const [relatorioFormalParaEditar, setRelatorioFormalParaEditar] = useState<RelatorioFormal | null>(null);
+
+  const [isVisualizarRelatorioOpen, setIsVisualizarRelatorioOpen] = useState(false);
+  const [relatorioParaVisualizar, setRelatorioParaVisualizar] = useState<RelatorioFormal | null>(null);
   const [isFormPacienteOpen, setIsFormPacienteOpen] = useState(false);
   const [pacienteParaEditar, setPacienteParaEditar] = useState<Paciente | null>(null);
 
@@ -170,7 +182,25 @@ export default function App() {
     setPlanejamentosSessao(data.planejamentosSessao);
     setOrientacoesProfessores(data.orientacoesProfessores);
     setAtendimentosFamilia(data.atendimentosFamilia);
+    setRelatoriosFormais(data.relatoriosFormais);
   }, []);
+
+  // Handlers for Relatorios Formais
+  const handleSalvarRelatorioFormal = (r: RelatorioFormal) => {
+    const index = relatoriosFormais.findIndex((x) => x.id === r.id);
+    const updated =
+      index >= 0
+        ? relatoriosFormais.map((x) => (x.id === r.id ? r : x))
+        : [r, ...relatoriosFormais];
+    setRelatoriosFormais(updated);
+    relatoriosFormaisStorage.save(updated);
+  };
+
+  const handleDeletarRelatorioFormal = (id: string) => {
+    const updated = relatoriosFormais.filter((x) => x.id !== id);
+    setRelatoriosFormais(updated);
+    relatoriosFormaisStorage.save(updated);
+  };
 
   // Handlers for Orientacao a Professores
   const handleSalvarOrientacao = (o: OrientacaoProfessor) => {
@@ -381,6 +411,7 @@ export default function App() {
     setPlanejamentosSessao(data.planejamentosSessao);
     setOrientacoesProfessores(data.orientacoesProfessores);
     setAtendimentosFamilia(data.atendimentosFamilia);
+    setRelatoriosFormais(data.relatoriosFormais);
     setActiveTab("dashboard");
   };
 
@@ -804,6 +835,26 @@ export default function App() {
             onDeletarAtendimento={handleDeletarAtendimentoFamilia}
           />
         )}
+
+        {activeTab === "relatorios-formais" && (
+          <GestaoRelatoriosFormais
+            relatorios={relatoriosFormais}
+            pacientes={pacientes}
+            onOpenNovoRelatorio={() => {
+              setRelatorioFormalParaEditar(null);
+              setIsFormRelatorioFormalOpen(true);
+            }}
+            onEditarRelatorio={(r) => {
+              setRelatorioFormalParaEditar(r);
+              setIsFormRelatorioFormalOpen(true);
+            }}
+            onDeletarRelatorio={handleDeletarRelatorioFormal}
+            onVisualizarRelatorio={(r) => {
+              setRelatorioParaVisualizar(r);
+              setIsVisualizarRelatorioOpen(true);
+            }}
+          />
+        )}
       </main>
 
       {/* MODALS */}
@@ -990,6 +1041,21 @@ export default function App() {
         pacientes={pacientes}
         onSalvarAtendimento={handleSalvarAtendimentoFamilia}
         atendimentoParaEditar={atendimentoFamiliaParaEditar}
+      />
+
+      <FormRelatorioFormalModal
+        isOpen={isFormRelatorioFormalOpen}
+        onClose={() => setIsFormRelatorioFormalOpen(false)}
+        pacientes={pacientes}
+        onSalvarRelatorio={handleSalvarRelatorioFormal}
+        relatorioParaEditar={relatorioFormalParaEditar}
+      />
+
+      <VisualizarRelatorioModal
+        isOpen={isVisualizarRelatorioOpen}
+        onClose={() => setIsVisualizarRelatorioOpen(false)}
+        relatorio={relatorioParaVisualizar}
+        paciente={pacientes.find((p) => p.id === relatorioParaVisualizar?.pacienteId) || null}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}
