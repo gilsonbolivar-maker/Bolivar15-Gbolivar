@@ -14,8 +14,9 @@ import {
   Encaminhamento,
   StatusEncaminhamento,
   ContraEncaminhamento,
+  TabMenu,
 } from "./types";
-import { loadData, saveData } from "./storage";
+import { loadData, saveData, resetAllData } from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
 import { ListaPacientes } from "./components/Pacientes/ListaPacientes";
@@ -33,9 +34,7 @@ import { ImpressaoGuiaModal } from "./components/Encaminhamento/ImpressaoGuiaMod
 import { AiDocumentScannerModal } from "./components/AiDocumentScannerModal";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<
-    "dashboard" | "pacientes" | "atendimentos" | "grupos" | "encaminhamentos"
-  >("dashboard");
+  const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
 
   // State entities
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
@@ -78,6 +77,17 @@ export default function App() {
     setSessoesGrupo(data.sessoesGrupo);
     setEncaminhamentos(data.encaminhamentos);
   }, []);
+
+  const handleResetData = () => {
+    resetAllData();
+    const data = loadData();
+    setPacientes(data.pacientes);
+    setAtendimentos(data.atendimentos);
+    setGrupos(data.grupos);
+    setSessoesGrupo(data.sessoesGrupo);
+    setEncaminhamentos(data.encaminhamentos);
+    setActiveTab("dashboard");
+  };
 
   // Save state on any update
   const persistState = (
@@ -215,6 +225,11 @@ export default function App() {
           setPacienteParaEditar(null);
           setIsFormPacienteOpen(true);
         }}
+        onOpenNovoAtendimentoIndiv={() => {
+          setPacientePreAtendimento(null);
+          setIsNovoAtendimentoOpen(true);
+        }}
+        onOpenNovoGrupo={() => setIsNovoGrupoOpen(true)}
         onOpenNovoEncaminhamento={() => {
           setPacientePreEncaminhamento(null);
           setIsNovoEncaminhamentoOpen(true);
@@ -225,6 +240,7 @@ export default function App() {
         onOpenOcrScanner={() => {
           setIsGlobalOcrOpen(true);
         }}
+        onResetData={handleResetData}
       />
 
       {/* Main View Area */}
@@ -236,6 +252,7 @@ export default function App() {
             grupos={grupos}
             sessoesGrupo={sessoesGrupo}
             encaminhamentos={encaminhamentos}
+            setActiveTab={setActiveTab}
             onOpenNovoPaciente={() => {
               setPacienteParaEditar(null);
               setIsFormPacienteOpen(true);
@@ -285,7 +302,7 @@ export default function App() {
           />
         )}
 
-        {activeTab === "atendimentos" && (
+        {activeTab === "atendimento-individual" && (
           <ListaAtendimentos
             atendimentos={atendimentos}
             pacientes={pacientes}
@@ -300,7 +317,7 @@ export default function App() {
           />
         )}
 
-        {activeTab === "grupos" && (
+        {activeTab === "atendimento-grupo" && (
           <GestaoGrupos
             grupos={grupos}
             sessoesGrupo={sessoesGrupo}
@@ -311,7 +328,7 @@ export default function App() {
           />
         )}
 
-        {activeTab === "encaminhamentos" && (
+        {activeTab === "encaminhamento" && (
           <GestaoEncaminhamentos
             encaminhamentos={encaminhamentos}
             pacientes={pacientes}
@@ -458,9 +475,9 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => setActiveTab("atendimentos")}
+          onClick={() => setActiveTab("atendimento-individual")}
           className={`flex flex-col items-center gap-1 p-2 rounded-xl text-[10px] font-bold transition-colors ${
-            activeTab === "atendimentos" ? "text-indigo-400 bg-slate-800" : "hover:text-slate-200"
+            activeTab === "atendimento-individual" ? "text-indigo-400 bg-slate-800" : "hover:text-slate-200"
           }`}
         >
           <UserCheck className="w-5 h-5" />
@@ -468,9 +485,9 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => setActiveTab("grupos")}
+          onClick={() => setActiveTab("atendimento-grupo")}
           className={`flex flex-col items-center gap-1 p-2 rounded-xl text-[10px] font-bold transition-colors ${
-            activeTab === "grupos" ? "text-indigo-400 bg-slate-800" : "hover:text-slate-200"
+            activeTab === "atendimento-grupo" ? "text-indigo-400 bg-slate-800" : "hover:text-slate-200"
           }`}
         >
           <Users2 className="w-5 h-5" />
@@ -478,9 +495,9 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => setActiveTab("encaminhamentos")}
+          onClick={() => setActiveTab("encaminhamento")}
           className={`flex flex-col items-center gap-1 p-2 rounded-xl text-[10px] font-bold transition-colors ${
-            activeTab === "encaminhamentos" ? "text-amber-400 bg-slate-800" : "hover:text-slate-200"
+            activeTab === "encaminhamento" ? "text-amber-400 bg-slate-800" : "hover:text-slate-200"
           }`}
         >
           <ArrowRightLeft className="w-5 h-5" />
