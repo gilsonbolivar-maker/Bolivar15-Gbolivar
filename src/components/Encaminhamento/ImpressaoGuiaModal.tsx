@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { X, Printer, HeartHandshake, Download, CheckCircle2, Stamp } from "lucide-react";
 import { Encaminhamento, Paciente } from "../../types";
 import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import html2canvas from "html2canvas-pro";
 
 interface ImpressaoGuiaModalProps {
   isOpen: boolean;

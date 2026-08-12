@@ -32,6 +32,7 @@ import { NovoEncaminhamentoModal } from "./components/Encaminhamento/NovoEncamin
 import { ContraEncaminhamentoModal } from "./components/Encaminhamento/ContraEncaminhamentoModal";
 import { ImpressaoGuiaModal } from "./components/Encaminhamento/ImpressaoGuiaModal";
 import { AiDocumentScannerModal } from "./components/AiDocumentScannerModal";
+import { Relatorios } from "./components/Relatorios/Relatorios";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -345,6 +346,16 @@ export default function App() {
               setIsImpressaoGuiaOpen(true);
             }}
             onAtualizarStatus={handleAtualizarStatusEncaminhamento}
+          />
+        )}
+
+        {activeTab === "relatorios" && (
+          <Relatorios
+            pacientes={pacientes}
+            atendimentos={atendimentos}
+            grupos={grupos}
+            sessoesGrupo={sessoesGrupo}
+            encaminhamentos={encaminhamentos}
           />
         )}
       </main>
