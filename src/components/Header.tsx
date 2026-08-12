@@ -19,6 +19,8 @@ import {
   AlertTriangle,
   CheckSquare,
   CalendarDays,
+  Layers,
+  Brain,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -261,6 +263,42 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <CalendarDays className="w-4 h-4" />
                   <span>Agenda</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("banco-intervencoes")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "banco-intervencoes"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <Layers className="w-4 h-4" />
+                  <span>Banco de Intervenções</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("banco-atividades")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "banco-atividades"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>Banco de Atividades</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("areas-desenvolvimento")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "areas-desenvolvimento"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <Brain className="w-4 h-4" />
+                  <span>Áreas do Desenvolvimento</span>
                 </button>
 
                 <button

@@ -19,6 +19,9 @@ import {
   CasoPrioritario,
   ItemChecklist,
   Compromisso,
+  Intervencao,
+  Atividade,
+  PerfilDesenvolvimentoAluno,
 } from "./types";
 import {
   loadData,
@@ -28,6 +31,9 @@ import {
   casosPrioritariosStorage,
   checklistDiarioStorage,
   compromissosStorage,
+  intervencoesStorage,
+  atividadesStorage,
+  perfisDesenvolvimentoStorage,
 } from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
@@ -54,6 +60,12 @@ import { FormCasoPrioritarioModal } from "./components/CasosPrioritarios/FormCas
 import { ChecklistDiario } from "./components/ChecklistDiario/ChecklistDiario";
 import { Agenda } from "./components/Agenda/Agenda";
 import { FormCompromissoModal } from "./components/Agenda/FormCompromissoModal";
+import { BancoIntervencoes } from "./components/BancoIntervencoes/BancoIntervencoes";
+import { FormIntervencaoModal } from "./components/BancoIntervencoes/FormIntervencaoModal";
+import { BancoAtividades } from "./components/BancoAtividades/BancoAtividades";
+import { FormAtividadeModal } from "./components/BancoAtividades/FormAtividadeModal";
+import { AreasDesenvolvimento } from "./components/AreasDesenvolvimento/AreasDesenvolvimento";
+import { FormPerfilDesenvolvimentoModal } from "./components/AreasDesenvolvimento/FormPerfilDesenvolvimentoModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -68,6 +80,9 @@ export default function App() {
   const [casosPrioritarios, setCasosPrioritarios] = useState<CasoPrioritario[]>([]);
   const [checklistDiario, setChecklistDiario] = useState<ItemChecklist[]>([]);
   const [compromissos, setCompromissos] = useState<Compromisso[]>([]);
+  const [intervencoes, setIntervencoes] = useState<Intervencao[]>([]);
+  const [atividadesBanco, setAtividadesBanco] = useState<Atividade[]>([]);
+  const [perfisDesenvolvimento, setPerfisDesenvolvimento] = useState<PerfilDesenvolvimentoAluno[]>([]);
 
   // Modals state
   const [isFormEscolaOpen, setIsFormEscolaOpen] = useState(false);
@@ -78,6 +93,15 @@ export default function App() {
 
   const [isFormCompromissoOpen, setIsFormCompromissoOpen] = useState(false);
   const [compromissoParaEditar, setCompromissoParaEditar] = useState<Compromisso | null>(null);
+
+  const [isFormIntervencaoOpen, setIsFormIntervencaoOpen] = useState(false);
+  const [intervencaoParaEditar, setIntervencaoParaEditar] = useState<Intervencao | null>(null);
+
+  const [isFormAtividadeOpen, setIsFormAtividadeOpen] = useState(false);
+  const [atividadeParaEditar, setAtividadeParaEditar] = useState<Atividade | null>(null);
+
+  const [isFormPerfilDesenvolvimentoOpen, setIsFormPerfilDesenvolvimentoOpen] = useState(false);
+  const [pacienteParaPerfil, setPacienteParaPerfil] = useState<Paciente | null>(null);
   const [isFormPacienteOpen, setIsFormPacienteOpen] = useState(false);
   const [pacienteParaEditar, setPacienteParaEditar] = useState<Paciente | null>(null);
 
@@ -116,7 +140,55 @@ export default function App() {
     setCasosPrioritarios(data.casosPrioritarios);
     setChecklistDiario(data.checklistDiario);
     setCompromissos(data.compromissos);
+    setIntervencoes(data.intervencoes);
+    setAtividadesBanco(data.atividades);
+    setPerfisDesenvolvimento(data.perfisDesenvolvimento);
   }, []);
+
+  // Handlers for Banco de Intervencoes
+  const handleSalvarIntervencao = (intervencao: Intervencao) => {
+    const index = intervencoes.findIndex((i) => i.id === intervencao.id);
+    const updated =
+      index >= 0
+        ? intervencoes.map((i) => (i.id === intervencao.id ? intervencao : i))
+        : [intervencao, ...intervencoes];
+    setIntervencoes(updated);
+    intervencoesStorage.save(updated);
+  };
+
+  const handleDeletarIntervencao = (id: string) => {
+    const updated = intervencoes.filter((i) => i.id !== id);
+    setIntervencoes(updated);
+    intervencoesStorage.save(updated);
+  };
+
+  // Handlers for Banco de Atividades
+  const handleSalvarAtividade = (atividade: Atividade) => {
+    const index = atividadesBanco.findIndex((a) => a.id === atividade.id);
+    const updated =
+      index >= 0
+        ? atividadesBanco.map((a) => (a.id === atividade.id ? atividade : a))
+        : [atividade, ...atividadesBanco];
+    setAtividadesBanco(updated);
+    atividadesStorage.save(updated);
+  };
+
+  const handleDeletarAtividade = (id: string) => {
+    const updated = atividadesBanco.filter((a) => a.id !== id);
+    setAtividadesBanco(updated);
+    atividadesStorage.save(updated);
+  };
+
+  // Handlers for Perfis de Desenvolvimento
+  const handleSalvarPerfilDesenvolvimento = (perfil: PerfilDesenvolvimentoAluno) => {
+    const index = perfisDesenvolvimento.findIndex((p) => p.pacienteId === perfil.pacienteId);
+    const updated =
+      index >= 0
+        ? perfisDesenvolvimento.map((p) => (p.pacienteId === perfil.pacienteId ? perfil : p))
+        : [perfil, ...perfisDesenvolvimento];
+    setPerfisDesenvolvimento(updated);
+    perfisDesenvolvimentoStorage.save(updated);
+  };
 
   // Handlers for Agenda (Compromissos)
   const handleSalvarCompromisso = (compromisso: Compromisso) => {
@@ -225,6 +297,9 @@ export default function App() {
     setCasosPrioritarios(data.casosPrioritarios);
     setChecklistDiario(data.checklistDiario);
     setCompromissos(data.compromissos);
+    setIntervencoes(data.intervencoes);
+    setAtividadesBanco(data.atividades);
+    setPerfisDesenvolvimento(data.perfisDesenvolvimento);
     setActiveTab("dashboard");
   };
 
@@ -558,6 +633,47 @@ export default function App() {
             onAlternarConcluido={handleAlternarCompromissoConcluido}
           />
         )}
+
+        {activeTab === "banco-intervencoes" && (
+          <BancoIntervencoes
+            intervencoes={intervencoes}
+            onOpenNovaIntervencao={() => {
+              setIntervencaoParaEditar(null);
+              setIsFormIntervencaoOpen(true);
+            }}
+            onEditarIntervencao={(i) => {
+              setIntervencaoParaEditar(i);
+              setIsFormIntervencaoOpen(true);
+            }}
+            onDeletarIntervencao={handleDeletarIntervencao}
+          />
+        )}
+
+        {activeTab === "banco-atividades" && (
+          <BancoAtividades
+            atividades={atividadesBanco}
+            onOpenNovaAtividade={() => {
+              setAtividadeParaEditar(null);
+              setIsFormAtividadeOpen(true);
+            }}
+            onEditarAtividade={(a) => {
+              setAtividadeParaEditar(a);
+              setIsFormAtividadeOpen(true);
+            }}
+            onDeletarAtividade={handleDeletarAtividade}
+          />
+        )}
+
+        {activeTab === "areas-desenvolvimento" && (
+          <AreasDesenvolvimento
+            pacientes={pacientes}
+            perfis={perfisDesenvolvimento}
+            onEditarPerfil={(p) => {
+              setPacienteParaPerfil(p);
+              setIsFormPerfilDesenvolvimentoOpen(true);
+            }}
+          />
+        )}
       </main>
 
       {/* MODALS */}
@@ -697,6 +813,28 @@ export default function App() {
         escolas={escolas}
         onSalvarCompromisso={handleSalvarCompromisso}
         compromissoParaEditar={compromissoParaEditar}
+      />
+
+      <FormIntervencaoModal
+        isOpen={isFormIntervencaoOpen}
+        onClose={() => setIsFormIntervencaoOpen(false)}
+        onSalvarIntervencao={handleSalvarIntervencao}
+        intervencaoParaEditar={intervencaoParaEditar}
+      />
+
+      <FormAtividadeModal
+        isOpen={isFormAtividadeOpen}
+        onClose={() => setIsFormAtividadeOpen(false)}
+        onSalvarAtividade={handleSalvarAtividade}
+        atividadeParaEditar={atividadeParaEditar}
+      />
+
+      <FormPerfilDesenvolvimentoModal
+        isOpen={isFormPerfilDesenvolvimentoOpen}
+        onClose={() => setIsFormPerfilDesenvolvimentoOpen(false)}
+        paciente={pacienteParaPerfil}
+        perfilAtual={perfisDesenvolvimento.find((p) => p.pacienteId === pacienteParaPerfil?.id)}
+        onSalvarPerfil={handleSalvarPerfilDesenvolvimento}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}
