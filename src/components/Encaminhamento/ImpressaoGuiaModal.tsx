@@ -253,14 +253,7 @@ export const ImpressaoGuiaModal: React.FC<ImpressaoGuiaModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch">
               {/* Box de Carimbo e Assinatura de Débora Costa */}
               <div className="p-4 border-2 border-slate-300 rounded-xl bg-slate-50/80 flex flex-col justify-between items-center text-center space-y-3">
-                <div className="w-full h-24 border-2 border-dashed border-slate-400 rounded-lg bg-white flex flex-col items-center justify-center p-2 text-slate-400">
-                  <span className="font-extrabold text-[11px] text-slate-600 uppercase tracking-widest">
-                    ESPAÇO RESERVADO PARA CARIMBO
-                  </span>
-                  <span className="text-[10px] text-slate-500 font-semibold mt-1">
-                    DÉBORA COSTA • CRP 03/24682
-                  </span>
-                </div>
+                <div className="w-full h-24 border-2 border-dashed border-slate-400 rounded-lg bg-white"></div>
 
                 <div className="w-full pt-4">
                   <div className="border-b-2 border-slate-800 w-full mb-1"></div>
@@ -278,14 +271,7 @@ export const ImpressaoGuiaModal: React.FC<ImpressaoGuiaModalProps> = ({
 
               {/* Box de Carimbo do Serviço de Destino */}
               <div className="p-4 border-2 border-slate-300 rounded-xl bg-slate-50/80 flex flex-col justify-between items-center text-center space-y-3">
-                <div className="w-full h-24 border-2 border-dashed border-slate-400 rounded-lg bg-white flex flex-col items-center justify-center p-2 text-slate-400">
-                  <span className="font-extrabold text-[11px] text-slate-500 uppercase tracking-widest">
-                    CARIMBO DE RECEBIMENTO
-                  </span>
-                  <span className="text-[10px] text-slate-400 mt-1">
-                    {encaminhamento.setorDestino}
-                  </span>
-                </div>
+                <div className="w-full h-24 border-2 border-dashed border-slate-400 rounded-lg bg-white"></div>
 
                 <div className="w-full pt-4">
                   <div className="border-b-2 border-slate-800 w-full mb-1"></div>
