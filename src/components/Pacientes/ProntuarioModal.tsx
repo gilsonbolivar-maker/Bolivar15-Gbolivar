@@ -104,9 +104,15 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
         {/* Header */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl">
-              <User className="w-6 h-6" />
-            </div>
+            {paciente.foto ? (
+              <div className="w-[54px] h-[72px] rounded-lg overflow-hidden border-2 border-emerald-400/60 shrink-0 shadow">
+                <img src={paciente.foto} alt={`Foto 3x4 de ${paciente.nome}`} className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className="p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl">
+                <User className="w-6 h-6" />
+              </div>
+            )}
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-bold text-xl">{paciente.nome}</h3>

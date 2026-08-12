@@ -51,6 +51,8 @@ export interface Paciente {
   frequenciaAtendimento?: 'Semanal' | 'Quinzenal' | 'Mensal';
   prioridade?: PrioridadeCaso;
   dataPrimeiraSessao?: string;
+  // Foto 3x4 (base64 dataURL) tirada na câmera ou selecionada da galeria no cadastro
+  foto?: string;
 }
 
 export interface AtendimentoIndividual {

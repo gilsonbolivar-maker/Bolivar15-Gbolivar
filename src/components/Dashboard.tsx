@@ -145,7 +145,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Atendimento Individual
             </span>
-            <div className="p-2 bg-emerald-100 text-emerald-700 rounded-xl group-hover:scale-105 transition-transform">
+            <div className="p-2 rounded-xl group-hover:scale-105 transition-transform" style={{ backgroundColor: "#E8F5E9", color: "#2E7D32" }}>
               <UserCheck className="w-5 h-5" />
             </div>
           </div>
@@ -155,7 +155,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
             </span>
             <span className="text-xs text-slate-500 font-medium">consultas</span>
           </div>
-          <p className="text-xs text-emerald-700 font-semibold mt-2 flex items-center gap-1">
+          <p className="text-xs font-semibold mt-2 flex items-center gap-1" style={{ color: "#2E7D32" }}>
             Ver consultas <ChevronRight className="w-3.5 h-3.5" />
           </p>
         </div>
@@ -168,7 +168,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Grupos de Atendimento
             </span>
-            <div className="p-2 bg-blue-100 text-blue-700 rounded-xl group-hover:scale-105 transition-transform">
+            <div className="p-2 rounded-xl group-hover:scale-105 transition-transform" style={{ backgroundColor: "#E3F2FD", color: "#1565C0" }}>
               <Users className="w-5 h-5" />
             </div>
           </div>
@@ -178,7 +178,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
             </span>
             <span className="text-xs text-slate-500 font-medium">grupos ativos</span>
           </div>
-          <p className="text-xs text-blue-700 font-semibold mt-2 flex items-center gap-1">
+          <p className="text-xs font-semibold mt-2 flex items-center gap-1" style={{ color: "#1565C0" }}>
             {sessoesGrupo.length} sessões realizadas <ChevronRight className="w-3.5 h-3.5" />
           </p>
         </div>
@@ -191,21 +191,21 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Encaminhamentos
             </span>
-            <div className="p-2 bg-rose-100 text-rose-700 rounded-xl group-hover:scale-105 transition-transform">
+            <div className="p-2 rounded-xl group-hover:scale-105 transition-transform" style={{ backgroundColor: "#FFCDD2", color: "#C62828" }}>
               <Send className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-rose-600">
+            <span className="text-3xl font-black" style={{ color: "#C62828" }}>
               {encaminhamentosPendentes.length}
             </span>
             {encaminhamentosUrgentes.length > 0 && (
-              <span className="text-xs px-2 py-0.5 bg-rose-100 text-rose-700 font-bold rounded-full">
+              <span className="text-xs px-2 py-0.5 font-bold rounded-full" style={{ backgroundColor: "#FFCDD2", color: "#C62828" }}>
                 {encaminhamentosUrgentes.length} urgente
               </span>
             )}
           </div>
-          <p className="text-xs text-rose-700 font-semibold mt-2 flex items-center gap-1">
+          <p className="text-xs font-semibold mt-2 flex items-center gap-1" style={{ color: "#C62828" }}>
             Gerenciar pendentes <ChevronRight className="w-3.5 h-3.5" />
           </p>
         </div>
@@ -218,7 +218,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Cadastro de Alunos
             </span>
-            <div className="p-2 bg-indigo-100 text-indigo-700 rounded-xl group-hover:scale-105 transition-transform">
+            <div className="p-2 rounded-xl group-hover:scale-105 transition-transform" style={{ backgroundColor: "#F3E5F5", color: "#6A1B9A" }}>
               <UserPlus className="w-5 h-5" />
             </div>
           </div>
@@ -228,7 +228,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
             </span>
             <span className="text-xs text-slate-500 font-medium">prontuários</span>
           </div>
-          <p className="text-xs text-indigo-700 font-semibold mt-2 flex items-center gap-1">
+          <p className="text-xs font-semibold mt-2 flex items-center gap-1" style={{ color: "#6A1B9A" }}>
             Consultar base <ChevronRight className="w-3.5 h-3.5" />
           </p>
         </div>
@@ -371,7 +371,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
           <div>
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold flex items-center gap-2.5 text-slate-900">
-                <span className="p-2 bg-blue-100 text-blue-600 rounded-xl">
+                <span className="p-2 rounded-xl" style={{ backgroundColor: "#E3F2FD", color: "#1565C0" }}>
                   <Users className="w-5 h-5" />
                 </span>
                 Atendimento em Grupo

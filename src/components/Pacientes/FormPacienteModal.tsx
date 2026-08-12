@@ -1,7 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { X, User, Phone, MapPin, ShieldAlert, Heart, Save, Sparkles, Camera } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { X, User, Phone, MapPin, ShieldAlert, Heart, Save, Sparkles, Camera, Image as ImageIcon, UserCircle2, Trash2 } from "lucide-react";
 import { Paciente } from "../../types";
 import { AiDocumentScannerModal, ExtractedDocumentData } from "../AiDocumentScannerModal";
+
+/** Redimensiona/recorta a imagem para o formato retrato 3x4 e comprime em JPEG. */
+function processarFoto3x4(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Falha ao ler o arquivo de imagem."));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Arquivo não é uma imagem válida."));
+      img.onload = () => {
+        // Formato 3x4 (proporção 0.75 largura/altura), recorte central
+        const targetRatio = 3 / 4;
+        let sx = 0, sy = 0, sw = img.width, sh = img.height;
+        const currentRatio = sw / sh;
+        if (currentRatio > targetRatio) {
+          sw = sh * targetRatio;
+          sx = (img.width - sw) / 2;
+        } else {
+          sh = sw / targetRatio;
+          sy = (img.height - sh) / 2;
+        }
+        const outW = 300;
+        const outH = 400;
+        const canvas = document.createElement("canvas");
+        canvas.width = outW;
+        canvas.height = outH;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          reject(new Error("Não foi possível processar a imagem."));
+          return;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
+        resolve(canvas.toDataURL("image/jpeg", 0.85));
+      };
+      img.src = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 interface FormPacienteModalProps {
   isOpen: boolean;
@@ -55,6 +94,23 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
   const [vulnerabilidades, setVulnerabilidades] = useState<string[]>([]);
   const [beneficiosSociais, setBeneficiosSociais] = useState<string[]>([]);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [foto, setFoto] = useState<string | undefined>(undefined);
+  const [fotoErro, setFotoErro] = useState<string | null>(null);
+  const fotoCameraInputRef = useRef<HTMLInputElement>(null);
+  const fotoGaleriaInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFotoSelecionada = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setFotoErro(null);
+    try {
+      const dataUrl = await processarFoto3x4(file);
+      setFoto(dataUrl);
+    } catch (err) {
+      setFotoErro(err instanceof Error ? err.message : "Não foi possível processar a foto.");
+    }
+  };
 
   const handleDataExtracted = (data: ExtractedDocumentData) => {
     if (data.nome) setNome(data.nome);
@@ -103,6 +159,8 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
       setObservacoesAlergias(pacienteParaEditar.observacoesAlergias || "");
       setVulnerabilidades(pacienteParaEditar.vulnerabilidades || []);
       setBeneficiosSociais(pacienteParaEditar.beneficiosSociais || []);
+      setFoto(pacienteParaEditar.foto);
+      setFotoErro(null);
     } else {
       setNome("");
       setNomeSocial("");
@@ -121,6 +179,8 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
       setObservacoesAlergias("");
       setVulnerabilidades([]);
       setBeneficiosSociais([]);
+      setFoto(undefined);
+      setFotoErro(null);
     }
   }, [pacienteParaEditar, isOpen]);
 
@@ -164,6 +224,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
       observacoesAlergias: observacoesAlergias.trim() || undefined,
       vulnerabilidades,
       beneficiosSociais,
+      foto,
       dataCadastro: pacienteParaEditar
         ? pacienteParaEditar.dataCadastro
         : new Date().toISOString().split("T")[0],
@@ -232,6 +293,72 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
             <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
               <User className="w-3.5 h-3.5" /> Identificação e Contato
             </h4>
+
+            <div className="flex flex-col sm:flex-row gap-4 items-start">
+              {/* Foto 3x4 */}
+              <div className="shrink-0 flex flex-col items-center gap-2">
+                <div className="relative w-[90px] h-[120px] rounded-lg overflow-hidden border-2 border-slate-300 bg-slate-50 flex items-center justify-center shadow-xs">
+                  {foto ? (
+                    <img src={foto} alt="Foto 3x4 do aluno" className="w-full h-full object-cover" />
+                  ) : (
+                    <UserCircle2 className="w-12 h-12 text-slate-300" />
+                  )}
+                  {foto && (
+                    <button
+                      type="button"
+                      onClick={() => setFoto(undefined)}
+                      title="Remover foto"
+                      className="absolute top-1 right-1 p-1 bg-rose-600/90 hover:bg-rose-600 text-white rounded-md shadow"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1.5 w-[90px]">
+                  <button
+                    type="button"
+                    onClick={() => fotoCameraInputRef.current?.click()}
+                    className="inline-flex items-center justify-center gap-1 px-1.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold rounded-lg shadow-xs transition-colors"
+                  >
+                    <Camera className="w-3 h-3" />
+                    <span>Tirar Foto</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => fotoGaleriaInputRef.current?.click()}
+                    className="inline-flex items-center justify-center gap-1 px-1.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold rounded-lg shadow-xs transition-colors"
+                  >
+                    <ImageIcon className="w-3 h-3" />
+                    <span>Galeria</span>
+                  </button>
+                  <input
+                    ref={fotoCameraInputRef}
+                    type="file"
+                    accept="image/*"
+                    capture="user"
+                    className="hidden"
+                    onChange={handleFotoSelecionada}
+                  />
+                  <input
+                    ref={fotoGaleriaInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFotoSelecionada}
+                  />
+                </div>
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] text-slate-500 leading-relaxed">
+                  Tire uma foto 3x4 do aluno (ou selecione da galeria) para identificação na ficha.
+                  A imagem é recortada automaticamente no formato retrato.
+                </p>
+                {fotoErro && (
+                  <p className="text-[11px] text-rose-600 font-semibold mt-1">{fotoErro}</p>
+                )}
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">

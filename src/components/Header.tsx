@@ -71,9 +71,16 @@ interface NavItem {
   label: string;
 }
 
-const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
+/** Paleta pastel escolhida por Débora: fundo suave + texto em tom mais forte da mesma família. */
+interface GrupoCor {
+  bg: string;
+  text: string;
+}
+
+const NAV_GROUPS: { label: string; items: NavItem[]; cor: GrupoCor }[] = [
   {
     label: "Visão Geral & Rotina",
+    cor: { bg: "#E3F2FD", text: "#1565C0" }, // Azul celeste
     items: [
       { tab: "dashboard", icon: LayoutDashboard, label: "Visão Geral" },
       { tab: "checklist-diario", icon: CheckSquare, label: "Checklist Diário" },
@@ -82,6 +89,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   },
   {
     label: "Escolas & Alunos",
+    cor: { bg: "#E8F5E9", text: "#2E7D32" }, // Verde pálido
     items: [
       { tab: "escolas", icon: Building2, label: "Escolas" },
       { tab: "pacientes", icon: UserPlus, label: "Alunos" },
@@ -90,6 +98,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   },
   {
     label: "Atendimento & Clínica",
+    cor: { bg: "#F3E5F5", text: "#6A1B9A" }, // Lilás suave
     items: [
       { tab: "atendimento-individual", icon: UserCheck, label: "Atend. Individual" },
       { tab: "atendimento-grupo", icon: Users, label: "Atend. Grupo" },
@@ -101,6 +110,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   },
   {
     label: "Orientações & Laudos",
+    cor: { bg: "#FFF9C4", text: "#8D6E00" }, // Amarelo pálido
     items: [
       { tab: "relatorios-formais", icon: BookOpen, label: "Relatórios Formais" },
       { tab: "orientacao-professores", icon: GraduationCap, label: "Orient. Professores" },
@@ -109,6 +119,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   },
   {
     label: "Banco de Recursos",
+    cor: { bg: "#FFCDD2", text: "#C62828" }, // Rosa chá
     items: [
       { tab: "banco-intervencoes", icon: Layers, label: "Banco de Intervenções" },
       { tab: "banco-atividades", icon: Sparkles, label: "Banco de Atividades" },
@@ -214,24 +225,37 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="space-y-3">
               {NAV_GROUPS.map((group) => (
                 <div key={group.label}>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1.5">
+                  <span
+                    className="inline-block text-[10px] font-bold uppercase tracking-wider mb-1.5 px-2 py-0.5 rounded-md"
+                    style={{ backgroundColor: group.cor.bg, color: group.cor.text }}
+                  >
                     {group.label}
-                  </p>
+                  </span>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5 text-xs">
-                    {group.items.map(({ tab, icon: Icon, label }) => (
-                      <button
-                        key={tab}
-                        onClick={() => handleSelectTab(tab)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                          activeTab === tab
-                            ? "bg-indigo-600 text-white font-bold shadow-sm"
-                            : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                        }`}
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span>{label}</span>
-                      </button>
-                    ))}
+                    {group.items.map(({ tab, icon: Icon, label }) => {
+                      const isActive = activeTab === tab;
+                      return (
+                        <button
+                          key={tab}
+                          onClick={() => handleSelectTab(tab)}
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all font-semibold"
+                          style={
+                            isActive
+                              ? { backgroundColor: group.cor.bg, color: group.cor.text, fontWeight: 700, boxShadow: "0 1px 3px rgba(0,0,0,0.25)" }
+                              : { backgroundColor: "rgba(13,53,56,0.5)", color: "#c7d2fe" }
+                          }
+                          onMouseEnter={(e) => {
+                            if (!isActive) e.currentTarget.style.backgroundColor = "#124247";
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!isActive) e.currentTarget.style.backgroundColor = "rgba(13,53,56,0.5)";
+                          }}
+                        >
+                          <Icon className="w-4 h-4" />
+                          <span>{label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               ))}
@@ -239,9 +263,12 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Quick Actions Bar inside Retractable Menu */}
             <div className="pt-2 border-t border-[#0d3538]/50">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1.5">
+              <span
+                className="inline-block text-[10px] font-bold uppercase tracking-wider mb-1.5 px-2 py-0.5 rounded-md"
+                style={{ backgroundColor: "#E0E0E0", color: "#424242" }}
+              >
                 Ações Rápidas
-              </p>
+              </span>
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   onClick={() => {

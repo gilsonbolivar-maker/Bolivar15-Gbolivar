@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Heart,
   Sparkles,
+  UserCircle2,
 } from "lucide-react";
 import { Paciente } from "../../types";
 
@@ -145,14 +146,25 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
                 pacientesFiltrados.map((p) => (
                   <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-slate-900 text-sm">{p.nome}</div>
-                      {p.nomeSocial && (
-                        <span className="text-[11px] text-slate-500">
-                          Nome social: {p.nomeSocial}
-                        </span>
-                      )}
-                      <div className="text-[11px] text-slate-400">
-                        Nasc: {new Date(p.dataNascimento).toLocaleDateString("pt-BR")} ({p.sexo})
+                      <div className="flex items-center gap-2.5">
+                        <div className="shrink-0 w-8 h-[42px] rounded-md overflow-hidden border border-slate-200 bg-slate-50 flex items-center justify-center">
+                          {p.foto ? (
+                            <img src={p.foto} alt={`Foto de ${p.nome}`} className="w-full h-full object-cover" />
+                          ) : (
+                            <UserCircle2 className="w-5 h-5 text-slate-300" />
+                          )}
+                        </div>
+                        <div>
+                          <div className="font-bold text-slate-900 text-sm">{p.nome}</div>
+                          {p.nomeSocial && (
+                            <span className="text-[11px] text-slate-500">
+                              Nome social: {p.nomeSocial}
+                            </span>
+                          )}
+                          <div className="text-[11px] text-slate-400">
+                            Nasc: {new Date(p.dataNascimento).toLocaleDateString("pt-BR")} ({p.sexo})
+                          </div>
+                        </div>
                       </div>
                     </td>
 
