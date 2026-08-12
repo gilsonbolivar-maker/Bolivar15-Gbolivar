@@ -22,6 +22,7 @@ import {
   Intervencao,
   Atividade,
   PerfilDesenvolvimentoAluno,
+  PlanejamentoSessao as PlanejamentoSessaoTipo,
 } from "./types";
 import {
   loadData,
@@ -34,6 +35,7 @@ import {
   intervencoesStorage,
   atividadesStorage,
   perfisDesenvolvimentoStorage,
+  planejamentosSessaoStorage,
 } from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
@@ -66,6 +68,8 @@ import { BancoAtividades } from "./components/BancoAtividades/BancoAtividades";
 import { FormAtividadeModal } from "./components/BancoAtividades/FormAtividadeModal";
 import { AreasDesenvolvimento } from "./components/AreasDesenvolvimento/AreasDesenvolvimento";
 import { FormPerfilDesenvolvimentoModal } from "./components/AreasDesenvolvimento/FormPerfilDesenvolvimentoModal";
+import { PlanejamentoSessao } from "./components/PlanejamentoSessao/PlanejamentoSessao";
+import { FormPlanejamentoSessaoModal } from "./components/PlanejamentoSessao/FormPlanejamentoSessaoModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -83,6 +87,7 @@ export default function App() {
   const [intervencoes, setIntervencoes] = useState<Intervencao[]>([]);
   const [atividadesBanco, setAtividadesBanco] = useState<Atividade[]>([]);
   const [perfisDesenvolvimento, setPerfisDesenvolvimento] = useState<PerfilDesenvolvimentoAluno[]>([]);
+  const [planejamentosSessao, setPlanejamentosSessao] = useState<PlanejamentoSessaoTipo[]>([]);
 
   // Modals state
   const [isFormEscolaOpen, setIsFormEscolaOpen] = useState(false);
@@ -102,6 +107,9 @@ export default function App() {
 
   const [isFormPerfilDesenvolvimentoOpen, setIsFormPerfilDesenvolvimentoOpen] = useState(false);
   const [pacienteParaPerfil, setPacienteParaPerfil] = useState<Paciente | null>(null);
+
+  const [isFormPlanejamentoOpen, setIsFormPlanejamentoOpen] = useState(false);
+  const [planejamentoParaEditar, setPlanejamentoParaEditar] = useState<PlanejamentoSessaoTipo | null>(null);
   const [isFormPacienteOpen, setIsFormPacienteOpen] = useState(false);
   const [pacienteParaEditar, setPacienteParaEditar] = useState<Paciente | null>(null);
 
@@ -143,7 +151,25 @@ export default function App() {
     setIntervencoes(data.intervencoes);
     setAtividadesBanco(data.atividades);
     setPerfisDesenvolvimento(data.perfisDesenvolvimento);
+    setPlanejamentosSessao(data.planejamentosSessao);
   }, []);
+
+  // Handlers for Planejamento de Sessao
+  const handleSalvarPlanejamento = (planejamento: PlanejamentoSessaoTipo) => {
+    const index = planejamentosSessao.findIndex((p) => p.id === planejamento.id);
+    const updated =
+      index >= 0
+        ? planejamentosSessao.map((p) => (p.id === planejamento.id ? planejamento : p))
+        : [planejamento, ...planejamentosSessao];
+    setPlanejamentosSessao(updated);
+    planejamentosSessaoStorage.save(updated);
+  };
+
+  const handleDeletarPlanejamento = (id: string) => {
+    const updated = planejamentosSessao.filter((p) => p.id !== id);
+    setPlanejamentosSessao(updated);
+    planejamentosSessaoStorage.save(updated);
+  };
 
   // Handlers for Banco de Intervencoes
   const handleSalvarIntervencao = (intervencao: Intervencao) => {
@@ -300,6 +326,7 @@ export default function App() {
     setIntervencoes(data.intervencoes);
     setAtividadesBanco(data.atividades);
     setPerfisDesenvolvimento(data.perfisDesenvolvimento);
+    setPlanejamentosSessao(data.planejamentosSessao);
     setActiveTab("dashboard");
   };
 
@@ -674,6 +701,22 @@ export default function App() {
             }}
           />
         )}
+
+        {activeTab === "planejamento-sessao" && (
+          <PlanejamentoSessao
+            planejamentos={planejamentosSessao}
+            pacientes={pacientes}
+            onOpenNovoPlanejamento={() => {
+              setPlanejamentoParaEditar(null);
+              setIsFormPlanejamentoOpen(true);
+            }}
+            onEditarPlanejamento={(p) => {
+              setPlanejamentoParaEditar(p);
+              setIsFormPlanejamentoOpen(true);
+            }}
+            onDeletarPlanejamento={handleDeletarPlanejamento}
+          />
+        )}
       </main>
 
       {/* MODALS */}
@@ -835,6 +878,14 @@ export default function App() {
         paciente={pacienteParaPerfil}
         perfilAtual={perfisDesenvolvimento.find((p) => p.pacienteId === pacienteParaPerfil?.id)}
         onSalvarPerfil={handleSalvarPerfilDesenvolvimento}
+      />
+
+      <FormPlanejamentoSessaoModal
+        isOpen={isFormPlanejamentoOpen}
+        onClose={() => setIsFormPlanejamentoOpen(false)}
+        pacientes={pacientes}
+        onSalvarPlanejamento={handleSalvarPlanejamento}
+        planejamentoParaEditar={planejamentoParaEditar}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}

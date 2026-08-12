@@ -36,6 +36,14 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
   const [prontuarioNotas, setProntuarioNotas] = useState("");
   const [diagnosticoCid, setDiagnosticoCid] = useState("");
 
+  // Evolução clínica detalhada (origem: integração com o app PsicoEscolar do Lovable)
+  const [objetivos, setObjetivos] = useState("");
+  const [planoIntervencao, setPlanoIntervencao] = useState("");
+  const [tecnicasUtilizadas, setTecnicasUtilizadas] = useState("");
+  const [respostaCrianca, setRespostaCrianca] = useState("");
+  const [orientacoesFornecidas, setOrientacoesFornecidas] = useState("");
+  const [proximosPassos, setProximosPassos] = useState("");
+
   // Campo de encaminhamento embutido na mesma tela
   const [gerarEncaminhamento, setGerarEncaminhamento] = useState(false);
   const [setorDestino, setSetorDestino] = useState("CAPS II - Saúde Mental");
@@ -133,6 +141,15 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
       status: "Concluido",
       encaminhadoNaSessao: gerarEncaminhamento,
       encaminhamentoIdGerado: novoEncId,
+      objetivos: objetivos.trim() || undefined,
+      planoIntervencao: planoIntervencao.trim() || undefined,
+      tecnicasUtilizadas: tecnicasUtilizadas
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
+      respostaCrianca: respostaCrianca.trim() || undefined,
+      orientacoesFornecidas: orientacoesFornecidas.trim() || undefined,
+      proximosPassos: proximosPassos.trim() || undefined,
     };
 
     let encaminhamentoCriado: Encaminhamento | undefined;
@@ -321,6 +338,93 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
               placeholder="Descreva a escuta realizada, condutas adotadas e combinados com o aluno..."
               className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
             />
+          </div>
+
+          {/* Evolução Clínica Detalhada (opcional) */}
+          <div className="pt-3 border-t border-slate-200 space-y-4">
+            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              Evolução Clínica Detalhada (opcional)
+            </h4>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Objetivos da Sessão
+                </label>
+                <textarea
+                  rows={2}
+                  value={objetivos}
+                  onChange={(e) => setObjetivos(e.target.value)}
+                  placeholder="O que se pretendia trabalhar nesta sessão..."
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Plano de Intervenção
+                </label>
+                <textarea
+                  rows={2}
+                  value={planoIntervencao}
+                  onChange={(e) => setPlanoIntervencao(e.target.value)}
+                  placeholder="Estratégia clínica planejada para o caso..."
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Técnicas Utilizadas (separadas por vírgula)
+              </label>
+              <input
+                type="text"
+                value={tecnicasUtilizadas}
+                onChange={(e) => setTecnicasUtilizadas(e.target.value)}
+                placeholder="Ex: Escuta ativa, Reforço positivo, Respiração guiada"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Resposta do Aluno / Criança
+                </label>
+                <textarea
+                  rows={2}
+                  value={respostaCrianca}
+                  onChange={(e) => setRespostaCrianca(e.target.value)}
+                  placeholder="Como o aluno reagiu às intervenções propostas..."
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Orientações Fornecidas
+                </label>
+                <textarea
+                  rows={2}
+                  value={orientacoesFornecidas}
+                  onChange={(e) => setOrientacoesFornecidas(e.target.value)}
+                  placeholder="Orientações dadas ao aluno, família ou escola..."
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Próximos Passos
+              </label>
+              <textarea
+                rows={2}
+                value={proximosPassos}
+                onChange={(e) => setProximosPassos(e.target.value)}
+                placeholder="O que está planejado para a próxima sessão..."
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+              />
+            </div>
           </div>
 
           {/* Opção de Encaminhamento Imediato */}

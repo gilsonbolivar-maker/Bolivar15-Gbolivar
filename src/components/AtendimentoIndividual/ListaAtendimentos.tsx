@@ -134,6 +134,52 @@ export const ListaAtendimentos: React.FC<ListaAtendimentosProps> = ({
                   <p className="text-xs text-slate-600 bg-slate-50/80 p-3 rounded-xl border border-slate-200/60 leading-relaxed whitespace-pre-line">
                     {a.prontuarioNotas}
                   </p>
+
+                  {(a.objetivos ||
+                    a.planoIntervencao ||
+                    (a.tecnicasUtilizadas && a.tecnicasUtilizadas.length > 0) ||
+                    a.respostaCrianca ||
+                    a.orientacoesFornecidas ||
+                    a.proximosPassos) && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-emerald-50/40 border border-emerald-100 rounded-xl p-3">
+                      {a.objetivos && (
+                        <p>
+                          <strong className="text-emerald-800">Objetivos:</strong>{" "}
+                          <span className="text-slate-600">{a.objetivos}</span>
+                        </p>
+                      )}
+                      {a.planoIntervencao && (
+                        <p>
+                          <strong className="text-emerald-800">Plano de Intervenção:</strong>{" "}
+                          <span className="text-slate-600">{a.planoIntervencao}</span>
+                        </p>
+                      )}
+                      {a.tecnicasUtilizadas && a.tecnicasUtilizadas.length > 0 && (
+                        <p className="sm:col-span-2">
+                          <strong className="text-emerald-800">Técnicas:</strong>{" "}
+                          <span className="text-slate-600">{a.tecnicasUtilizadas.join(", ")}</span>
+                        </p>
+                      )}
+                      {a.respostaCrianca && (
+                        <p>
+                          <strong className="text-emerald-800">Resposta do Aluno:</strong>{" "}
+                          <span className="text-slate-600">{a.respostaCrianca}</span>
+                        </p>
+                      )}
+                      {a.orientacoesFornecidas && (
+                        <p>
+                          <strong className="text-emerald-800">Orientações:</strong>{" "}
+                          <span className="text-slate-600">{a.orientacoesFornecidas}</span>
+                        </p>
+                      )}
+                      {a.proximosPassos && (
+                        <p className="sm:col-span-2">
+                          <strong className="text-emerald-800">Próximos Passos:</strong>{" "}
+                          <span className="text-slate-600">{a.proximosPassos}</span>
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500">

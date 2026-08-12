@@ -302,6 +302,18 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
 
                 <button
+                  onClick={() => handleSelectTab("planejamento-sessao")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "planejamento-sessao"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>Planejamento de Sessão</span>
+                </button>
+
+                <button
                   onClick={() => handleSelectTab("relatorios")}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     activeTab === "relatorios"
