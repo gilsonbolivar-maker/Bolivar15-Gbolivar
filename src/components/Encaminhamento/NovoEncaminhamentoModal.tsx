@@ -158,7 +158,7 @@ export const NovoEncaminhamentoModal: React.FC<NovoEncaminhamentoModalProps> = (
         {/* Header */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-amber-500/20 text-amber-400 rounded-lg">
+            <div className="p-2 bg-lilas-500/20 text-lilas-400 rounded-lg">
               <Send className="w-5 h-5" />
             </div>
             <div>
@@ -179,9 +179,9 @@ export const NovoEncaminhamentoModal: React.FC<NovoEncaminhamentoModalProps> = (
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto flex-1 text-xs">
           {/* Banner de Preenchimento com IA */}
-          <div className="p-3 bg-gradient-to-r from-amber-50 via-indigo-50 to-amber-50 border border-amber-200/80 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
+          <div className="p-3 bg-gradient-to-r from-lilas-50 via-indigo-50 to-lilas-50 border border-lilas-200/80 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 bg-amber-600 text-white rounded-xl shadow-xs">
+              <div className="p-2 bg-lilas-600 text-white rounded-xl shadow-xs">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
@@ -197,7 +197,7 @@ export const NovoEncaminhamentoModal: React.FC<NovoEncaminhamentoModalProps> = (
             <button
               type="button"
               onClick={() => setIsScannerOpen(true)}
-              className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5 shrink-0"
+              className="px-3.5 py-1.5 bg-lilas-600 hover:bg-lilas-500 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5 shrink-0"
             >
               <Camera className="w-3.5 h-3.5" />
               <span>Escanear Guia</span>
@@ -341,9 +341,9 @@ export const NovoEncaminhamentoModal: React.FC<NovoEncaminhamentoModalProps> = (
                 type="button"
                 onClick={handleGerarIa}
                 disabled={gerandoIa}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 hover:text-amber-950 bg-amber-50 px-2 py-0.5 rounded border border-amber-200"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-lilas-800 hover:text-lilas-950 bg-lilas-50 px-2 py-0.5 rounded border border-lilas-200"
               >
-                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                <Sparkles className="w-3.5 h-3.5 text-lilas-600" />
                 {gerandoIa ? "Redigindo Guia..." : "Redigir Guia com IA"}
               </button>
             </div>
@@ -368,7 +368,7 @@ export const NovoEncaminhamentoModal: React.FC<NovoEncaminhamentoModalProps> = (
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
+              className="inline-flex items-center gap-1.5 px-5 py-2 bg-lilas-600 hover:bg-lilas-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
               <span>Emitir Encaminhamento</span>

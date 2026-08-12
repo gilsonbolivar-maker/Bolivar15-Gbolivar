@@ -100,7 +100,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-amber-500/20 text-amber-400 rounded-lg">
+            <div className="p-2 bg-rosacha-500/20 text-rosacha-400 rounded-lg">
               <Sparkles className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-lg">
@@ -120,7 +120,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
               required
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -132,7 +132,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
                 min={0}
                 value={idadeMinima}
                 onChange={(e) => setIdadeMinima(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
               />
             </div>
             <div>
@@ -142,7 +142,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
                 min={0}
                 value={idadeMaxima}
                 onChange={(e) => setIdadeMaxima(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
               />
             </div>
             <div>
@@ -152,7 +152,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
                 min={0}
                 value={tempoAplicacaoMinutos}
                 onChange={(e) => setTempoAplicacaoMinutos(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
               />
             </div>
           </div>
@@ -163,7 +163,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
               type="text"
               value={objetivo}
               onChange={(e) => setObjetivo(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -176,7 +176,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
               value={diagnosticoTexto}
               onChange={(e) => setDiagnosticoTexto(e.target.value)}
               placeholder={"Ex: TDAH\nAutismo\nGeral"}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -214,7 +214,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
               rows={2}
               value={materiaisTexto}
               onChange={(e) => setMateriaisTexto(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -224,7 +224,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
               rows={2}
               value={instrucoes}
               onChange={(e) => setInstrucoes(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -232,7 +232,7 @@ export const FormAtividadeModal: React.FC<FormAtividadeModalProps> = ({
             <button type="button" onClick={onClose} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-colors">
               Cancelar
             </button>
-            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
+            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-rosacha-600 hover:bg-rosacha-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
               <Save className="w-4 h-4" />
               <span>{atividadeParaEditar ? "Salvar Alterações" : "Cadastrar Atividade"}</span>
             </button>

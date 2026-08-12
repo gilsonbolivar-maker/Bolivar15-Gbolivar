@@ -187,7 +187,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
         {/* Header */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
+            <div className="p-2 bg-lilas-500/20 text-lilas-400 rounded-lg">
               <UserCheck className="w-5 h-5" />
             </div>
             <div>
@@ -208,9 +208,9 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-5 overflow-y-auto flex-1">
           {/* Banner de Preenchimento com IA */}
-          <div className="p-3.5 bg-gradient-to-r from-emerald-50 via-indigo-50 to-emerald-50 border border-emerald-200/80 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
+          <div className="p-3.5 bg-gradient-to-r from-lilas-50 via-indigo-50 to-lilas-50 border border-lilas-200/80 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 bg-emerald-600 text-white rounded-xl shadow-xs">
+              <div className="p-2 bg-lilas-600 text-white rounded-xl shadow-xs">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
@@ -226,7 +226,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
             <button
               type="button"
               onClick={() => setIsScannerOpen(true)}
-              className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5 shrink-0"
+              className="px-3.5 py-1.5 bg-lilas-600 hover:bg-lilas-500 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5 shrink-0"
             >
               <Camera className="w-3.5 h-3.5" />
               <span>Escanear Documento</span>
@@ -241,7 +241,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
             <select
               value={pacienteId}
               onChange={(e) => setPacienteId(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none font-medium"
             >
               {pacientes.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -261,7 +261,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                 onChange={(e) =>
                   setTipoAtendimento(e.target.value as TipoAtendimentoIndividual)
                 }
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               >
                 <option value="Acolhimento">Acolhimento Inicial</option>
                 <option value="Consulta Terapêutica">Consulta Terapêutica</option>
@@ -281,7 +281,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                 value={diagnosticoCid}
                 onChange={(e) => setDiagnosticoCid(e.target.value)}
                 placeholder="Ex: F41.1 - Ansiedade Generalizada"
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               />
             </div>
 
@@ -294,7 +294,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                 required
                 value={profissionalNome}
                 onChange={(e) => setProfissionalNome(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               />
             </div>
 
@@ -307,7 +307,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                 required
                 value={profissionalCargo}
                 onChange={(e) => setProfissionalCargo(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               />
             </div>
           </div>
@@ -322,7 +322,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
               value={demandaMotivo}
               onChange={(e) => setDemandaMotivo(e.target.value)}
               placeholder="Ex: Queixa de ansiedade severa, insônia e pedido de apoio social."
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
             />
           </div>
 
@@ -336,7 +336,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
               value={prontuarioNotas}
               onChange={(e) => setProntuarioNotas(e.target.value)}
               placeholder="Descreva a escuta realizada, condutas adotadas e combinados com o aluno..."
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
             />
           </div>
 
@@ -356,7 +356,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                   value={objetivos}
                   onChange={(e) => setObjetivos(e.target.value)}
                   placeholder="O que se pretendia trabalhar nesta sessão..."
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
                 />
               </div>
               <div>
@@ -368,7 +368,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                   value={planoIntervencao}
                   onChange={(e) => setPlanoIntervencao(e.target.value)}
                   placeholder="Estratégia clínica planejada para o caso..."
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
                 />
               </div>
             </div>
@@ -382,7 +382,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                 value={tecnicasUtilizadas}
                 onChange={(e) => setTecnicasUtilizadas(e.target.value)}
                 placeholder="Ex: Escuta ativa, Reforço positivo, Respiração guiada"
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               />
             </div>
 
@@ -396,7 +396,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                   value={respostaCrianca}
                   onChange={(e) => setRespostaCrianca(e.target.value)}
                   placeholder="Como o aluno reagiu às intervenções propostas..."
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
                 />
               </div>
               <div>
@@ -408,7 +408,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                   value={orientacoesFornecidas}
                   onChange={(e) => setOrientacoesFornecidas(e.target.value)}
                   placeholder="Orientações dadas ao aluno, família ou escola..."
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
                 />
               </div>
             </div>
@@ -422,7 +422,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
                 value={proximosPassos}
                 onChange={(e) => setProximosPassos(e.target.value)}
                 placeholder="O que está planejado para a próxima sessão..."
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               />
             </div>
           </div>
@@ -530,7 +530,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
+              className="inline-flex items-center gap-1.5 px-5 py-2 bg-lilas-600 hover:bg-lilas-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
               <span>Concluir Atendimento</span>

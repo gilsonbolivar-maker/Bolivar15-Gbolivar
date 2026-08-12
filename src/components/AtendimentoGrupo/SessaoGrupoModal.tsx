@@ -161,7 +161,7 @@ export const SessaoGrupoModal: React.FC<SessaoGrupoModalProps> = ({
         {/* Header */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-indigo-500/20 text-indigo-400 rounded-lg">
+            <div className="p-2 bg-lilas-500/20 text-lilas-400 rounded-lg">
               <Users className="w-5 h-5" />
             </div>
             <div>
@@ -238,9 +238,9 @@ export const SessaoGrupoModal: React.FC<SessaoGrupoModalProps> = ({
                 type="button"
                 onClick={handleGerarPautaIa}
                 disabled={gerandoPautaIa}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-700 hover:text-indigo-900 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-lilas-700 hover:text-lilas-900 bg-lilas-50 px-2 py-0.5 rounded border border-lilas-200"
               >
-                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                <Sparkles className="w-3.5 h-3.5 text-lilas-600" />
                 {gerandoPautaIa ? "Gerando Pauta..." : "Gerar Roteiro com IA"}
               </button>
             </div>
@@ -257,7 +257,7 @@ export const SessaoGrupoModal: React.FC<SessaoGrupoModalProps> = ({
           <div className="pt-2 border-t border-slate-200 space-y-3">
             <div className="flex items-center justify-between">
               <h4 className="font-bold text-slate-900 text-xs flex items-center gap-1.5 uppercase tracking-wider">
-                <Users className="w-4 h-4 text-indigo-600" />
+                <Users className="w-4 h-4 text-lilas-600" />
                 Lista de Presença dos Participantes ({membrosInscritos.length} inscritos)
               </h4>
             </div>
@@ -354,7 +354,7 @@ export const SessaoGrupoModal: React.FC<SessaoGrupoModalProps> = ({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
+              className="inline-flex items-center gap-1.5 px-5 py-2 bg-lilas-600 hover:bg-lilas-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
               <span>Salvar Sessão do Grupo</span>

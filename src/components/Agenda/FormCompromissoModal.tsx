@@ -94,7 +94,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-indigo-500/20 text-indigo-400 rounded-lg">
+            <div className="p-2 bg-lilas-500/20 text-lilas-400 rounded-lg">
               <Calendar className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-lg">
@@ -118,7 +118,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
               placeholder="Ex: Atendimento individual - Pedro Henrique"
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
             />
           </div>
 
@@ -127,7 +127,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
             <select
               value={tipo}
               onChange={(e) => setTipo(e.target.value as TipoCompromisso)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
             >
               {TIPOS.map((t) => (
                 <option key={t} value={t}>
@@ -145,7 +145,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
                 required
                 value={data}
                 onChange={(e) => setData(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
               />
             </div>
             <div>
@@ -155,7 +155,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
                 required
                 value={horaInicio}
                 onChange={(e) => setHoraInicio(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
               />
             </div>
             <div>
@@ -164,7 +164,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
                 type="time"
                 value={horaFim}
                 onChange={(e) => setHoraFim(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
               />
             </div>
           </div>
@@ -177,7 +177,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
               <select
                 value={escolaId}
                 onChange={(e) => setEscolaId(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
               >
                 <option value="">Nenhuma</option>
                 {escolas.map((e) => (
@@ -194,7 +194,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
               <select
                 value={pacienteId}
                 onChange={(e) => setPacienteId(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
               >
                 <option value="">Nenhum</option>
                 {pacientes.map((p) => (
@@ -213,7 +213,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
               value={local}
               onChange={(e) => setLocal(e.target.value)}
               placeholder="Ex: Sala de Recursos"
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
             />
           </div>
 
@@ -223,7 +223,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
               rows={2}
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
             />
           </div>
 
@@ -237,7 +237,7 @@ export const FormCompromissoModal: React.FC<FormCompromissoModalProps> = ({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
+              className="inline-flex items-center gap-1.5 px-5 py-2 bg-lilas-600 hover:bg-lilas-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
               <span>{compromissoParaEditar ? "Salvar Alterações" : "Agendar Compromisso"}</span>

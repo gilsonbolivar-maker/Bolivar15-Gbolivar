@@ -87,7 +87,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-teal-500/20 text-teal-400 rounded-lg">
+            <div className="p-2 bg-amarelo-500/20 text-amarelo-400 rounded-lg">
               <GraduationCap className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-lg">
@@ -108,7 +108,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
                 required
                 value={nomeProfessor}
                 onChange={(e) => setNomeProfessor(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
               />
             </div>
             <div>
@@ -118,7 +118,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
                 value={turma}
                 onChange={(e) => setTurma(e.target.value)}
                 placeholder="Ex: 4º ano B"
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
               />
             </div>
           </div>
@@ -129,7 +129,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
               <select
                 value={escolaId}
                 onChange={(e) => setEscolaId(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
               >
                 {escolas.map((e) => (
                   <option key={e.id} value={e.id}>{e.nome}</option>
@@ -141,7 +141,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
               <select
                 value={pacienteId}
                 onChange={(e) => setPacienteId(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
               >
                 <option value="">Nenhum</option>
                 {pacientes.map((p) => (
@@ -158,7 +158,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
               required
               value={dificuldadeObservada}
               onChange={(e) => setDificuldadeObservada(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
             />
           </div>
 
@@ -170,7 +170,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
               rows={3}
               value={estrategiasTexto}
               onChange={(e) => setEstrategiasTexto(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
             />
           </div>
 
@@ -180,7 +180,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
               rows={2}
               value={retorno}
               onChange={(e) => setRetorno(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
             />
           </div>
 
@@ -191,7 +191,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
                 type="date"
                 value={dataOrientacao}
                 onChange={(e) => setDataOrientacao(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
               />
             </div>
             <div>
@@ -199,7 +199,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as OrientacaoProfessor["status"])}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
               >
                 <option value="Pendente">Pendente</option>
                 <option value="Em Acompanhamento">Em Acompanhamento</option>
@@ -212,7 +212,7 @@ export const FormOrientacaoProfessorModal: React.FC<FormOrientacaoProfessorModal
             <button type="button" onClick={onClose} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-colors">
               Cancelar
             </button>
-            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
+            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-amarelo-600 hover:bg-amarelo-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
               <Save className="w-4 h-4" />
               <span>{orientacaoParaEditar ? "Salvar Alterações" : "Registrar Orientação"}</span>
             </button>

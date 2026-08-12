@@ -60,7 +60,7 @@ export const FormPerfilDesenvolvimentoModal: React.FC<FormPerfilDesenvolvimentoM
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-blue-500/20 text-blue-400 rounded-lg">
+            <div className="p-2 bg-lilas-500/20 text-lilas-400 rounded-lg">
               <Brain className="w-5 h-5" />
             </div>
             <div>
@@ -88,7 +88,7 @@ export const FormPerfilDesenvolvimentoModal: React.FC<FormPerfilDesenvolvimentoM
                     onClick={() => toggleArea(area)}
                     className={`px-2 py-1 text-[11px] font-medium rounded-lg border transition-colors ${
                       selected
-                        ? "bg-blue-50 text-blue-700 border-blue-300 font-semibold"
+                        ? "bg-lilas-50 text-lilas-700 border-lilas-300 font-semibold"
                         : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                     }`}
                   >
@@ -113,7 +113,7 @@ export const FormPerfilDesenvolvimentoModal: React.FC<FormPerfilDesenvolvimentoM
                     value={notas[area] || ""}
                     onChange={(e) => setNotas((prev) => ({ ...prev, [area]: e.target.value }))}
                     placeholder={`Observação sobre ${area.toLowerCase()}...`}
-                    className="w-full mt-0.5 px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    className="w-full mt-0.5 px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-lilas-500 focus:border-lilas-500 outline-none"
                   />
                 </div>
               ))}
@@ -124,7 +124,7 @@ export const FormPerfilDesenvolvimentoModal: React.FC<FormPerfilDesenvolvimentoM
             <button type="button" onClick={onClose} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-colors">
               Cancelar
             </button>
-            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
+            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-lilas-600 hover:bg-lilas-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
               <Save className="w-4 h-4" />
               <span>Salvar Perfil</span>
             </button>

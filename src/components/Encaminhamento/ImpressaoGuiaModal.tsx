@@ -71,7 +71,7 @@ export const ImpressaoGuiaModal: React.FC<ImpressaoGuiaModalProps> = ({
         {/* Modal Controls (Hidden when printing) */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 print:hidden">
           <div className="flex items-center gap-2.5">
-            <Printer className="w-5 h-5 text-amber-400" />
+            <Printer className="w-5 h-5 text-lilas-400" />
             <div>
               <h3 className="font-bold text-base">Guia Oficial de Encaminhamento</h3>
               <p className="text-xs text-slate-400">Com espaço para carimbo e assinatura de Débora Costa</p>
@@ -191,12 +191,12 @@ export const ImpressaoGuiaModal: React.FC<ImpressaoGuiaModalProps> = ({
               </p>
             </div>
 
-            <div className="p-3.5 bg-amber-50/60 rounded-xl border border-amber-300 space-y-1">
+            <div className="p-3.5 bg-lilas-50/60 rounded-xl border border-lilas-300 space-y-1">
               <div className="flex items-center justify-between">
-                <h4 className="font-bold text-amber-900 text-[11px] uppercase tracking-wider">
+                <h4 className="font-bold text-lilas-900 text-[11px] uppercase tracking-wider">
                   DESTINO SOLICITADO
                 </h4>
-                <span className="font-extrabold px-2 py-0.5 bg-amber-200 text-amber-900 rounded text-[10px]">
+                <span className="font-extrabold px-2 py-0.5 bg-lilas-200 text-lilas-900 rounded text-[10px]">
                   PRIORIDADE: {encaminhamento.prioridade.toUpperCase()}
                 </span>
               </div>

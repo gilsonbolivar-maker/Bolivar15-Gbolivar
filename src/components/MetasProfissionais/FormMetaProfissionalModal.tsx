@@ -73,7 +73,7 @@ export const FormMetaProfissionalModal: React.FC<FormMetaProfissionalModalProps>
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
+            <div className="p-2 bg-rosacha-500/20 text-rosacha-400 rounded-lg">
               <Target className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-lg">{metaParaEditar ? "Editar Meta" : "Nova Meta Profissional"}</h3>
@@ -89,7 +89,7 @@ export const FormMetaProfissionalModal: React.FC<FormMetaProfissionalModalProps>
             <select
               value={categoria}
               onChange={(e) => setCategoria(e.target.value as CategoriaMeta)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             >
               {CATEGORIAS.map((c) => (
                 <option key={c} value={c}>{c}</option>
@@ -104,7 +104,7 @@ export const FormMetaProfissionalModal: React.FC<FormMetaProfissionalModalProps>
               required
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -114,7 +114,7 @@ export const FormMetaProfissionalModal: React.FC<FormMetaProfissionalModalProps>
               rows={2}
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -125,7 +125,7 @@ export const FormMetaProfissionalModal: React.FC<FormMetaProfissionalModalProps>
                 type="date"
                 value={prazo}
                 onChange={(e) => setPrazo(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
               />
             </div>
             <div>
@@ -134,7 +134,7 @@ export const FormMetaProfissionalModal: React.FC<FormMetaProfissionalModalProps>
                 type="text"
                 value={certificadoOuLink}
                 onChange={(e) => setCertificadoOuLink(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
               />
             </div>
           </div>
@@ -144,7 +144,7 @@ export const FormMetaProfissionalModal: React.FC<FormMetaProfissionalModalProps>
               type="checkbox"
               checked={concluida}
               onChange={(e) => setConcluida(e.target.checked)}
-              className="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+              className="w-4 h-4 text-rosacha-600 rounded border-slate-300 focus:ring-rosacha-500"
             />
             <span className="text-xs font-semibold text-slate-700">Concluída</span>
           </label>
@@ -153,7 +153,7 @@ export const FormMetaProfissionalModal: React.FC<FormMetaProfissionalModalProps>
             <button type="button" onClick={onClose} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-colors">
               Cancelar
             </button>
-            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
+            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-rosacha-600 hover:bg-rosacha-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
               <Save className="w-4 h-4" />
               <span>{metaParaEditar ? "Salvar Alterações" : "Cadastrar Meta"}</span>
             </button>

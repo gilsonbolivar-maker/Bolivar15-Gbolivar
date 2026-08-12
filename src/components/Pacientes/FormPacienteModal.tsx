@@ -240,7 +240,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
         {/* Header */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
+            <div className="p-2 bg-verdep-500/20 text-verdep-400 rounded-lg">
               <User className="w-5 h-5" />
             </div>
             <div>
@@ -263,7 +263,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto flex-1">
           {/* Banner de Preenchimento com IA */}
-          <div className="p-3.5 bg-gradient-to-r from-indigo-50 via-emerald-50 to-indigo-50 border border-indigo-200/80 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
+          <div className="p-3.5 bg-gradient-to-r from-indigo-50 via-verdep-50 to-indigo-50 border border-indigo-200/80 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
             <div className="flex items-center gap-2.5">
               <div className="p-2 bg-indigo-600 text-white rounded-xl shadow-xs">
                 <Sparkles className="w-4 h-4" />
@@ -318,7 +318,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   <button
                     type="button"
                     onClick={() => fotoCameraInputRef.current?.click()}
-                    className="inline-flex items-center justify-center gap-1 px-1.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold rounded-lg shadow-xs transition-colors"
+                    className="inline-flex items-center justify-center gap-1 px-1.5 py-1.5 bg-verdep-600 hover:bg-verdep-500 text-white text-[10px] font-bold rounded-lg shadow-xs transition-colors"
                   >
                     <Camera className="w-3 h-3" />
                     <span>Tirar Foto</span>
@@ -371,7 +371,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
                   placeholder="Ex: Maria Oliveira da Silva"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
 
@@ -384,7 +384,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   value={nomeSocial}
                   onChange={(e) => setNomeSocial(e.target.value)}
                   placeholder="Ex: Maria Silva"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
 
@@ -398,7 +398,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   value={cpf}
                   onChange={(e) => setCpf(e.target.value)}
                   placeholder="000.000.000-00"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
 
@@ -411,7 +411,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   value={cartaoSus}
                   onChange={(e) => setCartaoSus(e.target.value)}
                   placeholder="700000000000000"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
 
@@ -423,7 +423,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   type="date"
                   value={dataNascimento}
                   onChange={(e) => setDataNascimento(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
 
@@ -434,7 +434,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                 <select
                   value={sexo}
                   onChange={(e) => setSexo(e.target.value as any)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 >
                   <option value="Feminino">Feminino</option>
                   <option value="Masculino">Masculino</option>
@@ -451,7 +451,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
                   placeholder="(11) 90000-0000"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
 
@@ -464,7 +464,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   value={nomeMae}
                   onChange={(e) => setNomeMae(e.target.value)}
                   placeholder="Nome completo da mãe"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
             </div>
@@ -486,7 +486,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   value={endereco}
                   onChange={(e) => setEndereco(e.target.value)}
                   placeholder="Ex: Rua das Flores, 123"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
 
@@ -499,7 +499,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                   value={bairro}
                   onChange={(e) => setBairro(e.target.value)}
                   placeholder="Ex: Jardim Primavera"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
                 />
               </div>
             </div>
@@ -551,7 +551,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                       onClick={() => toggleBeneficio(ben)}
                       className={`px-2.5 py-1 text-xs font-medium rounded-lg border transition-colors ${
                         selected
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-300 font-semibold"
+                          ? "bg-verdep-50 text-verdep-700 border-verdep-300 font-semibold"
                           : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                       }`}
                     >
@@ -572,7 +572,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
                 value={observacoesAlergias}
                 onChange={(e) => setObservacoesAlergias(e.target.value)}
                 placeholder="Ex: Hipertensa em uso de Captopril. Alergia a Penicilina."
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
               />
             </div>
           </div>
@@ -588,7 +588,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
+              className="inline-flex items-center gap-1.5 px-5 py-2 bg-verdep-600 hover:bg-verdep-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
               <span>{pacienteParaEditar ? "Salvar Alterações" : "Cadastrar Aluno"}</span>

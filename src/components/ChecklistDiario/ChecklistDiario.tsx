@@ -32,7 +32,7 @@ export const ChecklistDiario: React.FC<ChecklistDiarioProps> = ({
     <div className="space-y-6">
       <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <CheckSquare className="w-5 h-5 text-emerald-600" />
+          <CheckSquare className="w-5 h-5 text-azulc-600" />
           Checklist Diário
         </h2>
         <p className="text-xs text-slate-500 mt-1">
@@ -41,7 +41,7 @@ export const ChecklistDiario: React.FC<ChecklistDiarioProps> = ({
 
         <div className="mt-4 h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-emerald-500 rounded-full transition-all"
+            className="h-full bg-azulc-500 rounded-full transition-all"
             style={{ width: `${percentual}%` }}
           />
         </div>
@@ -56,11 +56,11 @@ export const ChecklistDiario: React.FC<ChecklistDiarioProps> = ({
           value={novoTexto}
           onChange={(e) => setNovoTexto(e.target.value)}
           placeholder="Adicionar nova tarefa..."
-          className="flex-1 px-3 py-2 rounded-lg border border-slate-300 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+          className="flex-1 px-3 py-2 rounded-lg border border-slate-300 text-sm outline-none focus:ring-2 focus:ring-azulc-500 focus:border-azulc-500"
         />
         <button
           type="submit"
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow transition-colors shrink-0"
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-azulc-600 hover:bg-azulc-500 text-white text-xs font-bold rounded-xl shadow transition-colors shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>Adicionar</span>
@@ -83,7 +83,7 @@ export const ChecklistDiario: React.FC<ChecklistDiarioProps> = ({
                 className="shrink-0"
               >
                 {item.concluido ? (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                  <CheckCircle2 className="w-5 h-5 text-azulc-500" />
                 ) : (
                   <Circle className="w-5 h-5 text-slate-300 hover:text-slate-400" />
                 )}

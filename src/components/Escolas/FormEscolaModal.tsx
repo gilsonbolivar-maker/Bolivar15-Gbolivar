@@ -94,7 +94,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-teal-500/20 text-teal-400 rounded-lg">
+            <div className="p-2 bg-verdep-500/20 text-verdep-400 rounded-lg">
               <Building2 className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-lg">
@@ -120,7 +120,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Ex: Escola Municipal Paulo Freire"
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
             />
           </div>
 
@@ -133,7 +133,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
                 type="text"
                 value={diretor}
                 onChange={(e) => setDiretor(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
               />
             </div>
             <div>
@@ -144,7 +144,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
                 type="text"
                 value={coordenador}
                 onChange={(e) => setCoordenador(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
               />
             </div>
             <div>
@@ -156,7 +156,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
                 placeholder="(11) 90000-0000"
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
               />
             </div>
             <div>
@@ -168,7 +168,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
                 min={0}
                 value={numeroAlunos}
                 onChange={(e) => setNumeroAlunos(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
               />
             </div>
           </div>
@@ -181,7 +181,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
               type="text"
               value={endereco}
               onChange={(e) => setEndereco(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
             />
           </div>
 
@@ -199,7 +199,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
                     onClick={() => toggleDia(dia)}
                     className={`px-2.5 py-1 text-xs font-medium rounded-lg border transition-colors ${
                       selected
-                        ? "bg-teal-50 text-teal-700 border-teal-300 font-semibold"
+                        ? "bg-verdep-50 text-verdep-700 border-verdep-300 font-semibold"
                         : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                     }`}
                   >
@@ -220,7 +220,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
               value={horarioAtendimento}
               onChange={(e) => setHorarioAtendimento(e.target.value)}
               placeholder="Ex: 08:00 - 12:00"
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
             />
           </div>
 
@@ -232,7 +232,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
               rows={2}
               value={observacoes}
               onChange={(e) => setObservacoes(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
             />
           </div>
 
@@ -246,7 +246,7 @@ export const FormEscolaModal: React.FC<FormEscolaModalProps> = ({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-5 py-2 bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
+              className="inline-flex items-center gap-1.5 px-5 py-2 bg-verdep-600 hover:bg-verdep-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
               <span>{escolaParaEditar ? "Salvar Alterações" : "Cadastrar Escola"}</span>

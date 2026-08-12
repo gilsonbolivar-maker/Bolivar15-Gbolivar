@@ -36,7 +36,7 @@ export const PlanejamentoSessao: React.FC<PlanejamentoSessaoProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <SparklesIcon className="w-5 h-5 text-indigo-600" />
+            <SparklesIcon className="w-5 h-5 text-lilas-600" />
             Planejamento de Sessões
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -45,7 +45,7 @@ export const PlanejamentoSessao: React.FC<PlanejamentoSessaoProps> = ({
         </div>
         <button
           onClick={onOpenNovoPlanejamento}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-lilas-600 hover:bg-lilas-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
         >
           <Plus className="w-4 h-4" />
           <span>Novo Planejamento</span>
@@ -103,7 +103,7 @@ export const PlanejamentoSessao: React.FC<PlanejamentoSessaoProps> = ({
 
               <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs text-slate-700 space-y-1">
                 <p className="flex items-start gap-1.5">
-                  <Target className="w-3.5 h-3.5 text-indigo-500 mt-0.5 shrink-0" />
+                  <Target className="w-3.5 h-3.5 text-lilas-500 mt-0.5 shrink-0" />
                   <span><strong>Objetivo:</strong> {p.objetivo}</span>
                 </p>
                 <p><strong>Atividade:</strong> {p.atividade}</p>

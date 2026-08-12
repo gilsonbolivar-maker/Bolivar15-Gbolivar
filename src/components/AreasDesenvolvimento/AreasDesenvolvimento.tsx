@@ -20,7 +20,7 @@ export const AreasDesenvolvimento: React.FC<AreasDesenvolvimentoProps> = ({
     <div className="space-y-6">
       <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <Brain className="w-5 h-5 text-blue-600" />
+          <Brain className="w-5 h-5 text-lilas-600" />
           Áreas do Desenvolvimento
         </h2>
         <p className="text-xs text-slate-500 mt-1">
@@ -35,14 +35,14 @@ export const AreasDesenvolvimento: React.FC<AreasDesenvolvimentoProps> = ({
             <div key={p.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="p-2 bg-blue-100 text-blue-700 rounded-xl shrink-0">
+                  <div className="p-2 bg-lilas-100 text-lilas-700 rounded-xl shrink-0">
                     <User className="w-4 h-4" />
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm truncate">{p.nome}</h3>
                 </div>
                 <button
                   onClick={() => onEditarPerfil(p)}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-lg transition-colors shrink-0"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-lilas-50 hover:bg-lilas-100 text-lilas-700 text-xs font-bold rounded-lg transition-colors shrink-0"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
                   {perfil ? "Editar" : "Definir Perfil"}
@@ -59,7 +59,7 @@ export const AreasDesenvolvimento: React.FC<AreasDesenvolvimentoProps> = ({
                     {perfil.areasParaEstimular.map((area) => (
                       <span
                         key={area}
-                        className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-100"
+                        className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-lilas-50 text-lilas-700 border border-lilas-100"
                       >
                         {area}
                       </span>

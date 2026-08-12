@@ -80,7 +80,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-orange-500/20 text-orange-400 rounded-lg">
+            <div className="p-2 bg-rosacha-500/20 text-rosacha-400 rounded-lg">
               <FolderKanban className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-lg">{projetoParaEditar ? "Editar Projeto" : "Novo Projeto"}</h3>
@@ -98,7 +98,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
               required
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -108,7 +108,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
               <select
                 value={tema}
                 onChange={(e) => setTema(e.target.value as TemaProjeto)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
               >
                 {TEMAS.map((t) => (
                   <option key={t} value={t}>{t}</option>
@@ -121,7 +121,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
                 type="text"
                 value={publicoAlvo}
                 onChange={(e) => setPublicoAlvo(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
               />
             </div>
           </div>
@@ -132,7 +132,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
               rows={2}
               value={objetivo}
               onChange={(e) => setObjetivo(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -144,7 +144,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
               rows={3}
               value={atividadesTexto}
               onChange={(e) => setAtividadesTexto(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -156,7 +156,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
               rows={2}
               value={recursosTexto}
               onChange={(e) => setRecursosTexto(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -165,7 +165,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as IdeiaProjeto["status"])}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             >
               <option value="Ideia">Ideia</option>
               <option value="Em Planejamento">Em Planejamento</option>
@@ -178,7 +178,7 @@ export const FormIdeiaProjetoModal: React.FC<FormIdeiaProjetoModalProps> = ({
             <button type="button" onClick={onClose} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-colors">
               Cancelar
             </button>
-            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
+            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-rosacha-600 hover:bg-rosacha-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
               <Save className="w-4 h-4" />
               <span>{projetoParaEditar ? "Salvar Alterações" : "Cadastrar Projeto"}</span>
             </button>

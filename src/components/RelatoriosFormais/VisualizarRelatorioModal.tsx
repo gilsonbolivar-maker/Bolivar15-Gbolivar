@@ -68,7 +68,7 @@ export const VisualizarRelatorioModal: React.FC<VisualizarRelatorioModalProps> =
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden my-auto print:shadow-none print:border-none print:max-w-none print:w-full print:h-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 print:hidden">
           <div className="flex items-center gap-2.5">
-            <BookOpen className="w-5 h-5 text-indigo-400" />
+            <BookOpen className="w-5 h-5 text-amarelo-400" />
             <div>
               <h3 className="font-bold text-base">{relatorio.tipo}</h3>
               <p className="text-xs text-slate-400">{relatorio.titulo}</p>
@@ -78,7 +78,7 @@ export const VisualizarRelatorioModal: React.FC<VisualizarRelatorioModalProps> =
             <button
               onClick={handleDownloadPdf}
               disabled={gerandoPdf}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-amarelo-600 hover:bg-amarelo-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow transition-colors"
             >
               <Download className="w-4 h-4" />
               <span>{gerandoPdf ? "Gerando PDF..." : "Baixar PDF"}</span>

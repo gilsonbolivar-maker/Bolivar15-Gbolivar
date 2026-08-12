@@ -1,1 +1,75 @@
 @import "tailwindcss";
+
+@theme {
+  /* Paleta pastel escolhida por Débora (amarelo pálido, lilás suave, verde
+     pálido, azul celeste, rosa chá, cinza claro), com escala completa de
+     tons para uso consistente em fundos, textos e bordas. */
+  /* Do 50 ao 200 usamos o amarelo pálido pedido por Débora; a partir do 300
+     a escala passa a um âmbar mais saturado (como o ícone "Âmbar" da mesma
+     família), para manter contraste legível em botões com texto branco. */
+  --color-amarelo-50: #FFFDE7;
+  --color-amarelo-100: #FFF9C4;
+  --color-amarelo-200: #FFF59D;
+  --color-amarelo-300: #FCD34D;
+  --color-amarelo-400: #FBBF24;
+  --color-amarelo-500: #F59E0B;
+  --color-amarelo-600: #D97706;
+  --color-amarelo-700: #B45309;
+  --color-amarelo-800: #92400E;
+  --color-amarelo-900: #78350F;
+
+  --color-lilas-50: #F3E5F5;
+  --color-lilas-100: #E1BEE7;
+  --color-lilas-200: #CE93D8;
+  --color-lilas-300: #BA68C8;
+  --color-lilas-400: #AB47BC;
+  --color-lilas-500: #9C27B0;
+  --color-lilas-600: #8E24AA;
+  --color-lilas-700: #7B1FA2;
+  --color-lilas-800: #6A1B9A;
+  --color-lilas-900: #4A148C;
+
+  --color-verdep-50: #E8F5E9;
+  --color-verdep-100: #C8E6C9;
+  --color-verdep-200: #A5D6A7;
+  --color-verdep-300: #81C784;
+  --color-verdep-400: #66BB6A;
+  --color-verdep-500: #4CAF50;
+  --color-verdep-600: #43A047;
+  --color-verdep-700: #388E3C;
+  --color-verdep-800: #2E7D32;
+  --color-verdep-900: #1B5E20;
+
+  --color-azulc-50: #E3F2FD;
+  --color-azulc-100: #BBDEFB;
+  --color-azulc-200: #90CAF9;
+  --color-azulc-300: #64B5F6;
+  --color-azulc-400: #42A5F5;
+  --color-azulc-500: #2196F3;
+  --color-azulc-600: #1E88E5;
+  --color-azulc-700: #1976D2;
+  --color-azulc-800: #1565C0;
+  --color-azulc-900: #0D47A1;
+
+  --color-rosacha-50: #FFEBEE;
+  --color-rosacha-100: #FFCDD2;
+  --color-rosacha-200: #EF9A9A;
+  --color-rosacha-300: #E57373;
+  --color-rosacha-400: #EF5350;
+  --color-rosacha-500: #F44336;
+  --color-rosacha-600: #E53935;
+  --color-rosacha-700: #D32F2F;
+  --color-rosacha-800: #C62828;
+  --color-rosacha-900: #B71C1C;
+
+  --color-cinzac-50: #FAFAFA;
+  --color-cinzac-100: #F5F5F5;
+  --color-cinzac-200: #EEEEEE;
+  --color-cinzac-300: #E0E0E0;
+  --color-cinzac-400: #BDBDBD;
+  --color-cinzac-500: #9E9E9E;
+  --color-cinzac-600: #757575;
+  --color-cinzac-700: #616161;
+  --color-cinzac-800: #424242;
+  --color-cinzac-900: #212121;
+}

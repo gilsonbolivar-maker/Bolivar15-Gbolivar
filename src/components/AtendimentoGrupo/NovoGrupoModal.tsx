@@ -82,7 +82,7 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
         {/* Header */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-indigo-500/20 text-indigo-400 rounded-lg">
+            <div className="p-2 bg-lilas-500/20 text-lilas-400 rounded-lg">
               <Users className="w-5 h-5" />
             </div>
             <div>
@@ -103,9 +103,9 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto flex-1 text-xs">
           {/* Banner de Preenchimento com IA */}
-          <div className="p-3 bg-gradient-to-r from-indigo-50 via-purple-50 to-indigo-50 border border-indigo-200/80 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
+          <div className="p-3 bg-gradient-to-r from-lilas-50 via-purple-50 to-lilas-50 border border-lilas-200/80 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 bg-indigo-600 text-white rounded-xl shadow-xs">
+              <div className="p-2 bg-lilas-600 text-white rounded-xl shadow-xs">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
@@ -121,7 +121,7 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
             <button
               type="button"
               onClick={() => setIsScannerOpen(true)}
-              className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5 shrink-0"
+              className="px-3.5 py-1.5 bg-lilas-600 hover:bg-lilas-500 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5 shrink-0"
             >
               <Camera className="w-3.5 h-3.5" />
               <span>Escanear Projeto</span>
@@ -138,7 +138,7 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Ex: Grupo Viver Bem - Terceira Idade"
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
             />
           </div>
 
@@ -150,7 +150,7 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
               <select
                 value={categoria}
                 onChange={(e) => setCategoria(e.target.value as CategoriaGrupo)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               >
                 {CATEGORIAS_GRUPO.map((c) => (
                   <option key={c} value={c}>
@@ -170,7 +170,7 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
                 max={100}
                 value={maxVagas}
                 onChange={(e) => setMaxVagas(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               />
             </div>
 
@@ -183,7 +183,7 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
                 required
                 value={responsavelNome}
                 onChange={(e) => setResponsavelNome(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               />
             </div>
 
@@ -196,7 +196,7 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
                 required
                 value={responsavelCargo}
                 onChange={(e) => setResponsavelCargo(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-lilas-500 outline-none"
               />
             </div>
           </div>
@@ -269,7 +269,7 @@ export const NovoGrupoModal: React.FC<NovoGrupoModalProps> = ({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
+              className="inline-flex items-center gap-1.5 px-5 py-2 bg-lilas-600 hover:bg-lilas-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
               <span>Criar Grupo</span>

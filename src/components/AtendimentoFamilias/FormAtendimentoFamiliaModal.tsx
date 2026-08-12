@@ -74,7 +74,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-pink-500/20 text-pink-400 rounded-lg">
+            <div className="p-2 bg-amarelo-500/20 text-amarelo-400 rounded-lg">
               <HeartHandshake className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-lg">
@@ -93,7 +93,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
               <select
                 value={pacienteId}
                 onChange={(e) => setPacienteId(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
               >
                 <option value="">Selecione...</option>
                 {pacientes.map((p) => (
@@ -107,7 +107,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
                 type="date"
                 value={data}
                 onChange={(e) => setData(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
               />
             </div>
           </div>
@@ -119,7 +119,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
               value={responsavelPresente}
               onChange={(e) => setResponsavelPresente(e.target.value)}
               placeholder="Ex: Patrícia Cardoso (mãe)"
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
             />
           </div>
 
@@ -130,7 +130,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
               required
               value={assunto}
               onChange={(e) => setAssunto(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
             />
           </div>
 
@@ -140,7 +140,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
               rows={2}
               value={orientacoes}
               onChange={(e) => setOrientacoes(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
             />
           </div>
 
@@ -150,7 +150,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
               rows={2}
               value={encaminhamentos}
               onChange={(e) => setEncaminhamentos(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
             />
           </div>
 
@@ -160,7 +160,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
               type="date"
               value={proximoContato}
               onChange={(e) => setProximoContato(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-amarelo-500 focus:border-amarelo-500 outline-none"
             />
           </div>
 
@@ -168,7 +168,7 @@ export const FormAtendimentoFamiliaModal: React.FC<FormAtendimentoFamiliaModalPr
             <button type="button" onClick={onClose} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-colors">
               Cancelar
             </button>
-            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-pink-600 hover:bg-pink-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
+            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-amarelo-600 hover:bg-amarelo-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
               <Save className="w-4 h-4" />
               <span>{atendimentoParaEditar ? "Salvar Alterações" : "Registrar Atendimento"}</span>
             </button>

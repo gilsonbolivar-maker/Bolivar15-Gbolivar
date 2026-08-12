@@ -105,11 +105,11 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-3">
             {paciente.foto ? (
-              <div className="w-[54px] h-[72px] rounded-lg overflow-hidden border-2 border-emerald-400/60 shrink-0 shadow">
+              <div className="w-[54px] h-[72px] rounded-lg overflow-hidden border-2 border-verdep-400/60 shrink-0 shadow">
                 <img src={paciente.foto} alt={`Foto 3x4 de ${paciente.nome}`} className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className="p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl">
+              <div className="p-2.5 bg-verdep-500/20 text-verdep-400 rounded-xl">
                 <User className="w-6 h-6" />
               </div>
             )}
@@ -132,7 +132,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
             <button
               onClick={handleGerarSinteseIa}
               disabled={loadingSintese}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold rounded-lg shadow transition-all disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-verdep-600 to-teal-600 hover:from-verdep-500 hover:to-teal-500 text-white text-xs font-semibold rounded-lg shadow transition-all disabled:opacity-50"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>{loadingSintese ? "Gerando..." : "Síntese IA do Caso"}</span>
@@ -187,7 +187,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
                   onClose();
                   onOpenNovoAtendimento(paciente);
                 }}
-                className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded text-[11px] transition-colors"
+                className="px-2.5 py-1 bg-verdep-600 hover:bg-verdep-500 text-white font-semibold rounded text-[11px] transition-colors"
               >
                 + Novo Atend. Indiv.
               </button>
@@ -206,10 +206,10 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
 
         {/* AI Synthesis Box (If generated) */}
         {sinteseIa && (
-          <div className="m-4 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl space-y-2 text-xs">
-            <div className="flex items-center justify-between text-emerald-900 font-bold">
+          <div className="m-4 p-4 bg-gradient-to-r from-verdep-50 to-teal-50 border border-verdep-200 rounded-xl space-y-2 text-xs">
+            <div className="flex items-center justify-between text-verdep-900 font-bold">
               <span className="flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-emerald-600" />
+                <Sparkles className="w-4 h-4 text-verdep-600" />
                 Síntese Técnica Gerada por Inteligência Artificial
               </span>
               <button
@@ -231,7 +231,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
             onClick={() => setActiveTab("linha-tempo")}
             className={`py-3 px-4 text-xs font-bold border-b-2 transition-colors ${
               activeTab === "linha-tempo"
-                ? "border-emerald-600 text-emerald-700"
+                ? "border-verdep-600 text-verdep-700"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
@@ -241,7 +241,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
             onClick={() => setActiveTab("atendimentos")}
             className={`py-3 px-4 text-xs font-bold border-b-2 transition-colors ${
               activeTab === "atendimentos"
-                ? "border-emerald-600 text-emerald-700"
+                ? "border-verdep-600 text-verdep-700"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
@@ -251,7 +251,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
             onClick={() => setActiveTab("grupos")}
             className={`py-3 px-4 text-xs font-bold border-b-2 transition-colors ${
               activeTab === "grupos"
-                ? "border-emerald-600 text-emerald-700"
+                ? "border-verdep-600 text-verdep-700"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
@@ -261,7 +261,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
             onClick={() => setActiveTab("encaminhamentos")}
             className={`py-3 px-4 text-xs font-bold border-b-2 transition-colors ${
               activeTab === "encaminhamentos"
-                ? "border-emerald-600 text-emerald-700"
+                ? "border-verdep-600 text-verdep-700"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
@@ -282,12 +282,12 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
                 {/* Individuais */}
                 {meusAtendimentos.map((at) => (
                   <div key={at.id} className="relative group">
-                    <div className="absolute -left-[31px] top-1 p-1 bg-emerald-600 text-white rounded-full">
+                    <div className="absolute -left-[31px] top-1 p-1 bg-verdep-600 text-white rounded-full">
                       <UserCheck className="w-3.5 h-3.5" />
                     </div>
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-1.5">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                        <span className="font-bold text-verdep-800 bg-verdep-50 px-2 py-0.5 rounded border border-verdep-200">
                           Atendimento Individual • {at.tipoAtendimento}
                         </span>
                         <span className="text-slate-400">
@@ -329,7 +329,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
                         </p>
                         <p className="text-xs text-slate-600 bg-white p-2.5 rounded border border-slate-200/60">
                           <strong>Presença:</strong>{" "}
-                          <span className={presenca?.presente ? "text-emerald-700 font-bold" : "text-rose-700 font-bold"}>
+                          <span className={presenca?.presente ? "text-verdep-700 font-bold" : "text-rose-700 font-bold"}>
                             {presenca?.presente ? "Presente ✓" : "Ausente ✗"}
                           </span>{" "}
                           {presenca?.observacaoIndividual && `- Observação: ${presenca.observacaoIndividual}`}
@@ -359,8 +359,8 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
                         {enc.motivoEncaminhamento}
                       </p>
                       {enc.contraEncaminhamento && (
-                        <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded text-xs text-emerald-900 space-y-1">
-                          <strong className="text-emerald-800">Parecer de Contra-Encaminhamento Devolvido:</strong>
+                        <div className="p-2.5 bg-verdep-50 border border-verdep-200 rounded text-xs text-verdep-900 space-y-1">
+                          <strong className="text-verdep-800">Parecer de Contra-Encaminhamento Devolvido:</strong>
                           <p>{enc.contraEncaminhamento.parecerTecnico}</p>
                         </div>
                       )}

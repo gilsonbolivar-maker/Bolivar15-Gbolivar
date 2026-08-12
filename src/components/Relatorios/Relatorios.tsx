@@ -50,7 +50,7 @@ interface BarListProps {
 
 const BarList: React.FC<BarListProps> = ({
   data,
-  colorClass = "bg-indigo-500",
+  colorClass = "bg-azulc-500",
   emptyMessage,
   colorFor,
 }) => {
@@ -189,7 +189,7 @@ export const Relatorios: React.FC<RelatoriosProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <BarChart3 className="w-5 h-5 text-indigo-600" />
+            <BarChart3 className="w-5 h-5 text-azulc-600" />
             Indicadores e Relatórios
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -200,7 +200,7 @@ export const Relatorios: React.FC<RelatoriosProps> = ({
         <button
           onClick={handleDownloadPdf}
           disabled={gerandoPdf}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white text-xs font-semibold rounded-xl shadow transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-azulc-600 hover:bg-azulc-500 disabled:opacity-60 text-white text-xs font-semibold rounded-xl shadow transition-colors"
         >
           {gerandoPdf ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -215,7 +215,7 @@ export const Relatorios: React.FC<RelatoriosProps> = ({
         {/* KPI Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-            <div className="p-2 bg-indigo-100 text-indigo-700 rounded-xl w-fit mb-3">
+            <div className="p-2 bg-azulc-100 text-azulc-700 rounded-xl w-fit mb-3">
               <UserPlus className="w-5 h-5" />
             </div>
             <p className="text-3xl font-black text-slate-900">{pacientes.length}</p>
@@ -254,7 +254,7 @@ export const Relatorios: React.FC<RelatoriosProps> = ({
         {/* Atendimentos nos últimos 7 dias */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
           <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-            <CalendarDays className="w-4 h-4 text-indigo-600" />
+            <CalendarDays className="w-4 h-4 text-azulc-600" />
             Atendimentos nos Últimos 7 Dias
           </h3>
           <div className="flex items-end justify-between gap-2 h-32">
@@ -263,7 +263,7 @@ export const Relatorios: React.FC<RelatoriosProps> = ({
                 <span className="text-[11px] font-bold text-slate-500">{d.total}</span>
                 <div className="w-full flex-1 flex items-end bg-slate-50 rounded-md overflow-hidden">
                   <div
-                    className="w-full bg-indigo-500 rounded-t-md transition-all"
+                    className="w-full bg-azulc-500 rounded-t-md transition-all"
                     style={{ height: `${(d.total / maxDia) * 100}%`, minHeight: d.total > 0 ? "6px" : "0" }}
                   />
                 </div>

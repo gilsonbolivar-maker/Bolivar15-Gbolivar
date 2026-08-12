@@ -38,7 +38,7 @@ export const GestaoRelatoriosFormais: React.FC<GestaoRelatoriosFormaisProps> = (
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-indigo-600" />
+            <BookOpen className="w-5 h-5 text-amarelo-600" />
             Relatórios Formais
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -47,7 +47,7 @@ export const GestaoRelatoriosFormais: React.FC<GestaoRelatoriosFormaisProps> = (
         </div>
         <button
           onClick={onOpenNovoRelatorio}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-amarelo-600 hover:bg-amarelo-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
         >
           <Plus className="w-4 h-4" />
           <span>Novo Relatório</span>

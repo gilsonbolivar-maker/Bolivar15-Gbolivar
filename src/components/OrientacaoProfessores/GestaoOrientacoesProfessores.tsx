@@ -33,7 +33,7 @@ export const GestaoOrientacoesProfessores: React.FC<GestaoOrientacoesProfessores
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <GraduationCap className="w-5 h-5 text-teal-600" />
+            <GraduationCap className="w-5 h-5 text-amarelo-600" />
             Orientação a Professores
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -42,7 +42,7 @@ export const GestaoOrientacoesProfessores: React.FC<GestaoOrientacoesProfessores
         </div>
         <button
           onClick={onOpenNovaOrientacao}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-amarelo-600 hover:bg-amarelo-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
         >
           <Plus className="w-4 h-4" />
           <span>Nova Orientação</span>
@@ -89,8 +89,8 @@ export const GestaoOrientacoesProfessores: React.FC<GestaoOrientacoesProfessores
                 <strong>Dificuldade observada:</strong> {o.dificuldadeObservada}
               </p>
 
-              <div className="bg-teal-50/60 rounded-xl p-3 border border-teal-100">
-                <p className="text-[10px] font-bold text-teal-700 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+              <div className="bg-amarelo-50/60 rounded-xl p-3 border border-amarelo-100">
+                <p className="text-[10px] font-bold text-amarelo-700 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
                   <Lightbulb className="w-3.5 h-3.5" /> Estratégias Sugeridas
                 </p>
                 <ul className="text-xs text-slate-700 space-y-0.5 list-disc list-inside">

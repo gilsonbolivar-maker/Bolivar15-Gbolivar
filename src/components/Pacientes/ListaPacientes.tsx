@@ -64,7 +64,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <User className="w-5 h-5 text-emerald-600" />
+            <User className="w-5 h-5 text-verdep-600" />
             Cadastro Unificado de Alunos / Pacientes
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -83,7 +83,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
 
           <button
             onClick={onOpenNovoPaciente}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-verdep-600 hover:bg-verdep-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
           >
             <UserPlus className="w-4 h-4" />
             <span>Cadastrar Aluno</span>
@@ -100,7 +100,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
             placeholder="Buscar por nome, CPF, nome social ou bairro..."
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none"
           />
         </div>
 
@@ -109,7 +109,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
           <select
             value={vulnerabilidadeFiltro}
             onChange={(e) => setVulnerabilidadeFiltro(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium text-slate-700"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-verdep-500 focus:border-verdep-500 outline-none font-medium text-slate-700"
           >
             <option value="TODAS">Todas Vulnerabilidades</option>
             <option value="Baixa Renda">Baixa Renda</option>
@@ -203,7 +203,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => onVerProntuario(p)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-lg transition-colors"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-verdep-50 hover:bg-verdep-100 text-verdep-700 text-xs font-semibold rounded-lg transition-colors"
                         >
                           <FileText className="w-3.5 h-3.5" /> Prontuário
                         </button>

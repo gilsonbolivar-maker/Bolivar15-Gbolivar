@@ -63,7 +63,7 @@ export const GestaoEncaminhamentos: React.FC<GestaoEncaminhamentosProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <Send className="w-5 h-5 text-amber-600" />
+            <Send className="w-5 h-5 text-lilas-600" />
             Central de Encaminhamentos Intersetoriais
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -73,7 +73,7 @@ export const GestaoEncaminhamentos: React.FC<GestaoEncaminhamentosProps> = ({
 
         <button
           onClick={onOpenNovoEncaminhamento}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-lilas-600 hover:bg-lilas-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
         >
           <Plus className="w-4 h-4" />
           <span>Emitir Guia de Encaminhamento</span>
@@ -135,7 +135,7 @@ export const GestaoEncaminhamentos: React.FC<GestaoEncaminhamentosProps> = ({
             return (
               <div
                 key={enc.id}
-                className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-amber-300 transition-all space-y-4"
+                className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-lilas-300 transition-all space-y-4"
               >
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
@@ -152,7 +152,7 @@ export const GestaoEncaminhamentos: React.FC<GestaoEncaminhamentosProps> = ({
                         isUrgente
                           ? "bg-rose-100 text-rose-800 border border-rose-200"
                           : isPrioritario
-                          ? "bg-amber-100 text-amber-800 border border-amber-200"
+                          ? "bg-lilas-100 text-lilas-800 border border-lilas-200"
                           : "bg-blue-100 text-blue-800 border border-blue-200"
                       }`}
                     >
@@ -167,7 +167,7 @@ export const GestaoEncaminhamentos: React.FC<GestaoEncaminhamentosProps> = ({
                           ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
                           : enc.status === "Cancelado"
                           ? "bg-slate-100 text-slate-600"
-                          : "bg-amber-100 text-amber-800 border border-amber-200"
+                          : "bg-lilas-100 text-lilas-800 border border-lilas-200"
                       }`}
                     >
                       Status: {enc.status}
@@ -191,12 +191,12 @@ export const GestaoEncaminhamentos: React.FC<GestaoEncaminhamentosProps> = ({
                     </p>
                   </div>
 
-                  <div className="p-3 bg-amber-50/50 rounded-xl space-y-1">
-                    <span className="font-bold text-amber-900 uppercase tracking-wider text-[10px]">
+                  <div className="p-3 bg-lilas-50/50 rounded-xl space-y-1">
+                    <span className="font-bold text-lilas-900 uppercase tracking-wider text-[10px]">
                       Destino Solicitado
                     </span>
                     <p className="font-bold text-slate-900">{enc.setorDestino}</p>
-                    <p className="text-amber-900 font-semibold">
+                    <p className="text-lilas-900 font-semibold">
                       Especialidade: {enc.especialidadeDestino}
                     </p>
                   </div>

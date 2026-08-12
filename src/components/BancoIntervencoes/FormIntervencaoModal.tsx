@@ -88,7 +88,7 @@ export const FormIntervencaoModal: React.FC<FormIntervencaoModalProps> = ({
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden my-auto">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-purple-500/20 text-purple-400 rounded-lg">
+            <div className="p-2 bg-rosacha-500/20 text-rosacha-400 rounded-lg">
               <Layers className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-lg">
@@ -108,7 +108,7 @@ export const FormIntervencaoModal: React.FC<FormIntervencaoModalProps> = ({
               required
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -117,7 +117,7 @@ export const FormIntervencaoModal: React.FC<FormIntervencaoModalProps> = ({
             <select
               value={tema}
               onChange={(e) => setTema(e.target.value as TemaIntervencao)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             >
               {TEMAS.map((t) => (
                 <option key={t} value={t}>{t}</option>
@@ -131,7 +131,7 @@ export const FormIntervencaoModal: React.FC<FormIntervencaoModalProps> = ({
               rows={2}
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -141,7 +141,7 @@ export const FormIntervencaoModal: React.FC<FormIntervencaoModalProps> = ({
               rows={3}
               value={objetivosTexto}
               onChange={(e) => setObjetivosTexto(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -151,7 +151,7 @@ export const FormIntervencaoModal: React.FC<FormIntervencaoModalProps> = ({
               rows={4}
               value={passosTexto}
               onChange={(e) => setPassosTexto(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -161,7 +161,7 @@ export const FormIntervencaoModal: React.FC<FormIntervencaoModalProps> = ({
               rows={2}
               value={materiaisTexto}
               onChange={(e) => setMateriaisTexto(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-rosacha-500 focus:border-rosacha-500 outline-none"
             />
           </div>
 
@@ -169,7 +169,7 @@ export const FormIntervencaoModal: React.FC<FormIntervencaoModalProps> = ({
             <button type="button" onClick={onClose} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-colors">
               Cancelar
             </button>
-            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
+            <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2 bg-rosacha-600 hover:bg-rosacha-500 text-white text-sm font-semibold rounded-xl shadow transition-colors">
               <Save className="w-4 h-4" />
               <span>{intervencaoParaEditar ? "Salvar Alterações" : "Cadastrar Intervenção"}</span>
             </button>

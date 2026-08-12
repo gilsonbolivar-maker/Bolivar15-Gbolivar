@@ -27,7 +27,7 @@ export const IdeiasProjetos: React.FC<IdeiasProjetosProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <FolderKanban className="w-5 h-5 text-orange-600" />
+            <FolderKanban className="w-5 h-5 text-rosacha-600" />
             Ideias de Projetos
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -36,7 +36,7 @@ export const IdeiasProjetos: React.FC<IdeiasProjetosProps> = ({
         </div>
         <button
           onClick={onOpenNovoProjeto}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-rosacha-600 hover:bg-rosacha-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
         >
           <Plus className="w-4 h-4" />
           <span>Novo Projeto</span>
@@ -77,8 +77,8 @@ export const IdeiasProjetos: React.FC<IdeiasProjetosProps> = ({
               <p className="text-xs text-slate-700">{p.objetivo}</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="bg-orange-50/60 rounded-xl p-3 border border-orange-100">
-                  <p className="text-[10px] font-bold text-orange-700 uppercase tracking-wider mb-1.5">Atividades Propostas</p>
+                <div className="bg-rosacha-50/60 rounded-xl p-3 border border-rosacha-100">
+                  <p className="text-[10px] font-bold text-rosacha-700 uppercase tracking-wider mb-1.5">Atividades Propostas</p>
                   <ul className="text-xs text-slate-700 space-y-0.5 list-disc list-inside">
                     {p.atividadesPropostas.map((a, i) => <li key={i}>{a}</li>)}
                   </ul>

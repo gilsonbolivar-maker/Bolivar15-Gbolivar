@@ -46,7 +46,7 @@ export const GestaoEscolas: React.FC<GestaoEscolasProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <Building2 className="w-5 h-5 text-teal-600" />
+            <Building2 className="w-5 h-5 text-verdep-600" />
             Escolas Atendidas
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -56,7 +56,7 @@ export const GestaoEscolas: React.FC<GestaoEscolasProps> = ({
 
         <button
           onClick={onOpenNovaEscola}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-verdep-600 hover:bg-verdep-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
         >
           <Plus className="w-4 h-4" />
           <span>Nova Escola</span>
@@ -87,7 +87,7 @@ export const GestaoEscolas: React.FC<GestaoEscolasProps> = ({
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3 min-w-0">
-                  <div className="p-2.5 bg-teal-100 text-teal-700 rounded-xl shrink-0">
+                  <div className="p-2.5 bg-verdep-100 text-verdep-700 rounded-xl shrink-0">
                     <Building2 className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
