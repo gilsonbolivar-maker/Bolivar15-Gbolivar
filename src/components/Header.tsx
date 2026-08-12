@@ -14,6 +14,7 @@ import {
   ChevronDown,
   Camera,
   Smartphone,
+  CloudUpload,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -27,6 +28,7 @@ interface HeaderProps {
   onResetData: () => void;
   onOpenOcrScanner?: () => void;
   onOpenApkDownload?: () => void;
+  onOpenBackupDrive?: () => void;
 }
 
 const TAB_LABELS: Record<TabMenu, string> = {
@@ -48,6 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
   onResetData,
   onOpenOcrScanner,
   onOpenApkDownload,
+  onOpenBackupDrive,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -268,6 +271,19 @@ export const Header: React.FC<HeaderProps> = ({
                   >
                     <Smartphone className="w-3.5 h-3.5" />
                     <span>Instalar App / Gerar APK</span>
+                  </button>
+                )}
+
+                {onOpenBackupDrive && (
+                  <button
+                    onClick={() => {
+                      onOpenBackupDrive();
+                      setIsMenuOpen(false);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-700/90 hover:bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
+                  >
+                    <CloudUpload className="w-3.5 h-3.5" />
+                    <span>Backup no Google Drive</span>
                   </button>
                 )}
 

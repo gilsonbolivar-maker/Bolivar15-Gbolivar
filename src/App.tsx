@@ -34,6 +34,7 @@ import { ImpressaoGuiaModal } from "./components/Encaminhamento/ImpressaoGuiaMod
 import { AiDocumentScannerModal } from "./components/AiDocumentScannerModal";
 import { Relatorios } from "./components/Relatorios/Relatorios";
 import { ApkDownloadModal } from "./components/ApkDownloadModal";
+import { BackupDriveModal, BackupPayload } from "./components/BackupDriveModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -70,6 +71,7 @@ export default function App() {
 
   const [isGlobalOcrOpen, setIsGlobalOcrOpen] = useState(false);
   const [isApkDownloadOpen, setIsApkDownloadOpen] = useState(false);
+  const [isBackupDriveOpen, setIsBackupDriveOpen] = useState(false);
 
   // Load state on start
   useEffect(() => {
@@ -80,6 +82,21 @@ export default function App() {
     setSessoesGrupo(data.sessoesGrupo);
     setEncaminhamentos(data.encaminhamentos);
   }, []);
+
+  const handleRestoreBackup = (restored: BackupPayload) => {
+    setPacientes(restored.pacientes);
+    setAtendimentos(restored.atendimentos);
+    setGrupos(restored.grupos);
+    setSessoesGrupo(restored.sessoesGrupo);
+    setEncaminhamentos(restored.encaminhamentos);
+    persistState(
+      restored.pacientes,
+      restored.atendimentos,
+      restored.grupos,
+      restored.sessoesGrupo,
+      restored.encaminhamentos
+    );
+  };
 
   const handleResetData = () => {
     resetAllData();
@@ -244,6 +261,7 @@ export default function App() {
           setIsGlobalOcrOpen(true);
         }}
         onOpenApkDownload={() => setIsApkDownloadOpen(true)}
+        onOpenBackupDrive={() => setIsBackupDriveOpen(true)}
         onResetData={handleResetData}
       />
 
@@ -470,6 +488,13 @@ export default function App() {
       <ApkDownloadModal
         isOpen={isApkDownloadOpen}
         onClose={() => setIsApkDownloadOpen(false)}
+      />
+
+      <BackupDriveModal
+        isOpen={isBackupDriveOpen}
+        onClose={() => setIsBackupDriveOpen(false)}
+        data={{ pacientes, atendimentos, grupos, sessoesGrupo, encaminhamentos }}
+        onRestore={handleRestoreBackup}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}

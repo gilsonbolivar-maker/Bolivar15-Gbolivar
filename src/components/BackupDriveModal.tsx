@@ -1,0 +1,528 @@
+import React, { useEffect, useRef, useState } from "react";
+import {
+  X,
+  CloudUpload,
+  LogIn,
+  LogOut,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  History,
+  ExternalLink,
+  HardDriveDownload,
+} from "lucide-react";
+import {
+  Paciente,
+  AtendimentoIndividual,
+  GrupoAtendimento,
+  SessaoGrupo,
+  Encaminhamento,
+} from "../types";
+
+const GIS_SCRIPT_SRC = "https://accounts.google.com/gsi/client";
+const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file";
+const BACKUP_FOLDER_NAME = "PsicoEscolar 2.0 - Backups";
+const LAST_BACKUP_KEY = "app_atendimento_ultimo_backup_v1";
+
+export interface BackupPayload {
+  pacientes: Paciente[];
+  atendimentos: AtendimentoIndividual[];
+  grupos: GrupoAtendimento[];
+  sessoesGrupo: SessaoGrupo[];
+  encaminhamentos: Encaminhamento[];
+}
+
+interface DriveFileMeta {
+  id: string;
+  name: string;
+  createdTime: string;
+  size?: string;
+}
+
+interface BackupDriveModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  data: BackupPayload;
+  onRestore: (data: BackupPayload) => void;
+}
+
+// Declaração mínima do objeto global injetado pelo script do Google Identity Services.
+declare global {
+  interface Window {
+    google?: any;
+  }
+}
+
+function loadGisScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (window.google?.accounts?.oauth2) {
+      resolve();
+      return;
+    }
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${GIS_SCRIPT_SRC}"]`);
+    if (existing) {
+      existing.addEventListener("load", () => resolve());
+      existing.addEventListener("error", () => reject(new Error("Falha ao carregar script do Google.")));
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = GIS_SCRIPT_SRC;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Falha ao carregar script do Google."));
+    document.head.appendChild(script);
+  });
+}
+
+function formatBytes(bytes?: string): string {
+  if (!bytes) return "";
+  const n = parseInt(bytes, 10);
+  if (Number.isNaN(n)) return "";
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
+  isOpen,
+  onClose,
+  data,
+  onRestore,
+}) => {
+  const clientId = (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID as string | undefined;
+
+  const [gisReady, setGisReady] = useState(false);
+  const [gisError, setGisError] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isBackingUp, setIsBackingUp] = useState(false);
+  const [isLoadingList, setIsLoadingList] = useState(false);
+  const [isRestoring, setIsRestoring] = useState<string | null>(null);
+
+  const [statusMsg, setStatusMsg] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [backups, setBackups] = useState<DriveFileMeta[]>([]);
+  const [lastBackupLocal, setLastBackupLocal] = useState<string | null>(
+    () => localStorage.getItem(LAST_BACKUP_KEY)
+  );
+
+  const tokenClientRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isOpen || !clientId) return;
+    let cancelled = false;
+    loadGisScript()
+      .then(() => {
+        if (cancelled) return;
+        tokenClientRef.current = window.google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: DRIVE_SCOPE,
+          callback: (resp: any) => {
+            if (resp.error) {
+              setErrorMsg("Não foi possível conectar ao Google Drive: " + resp.error);
+              setIsConnecting(false);
+              return;
+            }
+            setAccessToken(resp.access_token);
+            setIsConnecting(false);
+          },
+        });
+        setGisReady(true);
+      })
+      .catch((err) => setGisError(err.message));
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, clientId]);
+
+  const handleConnect = () => {
+    setErrorMsg(null);
+    setIsConnecting(true);
+    tokenClientRef.current?.requestAccessToken({ prompt: "" });
+  };
+
+  const handleDisconnect = () => {
+    if (accessToken) {
+      window.google?.accounts?.oauth2?.revoke(accessToken, () => {});
+    }
+    setAccessToken(null);
+    setUserEmail(null);
+    setBackups([]);
+    setStatusMsg(null);
+  };
+
+  const driveFetch = async (url: string, options: RequestInit = {}) => {
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Google Drive respondeu ${res.status}: ${body.slice(0, 200)}`);
+    }
+    return res;
+  };
+
+  const findOrCreateBackupFolder = async (): Promise<string> => {
+    const q = encodeURIComponent(
+      `mimeType='application/vnd.google-apps.folder' and name='${BACKUP_FOLDER_NAME}' and trashed=false`
+    );
+    const searchRes = await driveFetch(
+      `https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`
+    );
+    const searchData = await searchRes.json();
+    if (searchData.files && searchData.files.length > 0) {
+      return searchData.files[0].id;
+    }
+    const createRes = await driveFetch("https://www.googleapis.com/drive/v3/files", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: BACKUP_FOLDER_NAME,
+        mimeType: "application/vnd.google-apps.folder",
+      }),
+    });
+    const created = await createRes.json();
+    return created.id;
+  };
+
+  const handleBackupNow = async () => {
+    setErrorMsg(null);
+    setStatusMsg(null);
+    setIsBackingUp(true);
+    try {
+      const folderId = await findOrCreateBackupFolder();
+
+      const now = new Date();
+      const timestamp = now.toISOString().replace(/[:.]/g, "-");
+      const fileName = `psicoescolar-backup-${timestamp}.json`;
+
+      const payload = {
+        appName: "PsicoEscolar 2.0",
+        geradoEm: now.toISOString(),
+        ...data,
+      };
+
+      const metadata = {
+        name: fileName,
+        parents: [folderId],
+        mimeType: "application/json",
+      };
+
+      const boundary = "psicoescolar-backup-boundary";
+      const body =
+        `--${boundary}\r\n` +
+        `Content-Type: application/json; charset=UTF-8\r\n\r\n` +
+        `${JSON.stringify(metadata)}\r\n` +
+        `--${boundary}\r\n` +
+        `Content-Type: application/json\r\n\r\n` +
+        `${JSON.stringify(payload, null, 2)}\r\n` +
+        `--${boundary}--`;
+
+      await driveFetch(
+        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,createdTime",
+        {
+          method: "POST",
+          headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
+          body,
+        }
+      );
+
+      const nowStr = now.toLocaleString("pt-BR");
+      localStorage.setItem(LAST_BACKUP_KEY, nowStr);
+      setLastBackupLocal(nowStr);
+      setStatusMsg(`Backup "${fileName}" enviado com sucesso para o Google Drive!`);
+      await loadBackupsList(folderId);
+    } catch (err: any) {
+      setErrorMsg("Falha ao enviar backup: " + err.message);
+    } finally {
+      setIsBackingUp(false);
+    }
+  };
+
+  const loadBackupsList = async (knownFolderId?: string) => {
+    setIsLoadingList(true);
+    setErrorMsg(null);
+    try {
+      const folderId = knownFolderId || (await findOrCreateBackupFolder());
+      const q = encodeURIComponent(`'${folderId}' in parents and trashed=false`);
+      const res = await driveFetch(
+        `https://www.googleapis.com/drive/v3/files?q=${q}&orderBy=createdTime desc&fields=files(id,name,createdTime,size)&pageSize=20`
+      );
+      const listData = await res.json();
+      setBackups(listData.files || []);
+    } catch (err: any) {
+      setErrorMsg("Falha ao listar backups: " + err.message);
+    } finally {
+      setIsLoadingList(false);
+    }
+  };
+
+  const handleRestore = async (file: DriveFileMeta) => {
+    if (
+      !confirm(
+        `Restaurar "${file.name}"? Isso vai SUBSTITUIR todos os dados atuais do aplicativo (alunos, atendimentos, grupos e encaminhamentos) pelos dados desse backup.`
+      )
+    ) {
+      return;
+    }
+    setIsRestoring(file.id);
+    setErrorMsg(null);
+    setStatusMsg(null);
+    try {
+      const res = await driveFetch(
+        `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`
+      );
+      const restored = await res.json();
+      onRestore({
+        pacientes: restored.pacientes || [],
+        atendimentos: restored.atendimentos || [],
+        grupos: restored.grupos || [],
+        sessoesGrupo: restored.sessoesGrupo || [],
+        encaminhamentos: restored.encaminhamentos || [],
+      });
+      setStatusMsg(`Dados restaurados com sucesso a partir de "${file.name}".`);
+    } catch (err: any) {
+      setErrorMsg("Falha ao restaurar backup: " + err.message);
+    } finally {
+      setIsRestoring(null);
+    }
+  };
+
+  useEffect(() => {
+    if (accessToken) {
+      loadBackupsList();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken]);
+
+  if (!isOpen) return null;
+
+  const totalRegistros =
+    data.pacientes.length +
+    data.atendimentos.length +
+    data.grupos.length +
+    data.sessoesGrupo.length +
+    data.encaminhamentos.length;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-xl w-full flex flex-col overflow-hidden my-auto max-h-[92vh]">
+        {/* Header */}
+        <div className="px-6 py-4 bg-indigo-950 text-white flex items-center justify-between border-b border-indigo-900 shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-indigo-600 rounded-xl shadow-xs">
+              <CloudUpload className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="font-bold text-base">Backup no Google Drive</h3>
+              <p className="text-xs text-indigo-200">
+                {totalRegistros} registro(s) prontos para backup
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 text-indigo-300 hover:text-white hover:bg-indigo-900 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 space-y-5 text-sm overflow-y-auto flex-1">
+          {!clientId ? (
+            <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-3">
+              <div className="flex items-start gap-2.5">
+                <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-bold text-amber-900">
+                    Backup no Google Drive ainda não foi configurado
+                  </p>
+                  <p className="text-xs text-amber-800 mt-1 leading-relaxed">
+                    É necessário criar uma credencial OAuth gratuita no Google Cloud Console e
+                    configurá-la como <code className="px-1 bg-amber-100 rounded">VITE_GOOGLE_CLIENT_ID</code>{" "}
+                    nas variáveis de ambiente do projeto.
+                  </p>
+                </div>
+              </div>
+              <ol className="text-xs text-amber-900 list-decimal list-inside space-y-1 font-medium pl-1">
+                <li>
+                  Acesse{" "}
+                  <a
+                    href="https://console.cloud.google.com/apis/credentials"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline inline-flex items-center gap-1"
+                  >
+                    console.cloud.google.com/apis/credentials <ExternalLink className="w-3 h-3" />
+                  </a>
+                </li>
+                <li>Crie um projeto e ative a "Google Drive API"</li>
+                <li>
+                  Crie uma credencial do tipo <strong>OAuth Client ID → Web application</strong>
+                </li>
+                <li>
+                  Em "Authorized JavaScript origins", adicione o domínio onde o app roda (ex:{" "}
+                  <code className="px-1 bg-amber-100 rounded">{window.location.origin}</code>)
+                </li>
+                <li>Copie o Client ID gerado e configure como VITE_GOOGLE_CLIENT_ID</li>
+              </ol>
+            </div>
+          ) : gisError ? (
+            <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs flex items-start gap-2.5">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+              <span>{gisError}</span>
+            </div>
+          ) : !accessToken ? (
+            <div className="p-5 bg-indigo-50/70 border border-indigo-100 rounded-xl text-center space-y-3">
+              <CloudUpload className="w-10 h-10 text-indigo-500 mx-auto" />
+              <p className="text-slate-700 text-xs leading-relaxed max-w-sm mx-auto">
+                Conecte sua conta do Google para enviar um backup completo dos dados (alunos,
+                atendimentos, grupos e encaminhamentos) para uma pasta privada no seu Google
+                Drive, ou restaurar um backup anterior.
+              </p>
+              <button
+                onClick={handleConnect}
+                disabled={!gisReady || isConnecting}
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white font-bold text-xs rounded-xl shadow-sm transition-all"
+              >
+                {isConnecting ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <LogIn className="w-4 h-4" />
+                )}
+                <span>{isConnecting ? "Conectando..." : "Conectar ao Google Drive"}</span>
+              </button>
+              {lastBackupLocal && (
+                <p className="text-[11px] text-slate-400">
+                  Último backup enviado neste dispositivo: {lastBackupLocal}
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-5">
+              <div className="flex items-center justify-between p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+                <div className="flex items-center gap-2 text-emerald-800 text-xs font-semibold">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Conectado ao Google Drive</span>
+                </div>
+                <button
+                  onClick={handleDisconnect}
+                  className="inline-flex items-center gap-1 text-[11px] text-slate-500 hover:text-rose-600 font-semibold"
+                >
+                  <LogOut className="w-3.5 h-3.5" /> Desconectar
+                </button>
+              </div>
+
+              <button
+                onClick={handleBackupNow}
+                disabled={isBackingUp}
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white font-bold text-sm rounded-xl shadow-sm transition-all"
+              >
+                {isBackingUp ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <CloudUpload className="w-4 h-4" />
+                )}
+                <span>{isBackingUp ? "Enviando backup..." : "Fazer Backup Agora"}</span>
+              </button>
+
+              {lastBackupLocal && (
+                <p className="text-[11px] text-slate-400 text-center -mt-2">
+                  Último backup enviado neste dispositivo: {lastBackupLocal}
+                </p>
+              )}
+
+              <div className="pt-3 border-t border-slate-100">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                    <History className="w-3.5 h-3.5" /> Backups na pasta "{BACKUP_FOLDER_NAME}"
+                  </h4>
+                  <button
+                    onClick={() => loadBackupsList()}
+                    disabled={isLoadingList}
+                    className="text-[11px] text-indigo-600 hover:underline font-semibold disabled:opacity-50"
+                  >
+                    {isLoadingList ? "Atualizando..." : "Atualizar"}
+                  </button>
+                </div>
+
+                {isLoadingList && backups.length === 0 ? (
+                  <div className="p-4 text-center text-slate-400 text-xs">
+                    <Loader2 className="w-4 h-4 animate-spin mx-auto mb-1" /> Carregando...
+                  </div>
+                ) : backups.length === 0 ? (
+                  <div className="p-4 text-center text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200 text-xs">
+                    Nenhum backup encontrado ainda nesta conta.
+                  </div>
+                ) : (
+                  <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                    {backups.map((file) => (
+                      <div
+                        key={file.id}
+                        className="flex items-center justify-between gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg"
+                      >
+                        <div className="min-w-0">
+                          <p className="text-xs font-semibold text-slate-800 truncate">
+                            {file.name}
+                          </p>
+                          <p className="text-[10px] text-slate-400">
+                            {new Date(file.createdTime).toLocaleString("pt-BR")}
+                            {file.size && ` • ${formatBytes(file.size)}`}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => handleRestore(file)}
+                          disabled={isRestoring === file.id}
+                          title="Restaurar este backup"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-indigo-700 text-[11px] font-bold rounded-lg transition-colors shrink-0 disabled:opacity-50"
+                        >
+                          {isRestoring === file.id ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <HardDriveDownload className="w-3.5 h-3.5" />
+                          )}
+                          <span>Restaurar</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {statusMsg && (
+            <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+              <span>{statusMsg}</span>
+            </div>
+          )}
+          {errorMsg && (
+            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-3.5 bg-slate-100 border-t border-slate-200 flex justify-end shrink-0">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition-colors"
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
