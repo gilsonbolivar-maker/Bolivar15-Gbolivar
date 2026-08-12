@@ -146,10 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const handleSelectTab = (tab: TabMenu) => {
     setActiveTab(tab);
-    // Optionally auto-collapse on small screens when selected
-    if (window.innerWidth < 768) {
-      setIsMenuOpen(false);
-    }
+    setIsMenuOpen(false);
   };
 
   return (
@@ -198,160 +195,175 @@ export const Header: React.FC<HeaderProps> = ({
             )}
 
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => setIsMenuOpen(true)}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0d3538]/90 hover:bg-[#124247] text-white text-xs font-semibold rounded-lg border border-[#1a5257]/80 shadow-xs transition-all"
               aria-expanded={isMenuOpen}
             >
-              {isMenuOpen ? (
-                <>
-                  <X className="w-4 h-4 text-rose-300" />
-                  <span>Fechar Menu</span>
-                </>
-              ) : (
-                <>
-                  <Menu className="w-4 h-4 text-indigo-300" />
-                  <span>Menu</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-indigo-300" />
-                </>
-              )}
+              <Menu className="w-4 h-4 text-indigo-300" />
+              <span>Menu</span>
+              <ChevronDown className="w-3.5 h-3.5 text-indigo-300" />
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Retractable Menu Drawer / Dropdown Panel */}
-        {isMenuOpen && (
-          <div className="py-3 border-t border-[#0d3538]/80 space-y-3 animate-fadeIn">
-            {/* Navigation Tabs, grouped by area of practice */}
-            <div className="space-y-3">
-              {NAV_GROUPS.map((group) => (
-                <div key={group.label}>
-                  <span
-                    className="inline-block text-[10px] font-bold uppercase tracking-wider mb-1.5 px-2 py-0.5 rounded-md"
-                    style={{ backgroundColor: group.cor.bg, color: group.cor.text }}
-                  >
-                    {group.label}
-                  </span>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5 text-xs">
-                    {group.items.map(({ tab, icon: Icon, label }) => {
-                      const isActive = activeTab === tab;
-                      return (
-                        <button
-                          key={tab}
-                          onClick={() => handleSelectTab(tab)}
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all font-semibold"
-                          style={
-                            isActive
-                              ? { backgroundColor: group.cor.bg, color: group.cor.text, fontWeight: 700, boxShadow: "0 1px 3px rgba(0,0,0,0.25)" }
-                              : { backgroundColor: "rgba(13,53,56,0.5)", color: "#c7d2fe" }
-                          }
-                          onMouseEnter={(e) => {
-                            if (!isActive) e.currentTarget.style.backgroundColor = "#124247";
-                          }}
-                          onMouseLeave={(e) => {
-                            if (!isActive) e.currentTarget.style.backgroundColor = "rgba(13,53,56,0.5)";
-                          }}
-                        >
-                          <Icon className="w-4 h-4" />
-                          <span>{label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
+      {/* Menu em caixa (modal), aberto ao tocar em "Menu" */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-3xl w-full max-h-[88vh] flex flex-col overflow-hidden mt-2 sm:mt-auto mb-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header da caixa */}
+            <div className="px-5 py-3.5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="p-1.5 bg-indigo-500/20 text-indigo-300 rounded-lg">
+                  <Menu className="w-4 h-4" />
                 </div>
-              ))}
+                <h3 className="font-bold text-sm">Menu de Navegação</h3>
+              </div>
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            {/* Quick Actions Bar inside Retractable Menu */}
-            <div className="pt-2 border-t border-[#0d3538]/50">
-              <span
-                className="inline-block text-[10px] font-bold uppercase tracking-wider mb-1.5 px-2 py-0.5 rounded-md"
-                style={{ backgroundColor: "#E0E0E0", color: "#424242" }}
-              >
-                Ações Rápidas
-              </span>
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  onClick={() => {
-                    onOpenNovoAtendimentoIndiv();
-                    setIsMenuOpen(false);
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
-                >
-                  <UserCheck className="w-3.5 h-3.5" />
-                  <span>Novo Atendimento Individual</span>
-                </button>
+            {/* Corpo da caixa */}
+            <div className="p-5 space-y-4 overflow-y-auto flex-1">
+              {/* Navigation Tabs, grouped by area of practice */}
+              <div className="space-y-4">
+                {NAV_GROUPS.map((group) => (
+                  <div key={group.label}>
+                    <span
+                      className="inline-block text-[10px] font-bold uppercase tracking-wider mb-1.5 px-2 py-0.5 rounded-md"
+                      style={{ backgroundColor: group.cor.bg, color: group.cor.text }}
+                    >
+                      {group.label}
+                    </span>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 text-xs">
+                      {group.items.map(({ tab, icon: Icon, label }) => {
+                        const isActive = activeTab === tab;
+                        return (
+                          <button
+                            key={tab}
+                            onClick={() => handleSelectTab(tab)}
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all font-semibold border"
+                            style={
+                              isActive
+                                ? { backgroundColor: group.cor.bg, color: group.cor.text, borderColor: group.cor.text + "40" }
+                                : { backgroundColor: "#F8FAFC", color: "#334155", borderColor: "#E2E8F0" }
+                            }
+                          >
+                            <Icon className="w-4 h-4 shrink-0" />
+                            <span>{label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-                <button
-                  onClick={() => {
-                    onOpenNovoGrupo();
-                    setIsMenuOpen(false);
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
+              {/* Quick Actions Bar inside Menu Box */}
+              <div className="pt-3 border-t border-slate-200">
+                <span
+                  className="inline-block text-[10px] font-bold uppercase tracking-wider mb-1.5 px-2 py-0.5 rounded-md"
+                  style={{ backgroundColor: "#E0E0E0", color: "#424242" }}
                 >
-                  <Users className="w-3.5 h-3.5" />
-                  <span>Novo Atendimento em Grupo</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    onOpenNovoEncaminhamento();
-                    setIsMenuOpen(false);
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Novo Encaminhamento</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    onOpenNovoPaciente();
-                    setIsMenuOpen(false);
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0d3538]/80 hover:bg-[#124247] text-indigo-100 text-xs font-medium rounded-lg border border-[#124247] transition-all"
-                >
-                  <UserPlus className="w-3.5 h-3.5 text-indigo-300" />
-                  <span>Cadastrar Novo Aluno</span>
-                </button>
-
-                {onOpenApkDownload && (
+                  Ações Rápidas
+                </span>
+                <div className="flex flex-wrap items-center gap-2">
                   <button
                     onClick={() => {
-                      onOpenApkDownload();
+                      onOpenNovoAtendimentoIndiv();
                       setIsMenuOpen(false);
                     }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700/90 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
                   >
-                    <Smartphone className="w-3.5 h-3.5" />
-                    <span>Instalar App / Gerar APK</span>
+                    <UserCheck className="w-3.5 h-3.5" />
+                    <span>Novo Atendimento Individual</span>
                   </button>
-                )}
 
-                {onOpenBackupDrive && (
                   <button
                     onClick={() => {
-                      onOpenBackupDrive();
+                      onOpenNovoGrupo();
                       setIsMenuOpen(false);
                     }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-700/90 hover:bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
                   >
-                    <CloudUpload className="w-3.5 h-3.5" />
-                    <span>Backup no Google Drive</span>
+                    <Users className="w-3.5 h-3.5" />
+                    <span>Novo Atendimento em Grupo</span>
                   </button>
-                )}
 
-                <button
-                  onClick={onResetData}
-                  title="Restaurar dados de demonstração"
-                  className="p-1.5 bg-[#0d3538]/60 hover:bg-[#124247] text-indigo-300 hover:text-white rounded-lg border border-[#124247]/80 transition-all ml-auto"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                </button>
+                  <button
+                    onClick={() => {
+                      onOpenNovoEncaminhamento();
+                      setIsMenuOpen(false);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Novo Encaminhamento</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onOpenNovoPaciente();
+                      setIsMenuOpen(false);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg border border-slate-200 transition-all"
+                  >
+                    <UserPlus className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Cadastrar Novo Aluno</span>
+                  </button>
+
+                  {onOpenApkDownload && (
+                    <button
+                      onClick={() => {
+                        onOpenApkDownload();
+                        setIsMenuOpen(false);
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
+                    >
+                      <Smartphone className="w-3.5 h-3.5" />
+                      <span>Instalar App / Gerar APK</span>
+                    </button>
+                  )}
+
+                  {onOpenBackupDrive && (
+                    <button
+                      onClick={() => {
+                        onOpenBackupDrive();
+                        setIsMenuOpen(false);
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-700 hover:bg-blue-600 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
+                    >
+                      <CloudUpload className="w-3.5 h-3.5" />
+                      <span>Backup no Google Drive</span>
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => {
+                      onResetData();
+                      setIsMenuOpen(false);
+                    }}
+                    title="Restaurar dados de demonstração"
+                    className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 rounded-lg border border-slate-200 transition-all ml-auto"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </header>
   );
 };
