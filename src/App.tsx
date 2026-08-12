@@ -33,6 +33,7 @@ import { ContraEncaminhamentoModal } from "./components/Encaminhamento/ContraEnc
 import { ImpressaoGuiaModal } from "./components/Encaminhamento/ImpressaoGuiaModal";
 import { AiDocumentScannerModal } from "./components/AiDocumentScannerModal";
 import { Relatorios } from "./components/Relatorios/Relatorios";
+import { ApkDownloadModal } from "./components/ApkDownloadModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -68,6 +69,7 @@ export default function App() {
   const [encaminhamentoImpressao, setEncaminhamentoImpressao] = useState<Encaminhamento | null>(null);
 
   const [isGlobalOcrOpen, setIsGlobalOcrOpen] = useState(false);
+  const [isApkDownloadOpen, setIsApkDownloadOpen] = useState(false);
 
   // Load state on start
   useEffect(() => {
@@ -241,6 +243,7 @@ export default function App() {
         onOpenOcrScanner={() => {
           setIsGlobalOcrOpen(true);
         }}
+        onOpenApkDownload={() => setIsApkDownloadOpen(true)}
         onResetData={handleResetData}
       />
 
@@ -283,6 +286,7 @@ export default function App() {
               setPacienteParaEditar(null);
               setIsFormPacienteOpen(true);
             }}
+            onOpenOcrScanner={() => setIsGlobalOcrOpen(true)}
             onEditarPaciente={(p) => {
               setPacienteParaEditar(p);
               setIsFormPacienteOpen(true);
@@ -461,6 +465,11 @@ export default function App() {
           setPacienteParaEditar(novoPac);
           setIsFormPacienteOpen(true);
         }}
+      />
+
+      <ApkDownloadModal
+        isOpen={isApkDownloadOpen}
+        onClose={() => setIsApkDownloadOpen(false)}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}

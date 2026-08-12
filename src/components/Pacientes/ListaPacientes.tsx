@@ -21,6 +21,7 @@ import { Paciente } from "../../types";
 interface ListaPacientesProps {
   pacientes: Paciente[];
   onOpenNovoPaciente: () => void;
+  onOpenOcrScanner?: () => void;
   onEditarPaciente: (paciente: Paciente) => void;
   onDeletarPaciente: (id: string) => void;
   onVerProntuario: (paciente: Paciente) => void;
@@ -31,6 +32,7 @@ interface ListaPacientesProps {
 export const ListaPacientes: React.FC<ListaPacientesProps> = ({
   pacientes,
   onOpenNovoPaciente,
+  onOpenOcrScanner,
   onEditarPaciente,
   onDeletarPaciente,
   onVerProntuario,
@@ -71,7 +73,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
 
         <div className="flex items-center gap-2">
           <button
-            onClick={onOpenNovoPaciente}
+            onClick={onOpenOcrScanner || onOpenNovoPaciente}
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow transition-colors"
           >
             <Sparkles className="w-4 h-4" />

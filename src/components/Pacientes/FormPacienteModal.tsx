@@ -6,8 +6,8 @@ import { AiDocumentScannerModal, ExtractedDocumentData } from "../AiDocumentScan
 interface FormPacienteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (paciente: Paciente) => void;
-  pacienteEditar?: Paciente | null;
+  onSavePaciente: (paciente: Paciente) => void;
+  pacienteParaEditar?: Paciente | null;
 }
 
 const VULNERABILIDADES_OPCOES = [
@@ -34,8 +34,8 @@ const BENEFICIOS_OPCOES = [
 export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
   isOpen,
   onClose,
-  onSave,
-  pacienteEditar,
+  onSavePaciente,
+  pacienteParaEditar,
 }) => {
   const [nome, setNome] = useState("");
   const [nomeSocial, setNomeSocial] = useState("");
@@ -85,24 +85,24 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
   };
 
   useEffect(() => {
-    if (pacienteEditar) {
-      setNome(pacienteEditar.nome);
-      setNomeSocial(pacienteEditar.nomeSocial || "");
-      setCpf(pacienteEditar.cpf);
-      setRg(pacienteEditar.rg || "");
-      setCartaoSus(pacienteEditar.cartaoSus || "");
-      setDataNascimento(pacienteEditar.dataNascimento);
-      setSexo(pacienteEditar.sexo);
-      setTelefone(pacienteEditar.telefone);
-      setEmail(pacienteEditar.email || "");
-      setEndereco(pacienteEditar.endereco);
-      setBairro(pacienteEditar.bairro);
-      setCidade(pacienteEditar.cidade);
-      setNomeMae(pacienteEditar.nomeMae || "");
-      setProfissoes(pacienteEditar.profissoes || "");
-      setObservacoesAlergias(pacienteEditar.observacoesAlergias || "");
-      setVulnerabilidades(pacienteEditar.vulnerabilidades || []);
-      setBeneficiosSociais(pacienteEditar.beneficiosSociais || []);
+    if (pacienteParaEditar) {
+      setNome(pacienteParaEditar.nome);
+      setNomeSocial(pacienteParaEditar.nomeSocial || "");
+      setCpf(pacienteParaEditar.cpf);
+      setRg(pacienteParaEditar.rg || "");
+      setCartaoSus(pacienteParaEditar.cartaoSus || "");
+      setDataNascimento(pacienteParaEditar.dataNascimento);
+      setSexo(pacienteParaEditar.sexo);
+      setTelefone(pacienteParaEditar.telefone);
+      setEmail(pacienteParaEditar.email || "");
+      setEndereco(pacienteParaEditar.endereco);
+      setBairro(pacienteParaEditar.bairro);
+      setCidade(pacienteParaEditar.cidade);
+      setNomeMae(pacienteParaEditar.nomeMae || "");
+      setProfissoes(pacienteParaEditar.profissoes || "");
+      setObservacoesAlergias(pacienteParaEditar.observacoesAlergias || "");
+      setVulnerabilidades(pacienteParaEditar.vulnerabilidades || []);
+      setBeneficiosSociais(pacienteParaEditar.beneficiosSociais || []);
     } else {
       setNome("");
       setNomeSocial("");
@@ -122,7 +122,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
       setVulnerabilidades([]);
       setBeneficiosSociais([]);
     }
-  }, [pacienteEditar, isOpen]);
+  }, [pacienteParaEditar, isOpen]);
 
   if (!isOpen) return null;
 
@@ -146,7 +146,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
     }
 
     const novoPaciente: Paciente = {
-      id: pacienteEditar ? pacienteEditar.id : `pac-${Date.now()}`,
+      id: pacienteParaEditar ? pacienteParaEditar.id : `pac-${Date.now()}`,
       nome: nome.trim(),
       nomeSocial: nomeSocial.trim() || undefined,
       cpf: cpf.trim(),
@@ -164,12 +164,12 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
       observacoesAlergias: observacoesAlergias.trim() || undefined,
       vulnerabilidades,
       beneficiosSociais,
-      dataCadastro: pacienteEditar
-        ? pacienteEditar.dataCadastro
+      dataCadastro: pacienteParaEditar
+        ? pacienteParaEditar.dataCadastro
         : new Date().toISOString().split("T")[0],
     };
 
-    onSave(novoPaciente);
+    onSavePaciente(novoPaciente);
     onClose();
   };
 
@@ -184,7 +184,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
             </div>
             <div>
               <h3 className="font-bold text-lg">
-                {pacienteEditar ? "Editar Ficha de Aluno" : "Cadastrar Novo Aluno / Paciente"}
+                {pacienteParaEditar ? "Editar Ficha de Aluno" : "Cadastrar Novo Aluno / Paciente"}
               </h3>
               <p className="text-xs text-slate-400">
                 Acolhimento de dados pessoais, vulnerabilidades e benefícios
@@ -464,7 +464,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
               className="inline-flex items-center gap-1.5 px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
-              <span>{pacienteEditar ? "Salvar Alterações" : "Cadastrar Aluno"}</span>
+              <span>{pacienteParaEditar ? "Salvar Alterações" : "Cadastrar Aluno"}</span>
             </button>
           </div>
         </form>

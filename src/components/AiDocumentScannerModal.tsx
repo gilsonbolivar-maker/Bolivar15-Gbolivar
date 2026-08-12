@@ -123,6 +123,66 @@ const SAMPLE_DOCUMENTS = [
   },
 ];
 
+// Extração heurística de campos por regex a partir do texto bruto do OCR local
+// (usada quando não há chave de IA configurada — sem IA, sem interpretação semântica,
+// mas os padrões de documentos brasileiros (CPF, RG, SUS, telefone, data) são regulares
+// o bastante para identificar via expressões regulares).
+function parseStructuredFieldsFromText(text: string): Partial<ExtractedDocumentData> {
+  const result: Partial<ExtractedDocumentData> = {};
+  const clean = text.replace(/\r/g, "");
+  const lines = clean.split("\n").map((l) => l.trim()).filter(Boolean);
+
+  const findAfterLabel = (labels: string[]): string | undefined => {
+    for (const label of labels) {
+      const regex = new RegExp(`${label}\\s*[:\\-]\\s*(.+)`, "i");
+      for (const line of lines) {
+        const match = line.match(regex);
+        if (match && match[1].trim()) {
+          return match[1].split("|")[0].trim();
+        }
+      }
+    }
+    return undefined;
+  };
+
+  const cpfMatch = clean.match(/\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b/);
+  if (cpfMatch) result.cpf = cpfMatch[0];
+
+  const susMatch = clean.match(/\b\d{15}\b/);
+  if (susMatch) result.cartaoSus = susMatch[0];
+
+  const rgMatch = clean.match(/\b\d{1,2}\.?\d{3}\.?\d{3}-?[\dXx]\b/);
+  if (rgMatch && rgMatch[0] !== cpfMatch?.[0]) result.rg = rgMatch[0];
+
+  // Telefone: prioriza a linha rotulada (evita casar por engano com trechos do
+  // CPF/Cartão SUS) e só cai para o padrão livre — exigindo parênteses/traço — se
+  // nenhuma linha rotulada for encontrada.
+  const telLabel = findAfterLabel(["TELEFONE", "CELULAR", "WHATSAPP", "FONE"]);
+  const telFromLabel = telLabel?.match(/\(?\d{2}\)?\s?9?\d{4}-?\d{4}/)?.[0];
+  const telFallback = clean.match(/\(\d{2}\)\s?9?\d{4}-\d{4}/)?.[0];
+  const telefone = telFromLabel || telFallback;
+  if (telefone) result.telefone = telefone;
+
+  const dataMatch = clean.match(/\b(\d{2})\/(\d{2})\/(\d{4})\b/);
+  if (dataMatch) {
+    result.dataNascimento = `${dataMatch[3]}-${dataMatch[2]}-${dataMatch[1]}`;
+  }
+
+  if (/feminino/i.test(clean)) result.sexo = "Feminino";
+  else if (/masculino/i.test(clean)) result.sexo = "Masculino";
+
+  const nome = findAfterLabel(["NOME(?:\\s+COMPLETO)?", "PACIENTE", "ALUNO"]);
+  if (nome) result.nome = nome;
+
+  const nomeMae = findAfterLabel(["M[ÃA]E", "FILIA[ÇC][ÃA]O"]);
+  if (nomeMae) result.nomeMae = nomeMae;
+
+  const endereco = findAfterLabel(["ENDERE[ÇC]O"]);
+  if (endereco) result.endereco = endereco;
+
+  return result;
+}
+
 function svgToBase64(svg: string): string {
   try {
     const base64 = btoa(unescape(encodeURIComponent(svg)));
@@ -213,6 +273,11 @@ export const AiDocumentScannerModal: React.FC<AiDocumentScannerModalProps> = ({
       const imageToScan = await convertSvgToJpegIfNeeded(imagePreview);
 
       const result = await Tesseract.recognize(imageToScan, "por+eng", {
+        // Motor (worker) e núcleo WASM servidos localmente pelo próprio app (public/tesseract),
+        // em vez de baixados do CDN jsdelivr em tempo real — funciona offline/em redes
+        // restritivas e evita depender de disponibilidade de terceiros.
+        workerPath: "/tesseract/worker.min.js",
+        corePath: "/tesseract/",
         logger: (m) => {
           if (m.status === "recognizing text") {
             setOcrProgress(Math.round(m.progress * 100));
@@ -228,13 +293,20 @@ export const AiDocumentScannerModal: React.FC<AiDocumentScannerModalProps> = ({
       const extracted = result.data.text.trim();
       setRawText(extracted);
 
-      // Simple heuristic parsing for quick auto-fill if available
+      // Extração heurística por regex (CPF, RG, SUS, telefone, data, nome...) para
+      // preencher a ficha mesmo sem uma chave de IA configurada.
+      const camposDetectados = parseStructuredFieldsFromText(extracted);
+      const totalCampos = Object.keys(camposDetectados).length;
+
       const parsedData: ExtractedDocumentData = {
-        tipoDetectado: "Documento Lido via OCR Direct",
-        resumoLeitura: `OCR concluído. ${(result.data as any).words?.length || 0} palavras extraídas com alta precisão.`,
+        tipoDetectado: "Documento Lido via OCR Local",
+        resumoLeitura:
+          totalCampos > 0
+            ? `OCR local concluído. ${totalCampos} campo(s) identificado(s) automaticamente por padrão de texto.`
+            : `OCR concluído. ${(result.data as any).words?.length || 0} palavra(s) extraída(s), mas nenhum campo padrão (CPF/RG/telefone) foi reconhecido no texto.`,
         rawOcrText: extracted,
         atendimentoNotas: extracted,
-        observacoesAlergias: extracted,
+        ...camposDetectados,
       };
 
       setExtractedData(parsedData);
@@ -589,7 +661,7 @@ export const AiDocumentScannerModal: React.FC<AiDocumentScannerModalProps> = ({
               )}
 
               {/* Extracted Structured Data Result */}
-              {extractedData && ocrMode === "ai_structured" && (
+              {extractedData && (
                 <div className="space-y-4 animate-in fade-in duration-300">
                   <div className="p-4 bg-emerald-50/90 border border-emerald-200 rounded-xl flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />

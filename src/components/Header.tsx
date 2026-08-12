@@ -13,6 +13,7 @@ import {
   X,
   ChevronDown,
   Camera,
+  Smartphone,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -25,6 +26,7 @@ interface HeaderProps {
   onOpenNovoEncaminhamento: () => void;
   onResetData: () => void;
   onOpenOcrScanner?: () => void;
+  onOpenApkDownload?: () => void;
 }
 
 const TAB_LABELS: Record<TabMenu, string> = {
@@ -45,6 +47,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenNovoEncaminhamento,
   onResetData,
   onOpenOcrScanner,
+  onOpenApkDownload,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -254,6 +257,19 @@ export const Header: React.FC<HeaderProps> = ({
                   <UserPlus className="w-3.5 h-3.5 text-indigo-300" />
                   <span>Cadastrar Novo Aluno</span>
                 </button>
+
+                {onOpenApkDownload && (
+                  <button
+                    onClick={() => {
+                      onOpenApkDownload();
+                      setIsMenuOpen(false);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700/90 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg shadow-xs transition-all"
+                  >
+                    <Smartphone className="w-3.5 h-3.5" />
+                    <span>Instalar App / Gerar APK</span>
+                  </button>
+                )}
 
                 <button
                   onClick={onResetData}
