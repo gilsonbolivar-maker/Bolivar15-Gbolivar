@@ -15,8 +15,14 @@ import {
   StatusEncaminhamento,
   ContraEncaminhamento,
   TabMenu,
+  Escola,
 } from "./types";
-import { loadData, saveData, resetAllData } from "./storage";
+import {
+  loadData,
+  saveData,
+  resetAllData,
+  escolasStorage,
+} from "./storage";
 import { Header } from "./components/Header";
 import { Dashboard } from "./components/Dashboard";
 import { ListaPacientes } from "./components/Pacientes/ListaPacientes";
@@ -35,6 +41,8 @@ import { AiDocumentScannerModal } from "./components/AiDocumentScannerModal";
 import { Relatorios } from "./components/Relatorios/Relatorios";
 import { ApkDownloadModal } from "./components/ApkDownloadModal";
 import { BackupDriveModal, BackupPayload } from "./components/BackupDriveModal";
+import { GestaoEscolas } from "./components/Escolas/GestaoEscolas";
+import { FormEscolaModal } from "./components/Escolas/FormEscolaModal";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabMenu>("dashboard");
@@ -45,8 +53,11 @@ export default function App() {
   const [grupos, setGrupos] = useState<GrupoAtendimento[]>([]);
   const [sessoesGrupo, setSessoesGrupo] = useState<SessaoGrupo[]>([]);
   const [encaminhamentos, setEncaminhamentos] = useState<Encaminhamento[]>([]);
+  const [escolas, setEscolas] = useState<Escola[]>([]);
 
   // Modals state
+  const [isFormEscolaOpen, setIsFormEscolaOpen] = useState(false);
+  const [escolaParaEditar, setEscolaParaEditar] = useState<Escola | null>(null);
   const [isFormPacienteOpen, setIsFormPacienteOpen] = useState(false);
   const [pacienteParaEditar, setPacienteParaEditar] = useState<Paciente | null>(null);
 
@@ -81,7 +92,25 @@ export default function App() {
     setGrupos(data.grupos);
     setSessoesGrupo(data.sessoesGrupo);
     setEncaminhamentos(data.encaminhamentos);
+    setEscolas(data.escolas);
   }, []);
+
+  // Handlers for Escolas
+  const handleSalvarEscola = (escola: Escola) => {
+    const index = escolas.findIndex((e) => e.id === escola.id);
+    const updated =
+      index >= 0
+        ? escolas.map((e) => (e.id === escola.id ? escola : e))
+        : [escola, ...escolas];
+    setEscolas(updated);
+    escolasStorage.save(updated);
+  };
+
+  const handleDeletarEscola = (id: string) => {
+    const updated = escolas.filter((e) => e.id !== id);
+    setEscolas(updated);
+    escolasStorage.save(updated);
+  };
 
   const handleRestoreBackup = (restored: BackupPayload) => {
     setPacientes(restored.pacientes);
@@ -106,6 +135,7 @@ export default function App() {
     setGrupos(data.grupos);
     setSessoesGrupo(data.sessoesGrupo);
     setEncaminhamentos(data.encaminhamentos);
+    setEscolas(data.escolas);
     setActiveTab("dashboard");
   };
 
@@ -380,6 +410,22 @@ export default function App() {
             encaminhamentos={encaminhamentos}
           />
         )}
+
+        {activeTab === "escolas" && (
+          <GestaoEscolas
+            escolas={escolas}
+            pacientes={pacientes}
+            onOpenNovaEscola={() => {
+              setEscolaParaEditar(null);
+              setIsFormEscolaOpen(true);
+            }}
+            onEditarEscola={(escola) => {
+              setEscolaParaEditar(escola);
+              setIsFormEscolaOpen(true);
+            }}
+            onDeletarEscola={handleDeletarEscola}
+          />
+        )}
       </main>
 
       {/* MODALS */}
@@ -495,6 +541,13 @@ export default function App() {
         onClose={() => setIsBackupDriveOpen(false)}
         data={{ pacientes, atendimentos, grupos, sessoesGrupo, encaminhamentos }}
         onRestore={handleRestoreBackup}
+      />
+
+      <FormEscolaModal
+        isOpen={isFormEscolaOpen}
+        onClose={() => setIsFormEscolaOpen(false)}
+        onSalvarEscola={handleSalvarEscola}
+        escolaParaEditar={escolaParaEditar}
       />
 
       {/* Mobile Android Bottom Navigation Bar */}

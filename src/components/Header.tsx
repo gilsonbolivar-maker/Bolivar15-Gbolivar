@@ -15,6 +15,7 @@ import {
   Camera,
   Smartphone,
   CloudUpload,
+  Building2,
 } from "lucide-react";
 import { TabMenu } from "../types";
 
@@ -209,6 +210,18 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <UserPlus className="w-4 h-4" />
                   <span>Alunos</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelectTab("escolas")}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                    activeTab === "escolas"
+                      ? "bg-indigo-600 text-white font-bold shadow-sm"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                  }`}
+                >
+                  <Building2 className="w-4 h-4" />
+                  <span>Escolas</span>
                 </button>
 
                 <button
