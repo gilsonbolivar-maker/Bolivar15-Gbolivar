@@ -65,6 +65,60 @@ const TAB_LABELS: Record<TabMenu, string> = {
   "metas-profissionais": "Metas Profissionais",
 };
 
+interface NavItem {
+  tab: TabMenu;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+}
+
+const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
+  {
+    label: "Visão Geral & Rotina",
+    items: [
+      { tab: "dashboard", icon: LayoutDashboard, label: "Visão Geral" },
+      { tab: "checklist-diario", icon: CheckSquare, label: "Checklist Diário" },
+      { tab: "relatorios", icon: BarChart3, label: "Indicadores" },
+    ],
+  },
+  {
+    label: "Escolas & Alunos",
+    items: [
+      { tab: "escolas", icon: Building2, label: "Escolas" },
+      { tab: "pacientes", icon: UserPlus, label: "Alunos" },
+      { tab: "casos-prioritarios", icon: AlertTriangle, label: "Casos Prioritários" },
+    ],
+  },
+  {
+    label: "Atendimento & Clínica",
+    items: [
+      { tab: "atendimento-individual", icon: UserCheck, label: "Atend. Individual" },
+      { tab: "atendimento-grupo", icon: Users, label: "Atend. Grupo" },
+      { tab: "encaminhamento", icon: Send, label: "Encaminhamentos" },
+      { tab: "planejamento-sessao", icon: Sparkles, label: "Planej. de Sessão" },
+      { tab: "areas-desenvolvimento", icon: Brain, label: "Áreas do Desenvolv." },
+      { tab: "agenda", icon: CalendarDays, label: "Agenda" },
+    ],
+  },
+  {
+    label: "Orientações & Laudos",
+    items: [
+      { tab: "relatorios-formais", icon: BookOpen, label: "Relatórios Formais" },
+      { tab: "orientacao-professores", icon: GraduationCap, label: "Orient. Professores" },
+      { tab: "atendimento-familias", icon: HeartHandshake, label: "Atend. Famílias" },
+    ],
+  },
+  {
+    label: "Banco de Recursos",
+    items: [
+      { tab: "banco-intervencoes", icon: Layers, label: "Banco de Intervenções" },
+      { tab: "banco-atividades", icon: Sparkles, label: "Banco de Atividades" },
+      { tab: "banco-materiais", icon: Package, label: "Banco de Materiais" },
+      { tab: "ideias-projetos", icon: FolderKanban, label: "Ideias de Projetos" },
+      { tab: "metas-profissionais", icon: Target, label: "Metas Profissionais" },
+    ],
+  },
+];
+
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
@@ -156,252 +210,31 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Retractable Menu Drawer / Dropdown Panel */}
         {isMenuOpen && (
           <div className="py-3 border-t border-[#0d3538]/80 space-y-3 animate-fadeIn">
-            {/* Navigation Tabs */}
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1.5">
-                Navegação Principal
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5 text-xs">
-                <button
-                  onClick={() => handleSelectTab("dashboard")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "dashboard"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  <span>Visão Geral</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("atendimento-individual")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "atendimento-individual"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <UserCheck className="w-4 h-4" />
-                  <span>Atend. Individual</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("atendimento-grupo")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "atendimento-grupo"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Users className="w-4 h-4" />
-                  <span>Atend. Grupo</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("encaminhamento")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "encaminhamento"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Encaminhamentos</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("pacientes")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "pacientes"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <UserPlus className="w-4 h-4" />
-                  <span>Alunos</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("escolas")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "escolas"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Building2 className="w-4 h-4" />
-                  <span>Escolas</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("casos-prioritarios")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "casos-prioritarios"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>Casos Prioritários</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("checklist-diario")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "checklist-diario"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <CheckSquare className="w-4 h-4" />
-                  <span>Checklist Diário</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("agenda")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "agenda"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <CalendarDays className="w-4 h-4" />
-                  <span>Agenda</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("banco-intervencoes")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "banco-intervencoes"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Layers className="w-4 h-4" />
-                  <span>Banco de Intervenções</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("banco-atividades")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "banco-atividades"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Banco de Atividades</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("areas-desenvolvimento")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "areas-desenvolvimento"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Brain className="w-4 h-4" />
-                  <span>Áreas do Desenvolvimento</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("planejamento-sessao")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "planejamento-sessao"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Planejamento de Sessão</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("orientacao-professores")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "orientacao-professores"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <GraduationCap className="w-4 h-4" />
-                  <span>Orientação Professores</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("atendimento-familias")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "atendimento-familias"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <HeartHandshake className="w-4 h-4" />
-                  <span>Atendimento Famílias</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("relatorios-formais")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "relatorios-formais"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Relatórios Formais</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("banco-materiais")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "banco-materiais"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Package className="w-4 h-4" />
-                  <span>Banco de Materiais</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("ideias-projetos")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "ideias-projetos"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <FolderKanban className="w-4 h-4" />
-                  <span>Ideias de Projetos</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("metas-profissionais")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "metas-profissionais"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <Target className="w-4 h-4" />
-                  <span>Metas Profissionais</span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab("relatorios")}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    activeTab === "relatorios"
-                      ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
-                  }`}
-                >
-                  <BarChart3 className="w-4 h-4" />
-                  <span>Indicadores</span>
-                </button>
-              </div>
+            {/* Navigation Tabs, grouped by area of practice */}
+            <div className="space-y-3">
+              {NAV_GROUPS.map((group) => (
+                <div key={group.label}>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1.5">
+                    {group.label}
+                  </p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5 text-xs">
+                    {group.items.map(({ tab, icon: Icon, label }) => (
+                      <button
+                        key={tab}
+                        onClick={() => handleSelectTab(tab)}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                          activeTab === tab
+                            ? "bg-indigo-600 text-white font-bold shadow-sm"
+                            : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span>{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Quick Actions Bar inside Retractable Menu */}
