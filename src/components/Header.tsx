@@ -38,6 +38,20 @@ const TAB_LABELS: Record<TabMenu, string> = {
   encaminhamento: "Encaminhamentos",
   pacientes: "Alunos / Pacientes",
   relatorios: "Indicadores",
+  escolas: "Escolas",
+  agenda: "Agenda",
+  "casos-prioritarios": "Casos Prioritários",
+  "checklist-diario": "Checklist Diário",
+  "banco-intervencoes": "Banco de Intervenções",
+  "banco-atividades": "Banco de Atividades",
+  "areas-desenvolvimento": "Áreas do Desenvolvimento",
+  "planejamento-sessao": "Planejamento de Sessão",
+  "orientacao-professores": "Orientação a Professores",
+  "atendimento-familias": "Atendimento a Famílias",
+  "relatorios-formais": "Relatórios Formais",
+  "banco-materiais": "Banco de Materiais",
+  "ideias-projetos": "Ideias de Projetos",
+  "metas-profissionais": "Metas Profissionais",
 };
 
 export const Header: React.FC<HeaderProps> = ({

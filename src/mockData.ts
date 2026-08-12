@@ -4,6 +4,20 @@ import {
   GrupoAtendimento,
   SessaoGrupo,
   Encaminhamento,
+  Escola,
+  Compromisso,
+  CasoPrioritario,
+  ItemChecklist,
+  Intervencao,
+  Atividade,
+  PerfilDesenvolvimentoAluno,
+  PlanejamentoSessao,
+  OrientacaoProfessor,
+  AtendimentoFamilia,
+  MaterialItem,
+  IdeiaProjeto,
+  MetaProfissional,
+  RelatorioFormal,
 } from "./types";
 
 export const INITIAL_PACIENTES: Paciente[] = [
@@ -100,6 +114,54 @@ export const INITIAL_PACIENTES: Paciente[] = [
     beneficiosSociais: [],
     profissoes: "Estudante Universitária",
     dataCadastro: "2026-03-12",
+  },
+  {
+    id: "pac-6",
+    nome: "Pedro Henrique Alves",
+    cpf: "678.901.234-56",
+    cartaoSus: "706708901234567",
+    dataNascimento: "2016-05-09",
+    sexo: "Masculino",
+    telefone: "(11) 91234-5678",
+    endereco: "Rua das Palmeiras, 210",
+    bairro: "Jardim Primavera",
+    cidade: "São Paulo - SP",
+    nomeMae: "Renata Alves",
+    vulnerabilidades: ["Dificuldade de Aprendizagem"],
+    beneficiosSociais: [],
+    dataCadastro: "2026-03-20",
+    escolaId: "esc-1",
+    serie: "4º ano - Fundamental I",
+    professor: "Camila Rodrigues",
+    origemEncaminhamento: "Professor(a)",
+    hipoteseDiagnostica: "TDAH em investigação",
+    frequenciaAtendimento: "Semanal",
+    prioridade: "Alta",
+    dataPrimeiraSessao: "2026-03-25",
+  },
+  {
+    id: "pac-7",
+    nome: "Sofia Martins Cardoso",
+    cpf: "789.012.345-67",
+    cartaoSus: "707809012345678",
+    dataNascimento: "2014-11-22",
+    sexo: "Feminino",
+    telefone: "(11) 92345-6789",
+    endereco: "Av. das Educação, 88",
+    bairro: "Centro",
+    cidade: "São Paulo - SP",
+    nomeMae: "Patrícia Cardoso",
+    vulnerabilidades: ["Isolamento Social"],
+    beneficiosSociais: [],
+    dataCadastro: "2026-04-02",
+    escolaId: "esc-2",
+    serie: "6º ano - Fundamental II",
+    professor: "Roberto Nascimento",
+    origemEncaminhamento: "Direção",
+    hipoteseDiagnostica: "Ansiedade social",
+    frequenciaAtendimento: "Quinzenal",
+    prioridade: "Média",
+    dataPrimeiraSessao: "2026-04-10",
   },
 ];
 
@@ -324,5 +386,290 @@ export const INITIAL_ENCAMINHAMENTOS: Encaminhamento[] = [
     hipoteseDiagnostica: "J44.1 - Doença Pulmonar Obstrutiva Crônica com Exacerbação",
     dataEmissao: "2026-08-06",
     status: "Pendente",
+  },
+];
+
+// ============================================================================
+// Módulos adicionados a partir do app PsicoEscolar (versão Lovable)
+// ============================================================================
+
+export const INITIAL_ESCOLAS: Escola[] = [
+  {
+    id: "esc-1",
+    nome: "Escola Municipal Paulo Freire",
+    diretor: "Maria das Graças Silva",
+    coordenador: "Ana Paula Oliveira",
+    telefone: "(11) 98765-4321",
+    endereco: "Av. da Educação, 450 - Centro",
+    diasAtendimento: ["Segunda-feira", "Quarta-feira"],
+    horarioAtendimento: "08:00 - 12:00",
+    numeroAlunos: 420,
+    observacoes:
+      "Escola polo para atendimento educacional especializado. Sala de recursos multifuncionais bem equipada.",
+  },
+  {
+    id: "esc-2",
+    nome: "Escola Estadual Monteiro Lobato",
+    diretor: "Carlos Alberto Santos",
+    coordenador: "Juliana Costa",
+    telefone: "(11) 97654-3210",
+    endereco: "Rua dos Saberes, 120 - Jardim Alvorada",
+    diasAtendimento: ["Terça-feira", "Quinta-feira"],
+    horarioAtendimento: "13:00 - 17:00",
+    numeroAlunos: 580,
+    observacoes: "Demanda crescente de casos de regulação emocional nos anos iniciais.",
+  },
+];
+
+export const INITIAL_COMPROMISSOS: Compromisso[] = [
+  {
+    id: "comp-1",
+    titulo: "Atendimento individual - Pedro Henrique",
+    tipo: "Atendimento",
+    data: "2026-08-13",
+    horaInicio: "09:00",
+    horaFim: "09:50",
+    escolaId: "esc-1",
+    pacienteId: "pac-6",
+    local: "Sala de Recursos - Paulo Freire",
+    descricao: "Sessão semanal de acompanhamento psicológico.",
+    concluido: false,
+  },
+  {
+    id: "comp-2",
+    titulo: "Reunião com professora Camila Rodrigues",
+    tipo: "Reunião",
+    data: "2026-08-13",
+    horaInicio: "10:00",
+    horaFim: "10:30",
+    escolaId: "esc-1",
+    pacienteId: "pac-6",
+    local: "Sala dos Professores",
+    descricao: "Alinhamento de estratégias para o Pedro em sala de aula.",
+    concluido: false,
+  },
+  {
+    id: "comp-3",
+    titulo: "Devolutiva para a família - Sofia Cardoso",
+    tipo: "Devolutiva",
+    data: "2026-08-14",
+    horaInicio: "14:00",
+    horaFim: "14:40",
+    escolaId: "esc-2",
+    pacienteId: "pac-7",
+    local: "Sala de Atendimento - Monteiro Lobato",
+    descricao: "Retorno à família sobre a evolução do acompanhamento.",
+    concluido: false,
+  },
+];
+
+export const INITIAL_CASOS_PRIORITARIOS: CasoPrioritario[] = [
+  {
+    id: "cp-1",
+    pacienteId: "pac-6",
+    motivoRisco:
+      "Suspeita de TDAH sem diagnóstico fechado, com prejuízo escolar significativo e conflitos recorrentes em sala.",
+    nivelUrgencia: "Urgente",
+    acoesIntensivas: [
+      "Encaminhar para avaliação neuropsicológica",
+      "Reunião quinzenal com a professora",
+    ],
+    pendencias: ["Aguardando retorno da avaliação neuropsicológica"],
+    atualizadoEm: "2026-08-10",
+  },
+];
+
+export const INITIAL_CHECKLIST_DIARIO: ItemChecklist[] = [
+  { id: "chk-1", texto: "Conferir agenda e atendimentos do dia", concluido: false, padrao: true },
+  { id: "chk-2", texto: "Separar materiais das sessões", concluido: false, padrao: true },
+  { id: "chk-3", texto: "Registrar evoluções dos atendimentos realizados", concluido: false, padrao: true },
+];
+
+export const INITIAL_INTERVENCOES: Intervencao[] = [
+  {
+    id: "int-1",
+    titulo: "Regulação emocional com o Termômetro das Emoções",
+    tema: "Autorregulação",
+    descricao:
+      "Uso de escala visual para identificar e nomear a intensidade emocional antes de aplicar estratégias de autorregulação.",
+    objetivos: [
+      "Ampliar vocabulário emocional",
+      "Reconhecer sinais corporais da emoção",
+      "Praticar técnica de respiração guiada",
+    ],
+    passoAPasso: [
+      "Apresentar o termômetro e explicar os níveis",
+      "Pedir para a criança indicar como está se sentindo",
+      "Guiar respiração 4-7-8 quando o nível estiver alto",
+      "Registrar a evolução na ficha de acompanhamento",
+    ],
+    materiaisSugeridos: ["Cartaz do termômetro das emoções", "Cronômetro"],
+  },
+  {
+    id: "int-2",
+    titulo: "Protocolo de habilidades sociais em pequenos grupos",
+    tema: "Habilidades sociais",
+    descricao: "Sequência de dinâmicas para trabalhar escuta, turno de fala e resolução de conflitos entre pares.",
+    objetivos: ["Melhorar interação entre pares", "Reduzir conflitos em sala"],
+    passoAPasso: [
+      "Roda de apresentação e combinados do grupo",
+      "Dinâmica de escuta ativa em duplas",
+      "Jogo cooperativo com regras de turno",
+      "Fechamento com reflexão guiada",
+    ],
+  },
+];
+
+export const INITIAL_ATIVIDADES: Atividade[] = [
+  {
+    id: "ativ-1",
+    titulo: "Caça-palavras da atenção sustentada",
+    idadeMinima: 7,
+    idadeMaxima: 11,
+    objetivo: "Estimular atenção sustentada e concentração.",
+    diagnosticoAlvo: ["TDAH", "Geral"],
+    areasEstimuladas: ["Atenção", "Concentração"],
+    tempoAplicacaoMinutos: 20,
+    materiaisNecessarios: ["Folha impressa", "Lápis de cor"],
+    instrucoes: "Aplicar em ambiente com poucos estímulos visuais e sonoros, cronometrando o tempo de execução.",
+  },
+  {
+    id: "ativ-2",
+    titulo: "História social sobre esperar a vez",
+    idadeMinima: 5,
+    idadeMaxima: 9,
+    objetivo: "Trabalhar autorregulação e habilidades sociais.",
+    diagnosticoAlvo: ["Autismo", "TOD"],
+    areasEstimuladas: ["Regulação emocional", "Interação social"],
+    tempoAplicacaoMinutos: 15,
+    materiaisNecessarios: ["Livro de história social ilustrado"],
+    instrucoes: "Ler em voz alta, pausando para perguntas de compreensão e simulação da situação.",
+  },
+];
+
+export const INITIAL_PERFIS_DESENVOLVIMENTO: PerfilDesenvolvimentoAluno[] = [
+  {
+    pacienteId: "pac-6",
+    areasParaEstimular: ["Atenção", "Concentração", "Controle inibitório"],
+    observacoesPorArea: {
+      Atenção: "Dificuldade em manter foco por mais de 10 minutos.",
+    },
+    atualizadoEm: "2026-08-05",
+  },
+];
+
+export const INITIAL_PLANEJAMENTOS_SESSAO: PlanejamentoSessao[] = [
+  {
+    id: "plan-1",
+    pacienteId: "pac-6",
+    data: "2026-08-13",
+    objetivo: "Estimular atenção sustentada com jogo de tabuleiro cooperativo.",
+    materiais: ["Jogo de tabuleiro", "Cronômetro"],
+    atividade: "Caça-palavras da atenção sustentada",
+    tecnica: "Reforço positivo intermitente",
+    tempoEstimadoMinutos: 45,
+    resultadoEsperado: "Aumento do tempo de foco em pelo menos 5 minutos.",
+    status: "Planejada",
+  },
+];
+
+export const INITIAL_ORIENTACOES_PROFESSORES: OrientacaoProfessor[] = [
+  {
+    id: "orip-1",
+    nomeProfessor: "Camila Rodrigues",
+    turma: "4º ano B",
+    escolaId: "esc-1",
+    pacienteId: "pac-6",
+    dificuldadeObservada: "Dispersão frequente e dificuldade em concluir tarefas.",
+    estrategiasSugeridas: [
+      "Dividir tarefas em etapas menores",
+      "Posicionar o aluno próximo à professora",
+      "Usar reforço positivo verbal",
+    ],
+    dataOrientacao: "2026-08-06",
+    retorno: "Professora relatou melhora parcial após reposicionamento em sala.",
+    status: "Em Acompanhamento",
+  },
+];
+
+export const INITIAL_ATENDIMENTOS_FAMILIA: AtendimentoFamilia[] = [
+  {
+    id: "fam-1",
+    pacienteId: "pac-7",
+    data: "2026-08-07",
+    responsavelPresente: "Patrícia Cardoso (mãe)",
+    assunto: "Retorno sobre isolamento social observado na escola.",
+    orientacoes: "Orientada a estimular convívio social fora do ambiente escolar e manter rotina de sono regular.",
+    encaminhamentos: "Encaminhada para avaliação com neuropediatra caso não haja melhora em 60 dias.",
+    proximoContato: "2026-09-07",
+  },
+];
+
+export const INITIAL_MATERIAIS: MaterialItem[] = [
+  {
+    id: "mat-1",
+    titulo: "Cartões de Emoções (jogo impresso)",
+    categoria: "Cartões de Emoções",
+    descricao: "Conjunto de 30 cartões ilustrados para nomear e discutir emoções.",
+    localOuLink: "Armário de materiais - Sala de Recursos",
+    faixaEtaria: "4 a 10 anos",
+    disponivel: true,
+  },
+  {
+    id: "mat-2",
+    titulo: "Teste WISC-IV (autorizado)",
+    categoria: "Testes Autorizados",
+    descricao: "Escala Wechsler de Inteligência para Crianças.",
+    localOuLink: "Armário fechado - Consultório",
+    faixaEtaria: "6 a 16 anos",
+    disponivel: true,
+  },
+];
+
+export const INITIAL_PROJETOS: IdeiaProjeto[] = [
+  {
+    id: "proj-1",
+    titulo: "Roda de Conversa - Setembro Amarelo",
+    tema: "Setembro Amarelo",
+    publicoAlvo: "Alunos do Fundamental II",
+    objetivo: "Promover conscientização sobre saúde mental e prevenção.",
+    atividadesPropostas: ["Roda de conversa", "Mural coletivo", "Distribuição de material informativo"],
+    recursosNecessarios: ["Cartolinas", "Folhetos informativos"],
+    status: "Em Planejamento",
+  },
+];
+
+export const INITIAL_METAS_PROFISSIONAIS: MetaProfissional[] = [
+  {
+    id: "meta-1",
+    categoria: "Cursos Desejados",
+    titulo: "Curso de Neuropsicologia Infantil",
+    descricao: "Aprofundar avaliação de funções executivas em crianças.",
+    prazo: "2026-12-01",
+    concluida: false,
+  },
+];
+
+export const INITIAL_RELATORIOS_FORMAIS: RelatorioFormal[] = [
+  {
+    id: "rel-1",
+    pacienteId: "pac-6",
+    tipo: "Relatório Psicológico",
+    titulo: "Relatório Psicológico - Pedro Henrique Alves",
+    data: "2026-08-10",
+    autor: "Débora Costa - Psicóloga (CRP 03/24682)",
+    conteudo: {
+      identificacao:
+        "Pedro Henrique Alves, 10 anos, 4º ano do Ensino Fundamental I, Escola Municipal Paulo Freire.",
+      motivoEncaminhamento:
+        "Encaminhado pela professora regente por dificuldade de manter atenção e concluir atividades em sala de aula.",
+      procedimentos:
+        "Entrevista com responsável, observação em sala de aula, aplicação de atividades de estimulação da atenção ao longo de 4 sessões.",
+      analise:
+        "Aluno apresenta sinais compatíveis com dificuldade de atenção sustentada, sem prejuízos significativos em outras áreas do desenvolvimento avaliadas.",
+      conclusaoRecomendacoes:
+        "Recomenda-se avaliação neuropsicológica complementar e manutenção do acompanhamento psicológico semanal, com orientação continuada à escola e à família.",
+    },
+    status: "Rascunho",
   },
 ];
