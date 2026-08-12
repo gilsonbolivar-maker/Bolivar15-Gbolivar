@@ -10,26 +10,58 @@ import {
   History,
   ExternalLink,
   HardDriveDownload,
+  Download,
+  Upload,
+  FileJson,
 } from "lucide-react";
-import {
-  Paciente,
-  AtendimentoIndividual,
-  GrupoAtendimento,
-  SessaoGrupo,
-  Encaminhamento,
-} from "../types";
+import { FullBackupPayload } from "../storage";
 
 const GIS_SCRIPT_SRC = "https://accounts.google.com/gsi/client";
 const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file";
 const BACKUP_FOLDER_NAME = "PsicoEscolar 2.0 - Backups";
 const LAST_BACKUP_KEY = "app_atendimento_ultimo_backup_v1";
 
-export interface BackupPayload {
-  pacientes: Paciente[];
-  atendimentos: AtendimentoIndividual[];
-  grupos: GrupoAtendimento[];
-  sessoesGrupo: SessaoGrupo[];
-  encaminhamentos: Encaminhamento[];
+/** Backup completo: todas as entidades do app (alunos, escolas, atendimentos, agenda, bancos etc). */
+export type BackupPayload = FullBackupPayload;
+
+/** Campos aceitos ao ler um arquivo de backup, todos opcionais para não quebrar
+ * a restauração de um backup antigo/parcial (mantém o que já existe no app). */
+export type PartialBackupPayload = Partial<BackupPayload>;
+
+const BACKUP_FIELDS: (keyof BackupPayload)[] = [
+  "pacientes",
+  "atendimentos",
+  "grupos",
+  "sessoesGrupo",
+  "encaminhamentos",
+  "escolas",
+  "compromissos",
+  "casosPrioritarios",
+  "checklistDiario",
+  "intervencoes",
+  "atividades",
+  "perfisDesenvolvimento",
+  "planejamentosSessao",
+  "orientacoesProfessores",
+  "atendimentosFamilia",
+  "materiais",
+  "projetos",
+  "metasProfissionais",
+  "relatoriosFormais",
+];
+
+/** Extrai só os campos conhecidos de um JSON qualquer, ignorando o resto (ex: "appName",
+ * "geradoEm") e campos ausentes/corrompidos — assim um backup antigo ou parcial não
+ * apaga dados de entidades que ele não conhecia. */
+function extractBackupFields(raw: any): PartialBackupPayload {
+  const result: PartialBackupPayload = {};
+  if (!raw || typeof raw !== "object") return result;
+  for (const field of BACKUP_FIELDS) {
+    if (Array.isArray(raw[field])) {
+      (result as any)[field] = raw[field];
+    }
+  }
+  return result;
 }
 
 interface DriveFileMeta {
@@ -43,7 +75,7 @@ interface BackupDriveModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: BackupPayload;
-  onRestore: (data: BackupPayload) => void;
+  onRestore: (data: PartialBackupPayload) => void;
 }
 
 // Declaração mínima do objeto global injetado pelo script do Google Identity Services.
@@ -280,13 +312,7 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
         `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`
       );
       const restored = await res.json();
-      onRestore({
-        pacientes: restored.pacientes || [],
-        atendimentos: restored.atendimentos || [],
-        grupos: restored.grupos || [],
-        sessoesGrupo: restored.sessoesGrupo || [],
-        encaminhamentos: restored.encaminhamentos || [],
-      });
+      onRestore(extractBackupFields(restored));
       setStatusMsg(`Dados restaurados com sucesso a partir de "${file.name}".`);
     } catch (err: any) {
       setErrorMsg("Falha ao restaurar backup: " + err.message);
@@ -302,14 +328,84 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);
 
+  // ---- Backup local em arquivo .json (não depende de configuração do Google) ----
+  const localFileInputRef = useRef<HTMLInputElement>(null);
+  const [isImportingLocal, setIsImportingLocal] = useState(false);
+
+  const handleDownloadLocalBackup = () => {
+    setErrorMsg(null);
+    setStatusMsg(null);
+    const now = new Date();
+    const payload = {
+      appName: "PsicoEscolar 2.0",
+      geradoEm: now.toISOString(),
+      ...data,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const timestamp = now.toISOString().replace(/[:.]/g, "-");
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `psicoescolar-backup-${timestamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+
+    const nowStr = now.toLocaleString("pt-BR");
+    localStorage.setItem(LAST_BACKUP_KEY, nowStr);
+    setLastBackupLocal(nowStr);
+    setStatusMsg(
+      "Arquivo de backup baixado! Agora é só mover/enviar esse arquivo .json para o seu Google Drive (ou onde preferir guardar)."
+    );
+  };
+
+  const handlePickLocalFile = () => {
+    setErrorMsg(null);
+    setStatusMsg(null);
+    localFileInputRef.current?.click();
+  };
+
+  const handleLocalFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    if (
+      !confirm(
+        `Restaurar dados a partir de "${file.name}"? Isso vai SUBSTITUIR os dados atuais do aplicativo pelos dados salvos nesse arquivo.`
+      )
+    ) {
+      return;
+    }
+
+    setIsImportingLocal(true);
+    setErrorMsg(null);
+    setStatusMsg(null);
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const extracted = extractBackupFields(parsed);
+      if (Object.keys(extracted).length === 0) {
+        throw new Error("Este arquivo não parece ser um backup válido do PsicoEscolar 2.0.");
+      }
+      onRestore(extracted);
+      setStatusMsg(`Dados restaurados com sucesso a partir de "${file.name}".`);
+    } catch (err: any) {
+      setErrorMsg("Falha ao ler o arquivo de backup: " + err.message);
+    } finally {
+      setIsImportingLocal(false);
+    }
+  };
+
   if (!isOpen) return null;
 
-  const totalRegistros =
-    data.pacientes.length +
-    data.atendimentos.length +
-    data.grupos.length +
-    data.sessoesGrupo.length +
-    data.encaminhamentos.length;
+  const totalRegistros = BACKUP_FIELDS.reduce(
+    (soma, campo) => soma + (data[campo]?.length || 0),
+    0
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs overflow-y-auto">
@@ -321,7 +417,7 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
               <CloudUpload className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="font-bold text-base">Backup no Google Drive</h3>
+              <h3 className="font-bold text-base">Backup e Restauração</h3>
               <p className="text-xs text-indigo-200">
                 {totalRegistros} registro(s) prontos para backup
               </p>
@@ -337,6 +433,64 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
 
         {/* Content */}
         <div className="p-6 space-y-5 text-sm overflow-y-auto flex-1">
+          {/* Backup local em arquivo .json — sempre disponível, sem precisar configurar nada */}
+          <div className="p-4 bg-verdep-50 border border-verdep-200 rounded-xl space-y-3">
+            <div className="flex items-start gap-2.5">
+              <FileJson className="w-5 h-5 text-verdep-700 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-verdep-900">Backup em arquivo (.json)</p>
+                <p className="text-xs text-verdep-800 mt-1 leading-relaxed">
+                  Baixa um arquivo com todos os dados do aplicativo. Depois é só você mesma
+                  transferir esse arquivo para o seu Google Drive (ou guardar onde preferir).
+                  Não precisa de nenhuma configuração.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={handleDownloadLocalBackup}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-verdep-600 hover:bg-verdep-500 text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Baixar Backup (.json)</span>
+              </button>
+
+              <button
+                onClick={handlePickLocalFile}
+                disabled={isImportingLocal}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-verdep-100 disabled:opacity-60 border border-verdep-300 text-verdep-800 text-xs font-bold rounded-xl shadow-xs transition-colors"
+              >
+                {isImportingLocal ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Upload className="w-3.5 h-3.5" />
+                )}
+                <span>{isImportingLocal ? "Restaurando..." : "Restaurar de um Arquivo (.json)"}</span>
+              </button>
+
+              <input
+                ref={localFileInputRef}
+                type="file"
+                accept="application/json,.json"
+                className="hidden"
+                onChange={handleLocalFileSelected}
+              />
+            </div>
+
+            {lastBackupLocal && (
+              <p className="text-[11px] text-verdep-700">
+                Último backup baixado neste dispositivo: {lastBackupLocal}
+              </p>
+            )}
+          </div>
+
+          <div className="flex items-center gap-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <div className="h-px flex-1 bg-slate-200" />
+            <span>ou envie direto para o Google Drive</span>
+            <div className="h-px flex-1 bg-slate-200" />
+          </div>
+
           {!clientId ? (
             <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-3">
               <div className="flex items-start gap-2.5">

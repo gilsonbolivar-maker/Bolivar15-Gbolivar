@@ -260,6 +260,32 @@ export const saveData = (data: {
   saveEncaminhamentos(data.encaminhamentos);
 };
 
+/** Tipo completo de backup: todas as entidades do app (usado no export/import em JSON e no backup do Drive). */
+export type FullBackupPayload = ReturnType<typeof loadData>;
+
+/** Persiste TODAS as entidades do app de uma vez (usado ao restaurar um backup completo). */
+export const saveAllData = (data: FullBackupPayload) => {
+  savePacientes(data.pacientes);
+  saveAtendimentosIndividuais(data.atendimentos);
+  saveGrupos(data.grupos);
+  saveSessoesGrupo(data.sessoesGrupo);
+  saveEncaminhamentos(data.encaminhamentos);
+  escolasStorage.save(data.escolas);
+  compromissosStorage.save(data.compromissos);
+  casosPrioritariosStorage.save(data.casosPrioritarios);
+  checklistDiarioStorage.save(data.checklistDiario);
+  intervencoesStorage.save(data.intervencoes);
+  atividadesStorage.save(data.atividades);
+  perfisDesenvolvimentoStorage.save(data.perfisDesenvolvimento);
+  planejamentosSessaoStorage.save(data.planejamentosSessao);
+  orientacoesProfessoresStorage.save(data.orientacoesProfessores);
+  atendimentosFamiliaStorage.save(data.atendimentosFamilia);
+  materiaisStorage.save(data.materiais);
+  projetosStorage.save(data.projetos);
+  metasProfissionaisStorage.save(data.metasProfissionais);
+  relatoriosFormaisStorage.save(data.relatoriosFormais);
+};
+
 export const resetAllData = () => {
   localStorage.setItem(KEYS.PACIENTES, JSON.stringify(INITIAL_PACIENTES));
   localStorage.setItem(

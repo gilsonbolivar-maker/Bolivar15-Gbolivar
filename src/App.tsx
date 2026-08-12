@@ -33,6 +33,7 @@ import {
 import {
   loadData,
   saveData,
+  saveAllData,
   resetAllData,
   escolasStorage,
   casosPrioritariosStorage,
@@ -66,7 +67,7 @@ import { ImpressaoGuiaModal } from "./components/Encaminhamento/ImpressaoGuiaMod
 import { AiDocumentScannerModal } from "./components/AiDocumentScannerModal";
 import { Relatorios } from "./components/Relatorios/Relatorios";
 import { ApkDownloadModal } from "./components/ApkDownloadModal";
-import { BackupDriveModal, BackupPayload } from "./components/BackupDriveModal";
+import { BackupDriveModal, PartialBackupPayload } from "./components/BackupDriveModal";
 import { GestaoEscolas } from "./components/Escolas/GestaoEscolas";
 import { FormEscolaModal } from "./components/Escolas/FormEscolaModal";
 import { GestaoCasosPrioritarios } from "./components/CasosPrioritarios/GestaoCasosPrioritarios";
@@ -456,19 +457,52 @@ export default function App() {
     checklistDiarioStorage.save(updated);
   };
 
-  const handleRestoreBackup = (restored: BackupPayload) => {
-    setPacientes(restored.pacientes);
-    setAtendimentos(restored.atendimentos);
-    setGrupos(restored.grupos);
-    setSessoesGrupo(restored.sessoesGrupo);
-    setEncaminhamentos(restored.encaminhamentos);
-    persistState(
-      restored.pacientes,
-      restored.atendimentos,
-      restored.grupos,
-      restored.sessoesGrupo,
-      restored.encaminhamentos
-    );
+  const handleRestoreBackup = (restored: PartialBackupPayload) => {
+    // Campos ausentes no backup (ex: arquivo antigo/parcial) mantêm o valor atual,
+    // em vez de apagar dados que aquele backup nem conhecia.
+    const next = {
+      pacientes: restored.pacientes ?? pacientes,
+      atendimentos: restored.atendimentos ?? atendimentos,
+      grupos: restored.grupos ?? grupos,
+      sessoesGrupo: restored.sessoesGrupo ?? sessoesGrupo,
+      encaminhamentos: restored.encaminhamentos ?? encaminhamentos,
+      escolas: restored.escolas ?? escolas,
+      compromissos: restored.compromissos ?? compromissos,
+      casosPrioritarios: restored.casosPrioritarios ?? casosPrioritarios,
+      checklistDiario: restored.checklistDiario ?? checklistDiario,
+      intervencoes: restored.intervencoes ?? intervencoes,
+      atividades: restored.atividades ?? atividadesBanco,
+      perfisDesenvolvimento: restored.perfisDesenvolvimento ?? perfisDesenvolvimento,
+      planejamentosSessao: restored.planejamentosSessao ?? planejamentosSessao,
+      orientacoesProfessores: restored.orientacoesProfessores ?? orientacoesProfessores,
+      atendimentosFamilia: restored.atendimentosFamilia ?? atendimentosFamilia,
+      materiais: restored.materiais ?? materiais,
+      projetos: restored.projetos ?? projetos,
+      metasProfissionais: restored.metasProfissionais ?? metasProfissionais,
+      relatoriosFormais: restored.relatoriosFormais ?? relatoriosFormais,
+    };
+
+    setPacientes(next.pacientes);
+    setAtendimentos(next.atendimentos);
+    setGrupos(next.grupos);
+    setSessoesGrupo(next.sessoesGrupo);
+    setEncaminhamentos(next.encaminhamentos);
+    setEscolas(next.escolas);
+    setCompromissos(next.compromissos);
+    setCasosPrioritarios(next.casosPrioritarios);
+    setChecklistDiario(next.checklistDiario);
+    setIntervencoes(next.intervencoes);
+    setAtividadesBanco(next.atividades);
+    setPerfisDesenvolvimento(next.perfisDesenvolvimento);
+    setPlanejamentosSessao(next.planejamentosSessao);
+    setOrientacoesProfessores(next.orientacoesProfessores);
+    setAtendimentosFamilia(next.atendimentosFamilia);
+    setMateriais(next.materiais);
+    setProjetos(next.projetos);
+    setMetasProfissionais(next.metasProfissionais);
+    setRelatoriosFormais(next.relatoriosFormais);
+
+    saveAllData(next);
   };
 
   const handleResetData = () => {
@@ -1095,7 +1129,27 @@ export default function App() {
       <BackupDriveModal
         isOpen={isBackupDriveOpen}
         onClose={() => setIsBackupDriveOpen(false)}
-        data={{ pacientes, atendimentos, grupos, sessoesGrupo, encaminhamentos }}
+        data={{
+          pacientes,
+          atendimentos,
+          grupos,
+          sessoesGrupo,
+          encaminhamentos,
+          escolas,
+          compromissos,
+          casosPrioritarios,
+          checklistDiario,
+          intervencoes,
+          atividades: atividadesBanco,
+          perfisDesenvolvimento,
+          planejamentosSessao,
+          orientacoesProfessores,
+          atendimentosFamilia,
+          materiais,
+          projetos,
+          metasProfissionais,
+          relatoriosFormais,
+        }}
         onRestore={handleRestoreBackup}
       />
 
