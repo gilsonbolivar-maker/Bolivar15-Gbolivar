@@ -63,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-indigo-950 border-b border-indigo-900 text-white sticky top-0 z-40 shadow-md">
+    <header className="bg-[#082a2c] border-b border-[#0d3538] text-white sticky top-0 z-40 shadow-md">
       <div className="max-w-7xl mx-auto px-3 sm:px-5">
         {/* Top bar with Branding and Menu Toggle */}
         <div className="flex items-center justify-between py-2 text-xs">
@@ -87,7 +87,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <span>Débora Costa (Psicóloga • CRP 03/24682)</span>
               </span>
-              <span className="text-xs font-semibold text-amber-300 bg-indigo-900/80 px-2 py-0.5 rounded-md border border-indigo-800/80 truncate">
+              <span className="text-xs font-semibold text-amber-300 bg-[#0d3538]/80 px-2 py-0.5 rounded-md border border-[#124247]/80 truncate">
                 {TAB_LABELS[activeTab]}
               </span>
             </div>
@@ -109,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-900/90 hover:bg-indigo-800 text-white text-xs font-semibold rounded-lg border border-indigo-700/80 shadow-xs transition-all"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0d3538]/90 hover:bg-[#124247] text-white text-xs font-semibold rounded-lg border border-[#1a5257]/80 shadow-xs transition-all"
               aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? (
@@ -130,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Retractable Menu Drawer / Dropdown Panel */}
         {isMenuOpen && (
-          <div className="py-3 border-t border-indigo-900/80 space-y-3 animate-fadeIn">
+          <div className="py-3 border-t border-[#0d3538]/80 space-y-3 animate-fadeIn">
             {/* Navigation Tabs */}
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1.5">
@@ -142,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     activeTab === "dashboard"
                       ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-indigo-900/50 text-indigo-200 hover:bg-indigo-800 hover:text-white"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
                   }`}
                 >
                   <LayoutDashboard className="w-4 h-4" />
@@ -154,7 +154,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     activeTab === "atendimento-individual"
                       ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-indigo-900/50 text-indigo-200 hover:bg-indigo-800 hover:text-white"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
                   }`}
                 >
                   <UserCheck className="w-4 h-4" />
@@ -166,7 +166,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     activeTab === "atendimento-grupo"
                       ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-indigo-900/50 text-indigo-200 hover:bg-indigo-800 hover:text-white"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
                   }`}
                 >
                   <Users className="w-4 h-4" />
@@ -178,7 +178,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     activeTab === "encaminhamento"
                       ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-indigo-900/50 text-indigo-200 hover:bg-indigo-800 hover:text-white"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
                   }`}
                 >
                   <Send className="w-4 h-4" />
@@ -190,7 +190,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     activeTab === "pacientes"
                       ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-indigo-900/50 text-indigo-200 hover:bg-indigo-800 hover:text-white"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
                   }`}
                 >
                   <UserPlus className="w-4 h-4" />
@@ -202,7 +202,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     activeTab === "relatorios"
                       ? "bg-indigo-600 text-white font-bold shadow-sm"
-                      : "bg-indigo-900/50 text-indigo-200 hover:bg-indigo-800 hover:text-white"
+                      : "bg-[#0d3538]/50 text-indigo-200 hover:bg-[#124247] hover:text-white"
                   }`}
                 >
                   <BarChart3 className="w-4 h-4" />
@@ -212,7 +212,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
 
             {/* Quick Actions Bar inside Retractable Menu */}
-            <div className="pt-2 border-t border-indigo-900/50">
+            <div className="pt-2 border-t border-[#0d3538]/50">
               <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1.5">
                 Ações Rápidas
               </p>
@@ -255,7 +255,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onOpenNovoPaciente();
                     setIsMenuOpen(false);
                   }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-900/80 hover:bg-indigo-800 text-indigo-100 text-xs font-medium rounded-lg border border-indigo-800 transition-all"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0d3538]/80 hover:bg-[#124247] text-indigo-100 text-xs font-medium rounded-lg border border-[#124247] transition-all"
                 >
                   <UserPlus className="w-3.5 h-3.5 text-indigo-300" />
                   <span>Cadastrar Novo Aluno</span>
@@ -290,7 +290,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   onClick={onResetData}
                   title="Restaurar dados de demonstração"
-                  className="p-1.5 bg-indigo-900/60 hover:bg-indigo-800 text-indigo-300 hover:text-white rounded-lg border border-indigo-800/80 transition-all ml-auto"
+                  className="p-1.5 bg-[#0d3538]/60 hover:bg-[#124247] text-indigo-300 hover:text-white rounded-lg border border-[#124247]/80 transition-all ml-auto"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                 </button>
