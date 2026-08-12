@@ -1,0 +1,6 @@
+{
+  "name": "PsicoEscolar 2.0",
+  "description": "Plataforma completa para gestão de Atendimentos Individuais, Atendimentos em Grupo, Cadastro de Usuários/Pacientes e Encaminhamentos de Saúde e Assistência Social.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

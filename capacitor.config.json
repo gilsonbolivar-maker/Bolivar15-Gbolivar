@@ -1,0 +1,8 @@
+{
+  "appId": "br.gov.sisa.atendimento",
+  "appName": "PsicoEscolar 2.0",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
