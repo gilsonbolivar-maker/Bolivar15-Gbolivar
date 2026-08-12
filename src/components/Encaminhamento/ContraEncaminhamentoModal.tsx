@@ -71,7 +71,7 @@ export const ContraEncaminhamentoModal: React.FC<
         {/* Resumo do Encaminhamento */}
         <div className="p-4 bg-slate-50 border-b border-slate-200/80 text-xs space-y-1">
           <div className="font-bold text-slate-900">
-            Cidadão: {encaminhamento.pacienteNome} (CPF: {encaminhamento.pacienteCpf})
+            Aluno: {encaminhamento.pacienteNome} (CPF: {encaminhamento.pacienteCpf})
           </div>
           <div className="text-slate-600">
             <strong>Destino:</strong> {encaminhamento.setorDestino} • <strong>Motivo:</strong> {encaminhamento.motivoEncaminhamento}

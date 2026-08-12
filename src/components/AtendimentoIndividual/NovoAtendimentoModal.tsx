@@ -78,7 +78,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
 
   const handleGerarJustificativaIa = async () => {
     if (!pacienteAtual || !demandaMotivo) {
-      alert("Informe o cidadão e a demanda da consulta primeiro.");
+      alert("Informe o aluno e a demanda da consulta primeiro.");
       return;
     }
 
@@ -219,7 +219,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
           {/* Seleção do Paciente */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">
-              Selecione o Cidadão / Paciente *
+              Selecione o Aluno / Paciente *
             </label>
             <select
               value={pacienteId}
@@ -297,7 +297,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
 
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">
-              Motivo do Atendimento / Demanda do Cidadão *
+              Motivo do Atendimento / Demanda do Aluno *
             </label>
             <input
               type="text"
@@ -318,7 +318,7 @@ export const NovoAtendimentoModal: React.FC<NovoAtendimentoModalProps> = ({
               required
               value={prontuarioNotas}
               onChange={(e) => setProntuarioNotas(e.target.value)}
-              placeholder="Descreva a escuta realizada, condutas adotadas e combinados com o cidadão..."
+              placeholder="Descreva a escuta realizada, condutas adotadas e combinados com o aluno..."
               className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
             />
           </div>

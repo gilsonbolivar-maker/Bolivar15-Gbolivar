@@ -23,7 +23,7 @@ export interface ExtractedDocumentData {
   tipoDetectado?: string;
   resumoLeitura?: string;
   rawOcrText?: string;
-  // Cidadão
+  // Aluno
   nome?: string;
   nomeSocial?: string;
   cpf?: string;
@@ -73,7 +73,7 @@ interface AiDocumentScannerModalProps {
 
 const SAMPLE_DOCUMENTS = [
   {
-    label: "📄 Ficha RG / Cidadão (Exemplo)",
+    label: "📄 Ficha RG / Aluno (Exemplo)",
     desc: "Simula foto de documento de identidade / RG e CPF de Maria Oliveira",
     svgText: `
       <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" fill="none">

@@ -216,7 +216,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              Cadastro de Cidadãos
+              Cadastro de Alunos
             </span>
             <div className="p-2 bg-indigo-100 text-indigo-700 rounded-xl group-hover:scale-105 transition-transform">
               <UserPlus className="w-5 h-5" />
@@ -253,7 +253,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
                   </span>
                 </h2>
                 <p className="text-xs text-slate-300 font-medium">
-                  Atendimentos, novos cidadãos cadastrados e encaminhamentos pendentes
+                  Atendimentos, novos alunos cadastrados e encaminhamentos pendentes
                 </p>
               </div>
             </div>
@@ -327,7 +327,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
               </div>
               <div className="mt-3 pt-2 border-t border-slate-700/50 text-[11px] text-slate-400 font-medium flex items-center justify-between">
                 <span>Total cadastrados: {pacientes.length}</span>
-                <span className="text-indigo-400 font-bold group-hover:underline">Acessar Cidadãos →</span>
+                <span className="text-indigo-400 font-bold group-hover:underline">Acessar Alunos →</span>
               </div>
             </div>
 

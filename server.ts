@@ -156,7 +156,7 @@ Analise atentamente o documento fornecido na imagem (pode ser RG, CNH, CPF, Cart
 
 Sua tarefa é extrair e estruturar com alta precisão todos os dados identificados no formulário:
 
-Campos para Cidadão / Paciente:
+Campos para Aluno / Paciente:
 - nome (nome completo)
 - nomeSocial (nome social se houver)
 - cpf (número do CPF)
@@ -176,7 +176,7 @@ Campos para Cidadão / Paciente:
 - beneficiosSociais (lista de benefícios sociais identificados, como: "Bolsa Família", "BPC / LOAS", "Tarifa Social de Energia", "Auxílio Gás", "Aluguel Social")
 
 Campos para Atendimento Individual:
-- atendimentoDemanda (queixa principal, motivo da consulta ou demanda do cidadão)
+- atendimentoDemanda (queixa principal, motivo da consulta ou demanda do aluno)
 - atendimentoNotas (evolução no prontuário, anotações técnicas, escuta qualificada, condutas)
 - atendimentoTipo ("Acolhimento", "Consulta Terapêutica", "Atendimento Social", "Visita Domiciliar", "Teleatendimento", "Retorno")
 - atendimentoCid (hipótese diagnóstica ou CID-10, ex: F41.1)
@@ -224,7 +224,7 @@ Escreva em 'resumoLeitura' um resumo amigável de 1 a 2 frases destacando os pri
             properties: {
               tipoDetectado: { type: Type.STRING },
               resumoLeitura: { type: Type.STRING },
-              // Cidadão / Paciente
+              // Aluno / Paciente
               nome: { type: Type.STRING },
               nomeSocial: { type: Type.STRING },
               cpf: { type: Type.STRING },

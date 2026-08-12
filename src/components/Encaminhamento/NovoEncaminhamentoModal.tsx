@@ -89,7 +89,7 @@ export const NovoEncaminhamentoModal: React.FC<NovoEncaminhamentoModalProps> = (
 
   const handleGerarIa = async () => {
     if (!pacienteAtual || !motivoEncaminhamento.trim()) {
-      alert("Selecione o cidadão e descreva o motivo do encaminhamento primeiro.");
+      alert("Selecione o aluno e descreva o motivo do encaminhamento primeiro.");
       return;
     }
 
@@ -206,7 +206,7 @@ export const NovoEncaminhamentoModal: React.FC<NovoEncaminhamentoModalProps> = (
 
           <div>
             <label className="block font-semibold text-slate-700 mb-1">
-              Selecione o Cidadão / Paciente *
+              Selecione o Aluno / Paciente *
             </label>
             <select
               value={pacienteId}

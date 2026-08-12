@@ -432,7 +432,7 @@ export default function App() {
           // Open new patient modal prefilled with extracted OCR data
           const novoPac: Paciente = {
             id: `pac-${Date.now()}`,
-            nome: extracted.nome || "Cidadão Lido via OCR",
+            nome: extracted.nome || "Aluno Lido via OCR",
             cpf: extracted.cpf || "",
             rg: extracted.rg || "",
             cartaoSus: extracted.cartaoSus || "",
@@ -471,7 +471,7 @@ export default function App() {
           }`}
         >
           <Users className="w-5 h-5" />
-          <span>Cidadãos</span>
+          <span>Alunos</span>
         </button>
 
         <button

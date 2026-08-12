@@ -32,7 +32,7 @@ const TAB_LABELS: Record<TabMenu, string> = {
   "atendimento-individual": "Atend. Individual",
   "atendimento-grupo": "Atend. Grupo",
   encaminhamento: "Encaminhamentos",
-  pacientes: "Cidadãos / Pacientes",
+  pacientes: "Alunos / Pacientes",
   relatorios: "Indicadores",
 };
 
@@ -188,7 +188,7 @@ export const Header: React.FC<HeaderProps> = ({
                   }`}
                 >
                   <UserPlus className="w-4 h-4" />
-                  <span>Cidadãos</span>
+                  <span>Alunos</span>
                 </button>
 
                 <button
@@ -252,7 +252,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-900/80 hover:bg-indigo-800 text-indigo-100 text-xs font-medium rounded-lg border border-indigo-800 transition-all"
                 >
                   <UserPlus className="w-3.5 h-3.5 text-indigo-300" />
-                  <span>Cadastrar Novo Cidadão</span>
+                  <span>Cadastrar Novo Aluno</span>
                 </button>
 
                 <button

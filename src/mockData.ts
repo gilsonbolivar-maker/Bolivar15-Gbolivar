@@ -303,7 +303,7 @@ export const INITIAL_ENCAMINHAMENTOS: Encaminhamento[] = [
       dataParecer: "2026-08-06",
       profissionalDestino: "Fernanda Almeida",
       cargoDestino: "Agente do CIAT",
-      parecerTecnico: "Cidadão acolhido e matriculado no Curso de Operação de Logística (Início em 15/08). Encaminhado também para 2 seleções de emprego ativas.",
+      parecerTecnico: "Aluno acolhido e matriculado no Curso de Operação de Logística (Início em 15/08). Encaminhado também para 2 seleções de emprego ativas.",
       condutaAdotada: "Matrícula realizada em curso de qualificação + inclusão no banco de vagas.",
       retornoNecessario: false,
     },

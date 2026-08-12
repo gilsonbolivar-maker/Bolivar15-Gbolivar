@@ -264,7 +264,7 @@ export const SessaoGrupoModal: React.FC<SessaoGrupoModalProps> = ({
 
             {membrosInscritos.length === 0 ? (
               <p className="text-slate-400 text-center py-4 bg-slate-50 rounded-lg">
-                Nenhum cidadão inscrito neste grupo. Adicione participantes ao grupo primeiro.
+                Nenhum aluno inscrito neste grupo. Adicione participantes ao grupo primeiro.
               </p>
             ) : (
               <div className="space-y-2 max-h-56 overflow-y-auto pr-1">

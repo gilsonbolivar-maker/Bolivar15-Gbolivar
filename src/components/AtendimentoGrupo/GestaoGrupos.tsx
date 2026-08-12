@@ -47,7 +47,7 @@ export const GestaoGrupos: React.FC<GestaoGruposProps> = ({
     if (
       modalInscricaoGrupo.participantesIds.includes(pacienteParaInscrever)
     ) {
-      alert("Este cidadão já está inscrito no grupo.");
+      alert("Este aluno já está inscrito no grupo.");
       return;
     }
 
@@ -198,7 +198,7 @@ export const GestaoGrupos: React.FC<GestaoGruposProps> = ({
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg transition-colors"
                   >
                     <UserPlus className="w-3.5 h-3.5" />
-                    <span>Inscrever Cidadão</span>
+                    <span>Inscrever Aluno</span>
                   </button>
 
                   <button
@@ -284,7 +284,7 @@ export const GestaoGrupos: React.FC<GestaoGruposProps> = ({
         </div>
       )}
 
-      {/* Modal Inscrever Cidadão no Grupo */}
+      {/* Modal Inscrever Aluno no Grupo */}
       {modalInscricaoGrupo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
           <div className="bg-white rounded-2xl p-6 shadow-xl border border-slate-200 max-w-md w-full space-y-4">
@@ -303,7 +303,7 @@ export const GestaoGrupos: React.FC<GestaoGruposProps> = ({
             <form onSubmit={handleInscreverSubmit} className="space-y-4 text-xs">
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">
-                  Selecione o Cidadão / Paciente
+                  Selecione o Aluno / Paciente
                 </label>
                 <select
                   value={pacienteParaInscrever}

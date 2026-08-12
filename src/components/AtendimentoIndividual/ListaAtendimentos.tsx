@@ -70,7 +70,7 @@ export const ListaAtendimentos: React.FC<ListaAtendimentosProps> = ({
             type="text"
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            placeholder="Buscar por nome do cidadão, demanda ou profissional..."
+            placeholder="Buscar por nome do aluno, demanda ou profissional..."
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -151,7 +151,7 @@ export const ListaAtendimentos: React.FC<ListaAtendimentosProps> = ({
                       onClick={() => onVerProntuario(pac)}
                       className="inline-flex items-center gap-1 text-emerald-700 hover:text-emerald-900 font-semibold hover:underline"
                     >
-                      <FileText className="w-3.5 h-3.5" /> Ver Prontuário do Cidadão
+                      <FileText className="w-3.5 h-3.5" /> Ver Prontuário do Aluno
                     </button>
                   )}
                 </div>

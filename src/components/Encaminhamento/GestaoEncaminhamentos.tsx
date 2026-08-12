@@ -88,7 +88,7 @@ export const GestaoEncaminhamentos: React.FC<GestaoEncaminhamentosProps> = ({
             type="text"
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            placeholder="Buscar por cidadão, setor de destino ou motivo..."
+            placeholder="Buscar por aluno, setor de destino ou motivo..."
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm outline-none"
           />
         </div>

@@ -141,7 +141,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!nome.trim() || !cpf.trim()) {
-      alert("Por favor, informe pelo menos o Nome e o CPF do cidadão.");
+      alert("Por favor, informe pelo menos o Nome e o CPF do aluno.");
       return;
     }
 
@@ -184,7 +184,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
             </div>
             <div>
               <h3 className="font-bold text-lg">
-                {pacienteEditar ? "Editar Ficha de Cidadão" : "Cadastrar Novo Cidadão / Paciente"}
+                {pacienteEditar ? "Editar Ficha de Aluno" : "Cadastrar Novo Aluno / Paciente"}
               </h3>
               <p className="text-xs text-slate-400">
                 Acolhimento de dados pessoais, vulnerabilidades e benefícios
@@ -464,7 +464,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
               className="inline-flex items-center gap-1.5 px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl shadow transition-colors"
             >
               <Save className="w-4 h-4" />
-              <span>{pacienteEditar ? "Salvar Alterações" : "Cadastrar Cidadão"}</span>
+              <span>{pacienteEditar ? "Salvar Alterações" : "Cadastrar Aluno"}</span>
             </button>
           </div>
         </form>
@@ -473,7 +473,7 @@ export const FormPacienteModal: React.FC<FormPacienteModalProps> = ({
       <AiDocumentScannerModal
         isOpen={isScannerOpen}
         onClose={() => setIsScannerOpen(false)}
-        targetFormName="Ficha do Cidadão / Paciente"
+        targetFormName="Ficha do Aluno / Paciente"
         onDataExtracted={handleDataExtracted}
       />
     </div>

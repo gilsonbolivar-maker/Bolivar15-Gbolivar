@@ -62,7 +62,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
             <User className="w-5 h-5 text-emerald-600" />
-            Cadastro Unificado de Cidadãos / Pacientes
+            Cadastro Unificado de Alunos / Pacientes
           </h2>
           <p className="text-xs text-slate-500 mt-1">
             Prontuário único, mapa de vulnerabilidades sociais e histórico de acolhimentos
@@ -83,7 +83,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-xl shadow transition-colors"
           >
             <UserPlus className="w-4 h-4" />
-            <span>Cadastrar Cidadão</span>
+            <span>Cadastrar Aluno</span>
           </button>
         </div>
       </div>
@@ -125,7 +125,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                <th className="py-3.5 px-4">Cidadão / Paciente</th>
+                <th className="py-3.5 px-4">Aluno / Paciente</th>
                 <th className="py-3.5 px-4">CPF & Cartão SUS</th>
                 <th className="py-3.5 px-4">Contato & Bairro</th>
                 <th className="py-3.5 px-4">Vulnerabilidades</th>
@@ -136,7 +136,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
               {pacientesFiltrados.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="py-12 text-center text-slate-400">
-                    Nenhum cidadão localizado com os filtros aplicados.
+                    Nenhum aluno localizado com os filtros aplicados.
                   </td>
                 </tr>
               ) : (
@@ -228,7 +228,7 @@ export const ListaPacientes: React.FC<ListaPacientesProps> = ({
                               onDeletarPaciente(p.id);
                             }
                           }}
-                          title="Excluir Cidadão"
+                          title="Excluir Aluno"
                           className="p-1.5 text-slate-300 hover:text-rose-600 rounded-lg transition-colors"
                         >
                           <Trash2 className="w-3.5 h-3.5" />

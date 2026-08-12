@@ -370,7 +370,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
             <div className="space-y-4">
               {meusAtendimentos.length === 0 ? (
                 <div className="text-center py-8 text-slate-400 text-xs">
-                  Nenhum atendimento individual registrado para este cidadão.
+                  Nenhum atendimento individual registrado para este aluno.
                 </div>
               ) : (
                 meusAtendimentos.map((at) => (
@@ -404,7 +404,7 @@ export const ProntuarioModal: React.FC<ProntuarioModalProps> = ({
             <div className="space-y-4">
               {meusGrupos.length === 0 ? (
                 <div className="text-center py-8 text-slate-400 text-xs">
-                  O cidadão não está inscrito em nenhum grupo no momento.
+                  O aluno não está inscrito em nenhum grupo no momento.
                 </div>
               ) : (
                 meusGrupos.map((g) => (

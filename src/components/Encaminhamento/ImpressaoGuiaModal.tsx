@@ -139,7 +139,7 @@ export const ImpressaoGuiaModal: React.FC<ImpressaoGuiaModalProps> = ({
             </div>
           </div>
 
-          {/* Seção 1: Identificação do Cidadão */}
+          {/* Seção 1: Identificação do Aluno */}
           <div className="bg-slate-50 p-4 rounded-xl border border-slate-300 space-y-2">
             <h3 className="font-bold text-slate-900 text-xs uppercase tracking-wider border-b border-slate-200 pb-1">
               1. Dados do Usuário / Paciente
