@@ -13,6 +13,9 @@ import {
   Upload,
   FileJson,
 } from "lucide-react";
+import { Capacitor } from "@capacitor/core";
+import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
 import { FullBackupPayload } from "../storage";
 
 const GIS_SCRIPT_SRC = "https://accounts.google.com/gsi/client";
@@ -351,6 +354,39 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
     const fileName = `psicoescolar-backup-${timestamp}.json`;
     const nowStr = now.toLocaleString("pt-BR");
 
+    // No APK (app instalado no Android), não existe "navegador" nem seletor de
+    // pasta do Chrome — o caminho nativo é: gravar o arquivo numa pasta interna
+    // do app e abrir a folha de Compartilhamento do Android, onde o usuário
+    // escolhe o destino (Google Drive, Arquivos, e-mail, etc.).
+    if (Capacitor.isNativePlatform()) {
+      try {
+        const written = await Filesystem.writeFile({
+          path: fileName,
+          data: json,
+          directory: Directory.Cache,
+          encoding: Encoding.UTF8,
+        });
+        await Share.share({
+          title: "Backup PsicoEscolar 2.0",
+          text: `Backup gerado em ${nowStr}`,
+          url: written.uri,
+          dialogTitle: "Salvar backup em...",
+        });
+
+        localStorage.setItem(LAST_BACKUP_KEY, nowStr);
+        setLastBackupLocal(nowStr);
+        setStatusMsg(
+          `Backup "${fileName}" pronto — escolha o destino (Google Drive, Arquivos etc.) na tela que abriu.`
+        );
+      } catch (err: any) {
+        // Usuário cancelou a folha de compartilhamento: não é erro, só não fez nada.
+        if (!String(err?.message || "").toLowerCase().includes("cancel")) {
+          setErrorMsg("Falha ao gerar o backup: " + err.message);
+        }
+      }
+      return;
+    }
+
     // Navegadores com suporte (Chrome/Edge no computador) abrem um seletor de pasta
     // nativo, deixando escolher exatamente onde salvar.
     if (window.showSaveFilePicker) {
@@ -474,10 +510,10 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
               <div>
                 <p className="font-bold text-verdep-900">Backup em arquivo (.json)</p>
                 <p className="text-xs text-verdep-800 mt-1 leading-relaxed">
-                  Baixa um arquivo com todos os dados do aplicativo. No computador
-                  (Chrome/Edge), abre um seletor para você escolher a pasta de destino; no
-                  iPad/Safari, é salvo na pasta de Downloads. Depois é só você mesma
-                  transferir esse arquivo para o seu Google Drive, se quiser.
+                  Gera um arquivo com todos os dados do aplicativo. No app instalado
+                  (Android), abre a tela de compartilhar para você escolher o destino
+                  (Google Drive, Arquivos etc.); no computador (Chrome/Edge), abre um
+                  seletor de pasta; no iPad/Safari, é salvo na pasta de Downloads.
                 </p>
               </div>
             </div>
