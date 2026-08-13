@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   AlertCircle,
   History,
-  ExternalLink,
   HardDriveDownload,
   Download,
   Upload,
@@ -492,42 +491,17 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
           </div>
 
           {!clientId ? (
-            <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-3">
-              <div className="flex items-start gap-2.5">
-                <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-bold text-amber-900">
-                    Backup no Google Drive ainda não foi configurado
-                  </p>
-                  <p className="text-xs text-amber-800 mt-1 leading-relaxed">
-                    É necessário criar uma credencial OAuth gratuita no Google Cloud Console e
-                    configurá-la como <code className="px-1 bg-amber-100 rounded">VITE_GOOGLE_CLIENT_ID</code>{" "}
-                    nas variáveis de ambiente do projeto.
-                  </p>
-                </div>
+            <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-2.5">
+              <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-amber-900">
+                  O envio automático para o Google Drive ainda não está disponível
+                </p>
+                <p className="text-xs text-amber-800 mt-1 leading-relaxed">
+                  Por enquanto, use o backup em arquivo (.json) logo acima — ele já guarda
+                  tudo e você mesma pode transferir para o Drive.
+                </p>
               </div>
-              <ol className="text-xs text-amber-900 list-decimal list-inside space-y-1 font-medium pl-1">
-                <li>
-                  Acesse{" "}
-                  <a
-                    href="https://console.cloud.google.com/apis/credentials"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline inline-flex items-center gap-1"
-                  >
-                    console.cloud.google.com/apis/credentials <ExternalLink className="w-3 h-3" />
-                  </a>
-                </li>
-                <li>Crie um projeto e ative a "Google Drive API"</li>
-                <li>
-                  Crie uma credencial do tipo <strong>OAuth Client ID → Web application</strong>
-                </li>
-                <li>
-                  Em "Authorized JavaScript origins", adicione o domínio onde o app roda (ex:{" "}
-                  <code className="px-1 bg-amber-100 rounded">{window.location.origin}</code>)
-                </li>
-                <li>Copie o Client ID gerado e configure como VITE_GOOGLE_CLIENT_ID</li>
-              </ol>
             </div>
           ) : gisError ? (
             <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs flex items-start gap-2.5">
