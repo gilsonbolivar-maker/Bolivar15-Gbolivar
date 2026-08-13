@@ -81,6 +81,12 @@ interface BackupDriveModalProps {
 declare global {
   interface Window {
     google?: any;
+    // File System Access API — disponível no Chrome/Edge (computador), permite
+    // escolher a pasta de destino ao salvar. Ausente no Safari/iPadOS.
+    showSaveFilePicker?: (options?: {
+      suggestedName?: string;
+      types?: { description: string; accept: Record<string, string[]> }[];
+    }) => Promise<any>;
   }
 }
 
@@ -331,7 +337,7 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
   const localFileInputRef = useRef<HTMLInputElement>(null);
   const [isImportingLocal, setIsImportingLocal] = useState(false);
 
-  const handleDownloadLocalBackup = () => {
+  const handleDownloadLocalBackup = async () => {
     setErrorMsg(null);
     setStatusMsg(null);
     const now = new Date();
@@ -340,24 +346,53 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
       geradoEm: now.toISOString(),
       ...data,
     };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
+    const json = JSON.stringify(payload, null, 2);
     const timestamp = now.toISOString().replace(/[:.]/g, "-");
+    const fileName = `psicoescolar-backup-${timestamp}.json`;
+    const nowStr = now.toLocaleString("pt-BR");
+
+    // Navegadores com suporte (Chrome/Edge no computador) abrem um seletor de pasta
+    // nativo, deixando escolher exatamente onde salvar.
+    if (window.showSaveFilePicker) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: fileName,
+          types: [
+            { description: "Backup JSON", accept: { "application/json": [".json"] } },
+          ],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(json);
+        await writable.close();
+
+        localStorage.setItem(LAST_BACKUP_KEY, nowStr);
+        setLastBackupLocal(nowStr);
+        setStatusMsg(`Backup "${fileName}" salvo na pasta escolhida.`);
+        return;
+      } catch (err: any) {
+        if (err?.name === "AbortError") return; // cancelou o seletor de pasta
+        // Se falhar por outro motivo, cai no método padrão abaixo.
+      }
+    }
+
+    // Padrão (Safari/iPad e navegadores sem seletor de pasta): baixa para a pasta
+    // de Downloads configurada no navegador/dispositivo.
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `psicoescolar-backup-${timestamp}.json`;
+    a.download = fileName;
     document.body.appendChild(a);
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
 
-    const nowStr = now.toLocaleString("pt-BR");
     localStorage.setItem(LAST_BACKUP_KEY, nowStr);
     setLastBackupLocal(nowStr);
     setStatusMsg(
-      "Arquivo de backup baixado! Agora é só mover/enviar esse arquivo .json para o seu Google Drive (ou onde preferir guardar)."
+      window.showSaveFilePicker === undefined && navigator.userAgent.includes("Safari")
+        ? 'Arquivo de backup baixado! No iPad, ative "Perguntar onde salvar" em Ajustes → Safari → Downloads para escolher a pasta a cada download.'
+        : "Arquivo de backup baixado! Agora é só mover/enviar esse arquivo .json para o seu Google Drive (ou onde preferir guardar)."
     );
   };
 
@@ -439,9 +474,10 @@ export const BackupDriveModal: React.FC<BackupDriveModalProps> = ({
               <div>
                 <p className="font-bold text-verdep-900">Backup em arquivo (.json)</p>
                 <p className="text-xs text-verdep-800 mt-1 leading-relaxed">
-                  Baixa um arquivo com todos os dados do aplicativo. Depois é só você mesma
-                  transferir esse arquivo para o seu Google Drive (ou guardar onde preferir).
-                  Não precisa de nenhuma configuração.
+                  Baixa um arquivo com todos os dados do aplicativo. No computador
+                  (Chrome/Edge), abre um seletor para você escolher a pasta de destino; no
+                  iPad/Safari, é salvo na pasta de Downloads. Depois é só você mesma
+                  transferir esse arquivo para o seu Google Drive, se quiser.
                 </p>
               </div>
             </div>
