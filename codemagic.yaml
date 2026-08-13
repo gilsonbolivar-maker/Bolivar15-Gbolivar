@@ -1,0 +1,27 @@
+workflows:
+  android-apk:
+    name: PsicoEscolar 2.0 - Gerar APK
+    max_build_duration: 30
+    instance_type: linux_x2
+    environment:
+      node: 20
+      java: 17
+      vars:
+        # Sem essa chave, a leitura de documentos por IA fica desativada no APK
+        # (o restante do app funciona normalmente). Configure em
+        # Codemagic > seu app > Environment variables, se quiser habilitar.
+        GEMINI_API_KEY: $GEMINI_API_KEY
+    scripts:
+      - name: Instalar dependências
+        script: npm install
+      - name: Build dos arquivos web (Vite)
+        script: npm run build
+      - name: Sincronizar projeto Android (Capacitor)
+        script: npx cap sync android
+      - name: Build do APK (Gradle)
+        script: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+    artifacts:
+      - android/app/build/outputs/apk/debug/*.apk
