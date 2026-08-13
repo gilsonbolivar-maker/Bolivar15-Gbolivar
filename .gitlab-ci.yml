@@ -1,0 +1,22 @@
+stages:
+  - build
+
+build_apk:
+  stage: build
+  image: reactnativecommunity/react-native-android:latest
+  variables:
+    # Sem essa chave, a leitura de documentos por IA fica desativada no APK
+    # (o restante do app funciona normalmente). Configure em
+    # GitLab > seu projeto > Settings > CI/CD > Variables, se quiser habilitar.
+    GEMINI_API_KEY: $GEMINI_API_KEY
+  script:
+    - npm install
+    - npm run build
+    - npx cap sync android
+    - cd android
+    - chmod +x gradlew
+    - ./gradlew assembleDebug --stacktrace
+  artifacts:
+    paths:
+      - android/app/build/outputs/apk/debug/*.apk
+    expire_in: 1 week
