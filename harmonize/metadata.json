@@ -1,0 +1,6 @@
+{
+  "name": "Harmonize Clinical - Gestão de Clínica Estética",
+  "description": "Sistema completo para clínicas de estética com foco em Harmonização Facial, Botox, Bioestimuladores, Mapeamento Facial 2D de Injetáveis, Prontuário, Agendamento e Estoque.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
