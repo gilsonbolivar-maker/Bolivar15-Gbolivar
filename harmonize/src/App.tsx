@@ -15,12 +15,20 @@ import { ProceduresModule } from './components/ProceduresModule';
 import { FinancialModule } from './components/FinancialModule';
 import { AiAssistantModule } from './components/AiAssistantModule';
 import { FaceMapStudio } from './components/FaceMapStudio';
+import { BackupModal } from './components/BackupModal';
+import { PwaBanners } from './components/PwaBanners';
+import { usePwa } from './hooks/usePwa';
+import type { BackupPayload } from './utils/backup';
+import { isSameMonth, todayISO } from './utils/date';
+import {
+  isArrayOf, isPlainObject, readStored, writeStored, STORAGE_KEYS,
+} from './utils/storage';
 
 import {
   Sparkles, Users, Calendar as CalendarIcon, Package, FileText,
   DollarSign, SlidersHorizontal, Bell, Plus, Clock, CheckCircle2,
   AlertTriangle, ShieldCheck, ChevronRight, Menu, X, ArrowUpRight,
-  TrendingUp, Syringe, HeartPulse
+  TrendingUp, Syringe, HeartPulse, DatabaseBackup
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -34,82 +42,118 @@ type NavModule =
   | 'financial'
   | 'ai_assistant';
 
+const NAV_MODULES: NavModule[] = [
+  'dashboard', 'patients', 'appointments', 'facemap',
+  'inventory', 'procedures', 'financial', 'ai_assistant',
+];
+
+/**
+ * Módulo inicial vindo de `?module=` — usado pelos atalhos do manifest
+ * (pressionar e segurar o ícone do app instalado).
+ */
+function initialModuleFromUrl(): NavModule {
+  if (typeof window === 'undefined') return 'dashboard';
+  const requested = new URLSearchParams(window.location.search).get('module');
+  return NAV_MODULES.includes(requested as NavModule) ? (requested as NavModule) : 'dashboard';
+}
+
 export default function App() {
   // Navigation State
-  const [activeModule, setActiveModule] = useState<NavModule>('dashboard');
+  const [activeModule, setActiveModule] = useState<NavModule>(initialModuleFromUrl);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [backupOpen, setBackupOpen] = useState(false);
+
+  const pwa = usePwa();
+
+  /** Avisa quando a gravação local falha (cota cheia / modo privativo). */
+  const [storageError, setStorageError] = useState<string | null>(null);
 
   // Core Data States (with local persistence)
-  const [patients, setPatients] = useState<Patient[]>(() => {
-    const saved = localStorage.getItem('harmonize_patients');
-    return saved ? JSON.parse(saved) : INITIAL_PATIENTS;
-  });
+  const [patients, setPatients] = useState<Patient[]>(() =>
+    readStored(STORAGE_KEYS.patients, INITIAL_PATIENTS, isArrayOf),
+  );
 
-  const [appointments, setAppointments] = useState<Appointment[]>(() => {
-    const saved = localStorage.getItem('harmonize_appointments');
-    return saved ? JSON.parse(saved) : INITIAL_APPOINTMENTS;
-  });
+  const [appointments, setAppointments] = useState<Appointment[]>(() =>
+    readStored(STORAGE_KEYS.appointments, INITIAL_APPOINTMENTS, isArrayOf),
+  );
 
-  const [inventory, setInventory] = useState<InventoryItem[]>(() => {
-    const saved = localStorage.getItem('harmonize_inventory');
-    return saved ? JSON.parse(saved) : INITIAL_INVENTORY;
-  });
+  const [inventory, setInventory] = useState<InventoryItem[]>(() =>
+    readStored(STORAGE_KEYS.inventory, INITIAL_INVENTORY, isArrayOf),
+  );
 
-  const [procedures, setProcedures] = useState<ProcedureCatalogItem[]>(() => {
-    const saved = localStorage.getItem('harmonize_procedures');
-    return saved ? JSON.parse(saved) : INITIAL_PROCEDURES;
-  });
+  const [procedures, setProcedures] = useState<ProcedureCatalogItem[]>(() =>
+    readStored(STORAGE_KEYS.procedures, INITIAL_PROCEDURES, isArrayOf),
+  );
 
-  const [transactions, setTransactions] = useState<FinancialTransaction[]>(() => {
-    const saved = localStorage.getItem('harmonize_transactions');
-    return saved ? JSON.parse(saved) : INITIAL_TRANSACTIONS;
-  });
+  const [transactions, setTransactions] = useState<FinancialTransaction[]>(() =>
+    readStored(STORAGE_KEYS.transactions, INITIAL_TRANSACTIONS, isArrayOf),
+  );
 
   const [professionals] = useState<Professional[]>(INITIAL_PROFESSIONALS);
 
   // Face Maps per Patient
   const [faceMaps, setFaceMaps] = useState<Record<string, FaceMapPoint[]>>(() => {
-    const saved = localStorage.getItem('harmonize_facemaps');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === 'object' && Array.isArray(parsed['pat-1'])) {
-          return { ...initialFaceMapPoints, ...parsed };
-        }
-      } catch (e) {
-        console.error("Failed to parse saved facemaps", e);
-      }
-    }
-    return initialFaceMapPoints;
+    const saved = readStored<Record<string, FaceMapPoint[]> | null>(
+      STORAGE_KEYS.facemaps,
+      null,
+      isPlainObject,
+    );
+    // Os mapas de exemplo entram como base para não sumirem em instalações antigas.
+    return saved ? { ...initialFaceMapPoints, ...saved } : initialFaceMapPoints;
   });
 
   // Active Selected Patient for standalone FaceMapStudio tab
-  const [standalonePatientId, setStandalonePatientId] = useState<string>(patients[0]?.id || 'pat-1');
+  const [standalonePatientId, setStandalonePatientId] = useState<string>(patients[0]?.id || '');
+
+  /** Grava e sinaliza na UI se o navegador recusar a escrita. */
+  const persist = (key: string, value: unknown) => {
+    const result = writeStored(key, value);
+    if (result.ok) {
+      setStorageError(null);
+      return;
+    }
+    setStorageError(
+      result.reason === 'quota'
+        ? 'O armazenamento do navegador está cheio. Baixe um backup e remova registros antigos.'
+        : 'Não foi possível salvar neste navegador. Baixe um backup para não perder os dados.',
+    );
+  };
 
   // Sync to LocalStorage
   useEffect(() => {
-    localStorage.setItem('harmonize_patients', JSON.stringify(patients));
+    persist(STORAGE_KEYS.patients, patients);
   }, [patients]);
 
   useEffect(() => {
-    localStorage.setItem('harmonize_appointments', JSON.stringify(appointments));
+    persist(STORAGE_KEYS.appointments, appointments);
   }, [appointments]);
 
   useEffect(() => {
-    localStorage.setItem('harmonize_inventory', JSON.stringify(inventory));
+    persist(STORAGE_KEYS.inventory, inventory);
   }, [inventory]);
 
   useEffect(() => {
-    localStorage.setItem('harmonize_procedures', JSON.stringify(procedures));
+    persist(STORAGE_KEYS.procedures, procedures);
   }, [procedures]);
 
   useEffect(() => {
-    localStorage.setItem('harmonize_transactions', JSON.stringify(transactions));
+    persist(STORAGE_KEYS.transactions, transactions);
   }, [transactions]);
 
   useEffect(() => {
-    localStorage.setItem('harmonize_facemaps', JSON.stringify(faceMaps));
+    persist(STORAGE_KEYS.facemaps, faceMaps);
   }, [faceMaps]);
+
+  // Mantém o paciente do studio válido quando a lista muda (exclusão/restauração).
+  useEffect(() => {
+    if (patients.length === 0) {
+      if (standalonePatientId !== '') setStandalonePatientId('');
+      return;
+    }
+    if (!patients.some(p => p.id === standalonePatientId)) {
+      setStandalonePatientId(patients[0].id);
+    }
+  }, [patients, standalonePatientId]);
 
   // Handlers
   const handleSavePatient = (pat: Patient) => {
@@ -201,16 +245,34 @@ export default function App() {
     setActiveModule('patients');
   };
 
+  /** Estado completo exposto ao backup. */
+  const backupData: BackupPayload = {
+    patients, appointments, inventory, procedures, transactions, faceMaps,
+  };
+
+  const handleRestoreBackup = (payload: BackupPayload) => {
+    setPatients(payload.patients);
+    setAppointments(payload.appointments);
+    setInventory(payload.inventory);
+    setProcedures(payload.procedures);
+    setTransactions(payload.transactions);
+    setFaceMaps(payload.faceMaps);
+  };
+
   // Metrics for Dashboard
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = todayISO();
   const todayAppointments = appointments.filter(a => a.date === todayStr);
   const pendingRetouchCount = appointments.filter(a => a.isBotoxRetouch && a.status !== 'concluido').length;
   const criticalStockItems = inventory.filter(i => i.currentStock <= i.minStock);
+  // Só o mês corrente: o card é rotulado "Faturamento Mensal".
   const currentMonthRevenue = transactions
-    .filter(t => t.type === 'receita' && t.status === 'pago')
+    .filter(t => t.type === 'receita' && t.status === 'pago' && isSameMonth(t.date))
     .reduce((sum, t) => sum + t.amount, 0);
+  const completedThisMonth = appointments.filter(
+    a => a.status === 'concluido' && isSameMonth(a.date),
+  ).length;
 
-  const selectedPatientForFaceMap = patients.find(p => p.id === standalonePatientId) || patients[0];
+  const selectedPatientForFaceMap = patients.find(p => p.id === standalonePatientId);
 
   interface NavItemConfig {
     id: NavModule;
@@ -226,7 +288,7 @@ export default function App() {
     { id: 'patients', label: 'Pacientes', sublabel: `${patients.length} cadastrados`, icon: Users, badge: patients.length },
     { id: 'appointments', label: 'Agenda & Retoques', sublabel: `${todayAppointments.length} hoje • ${pendingRetouchCount} retoques`, icon: CalendarIcon, badge: todayAppointments.length > 0 ? `${todayAppointments.length}` : undefined },
     { id: 'facemap', label: 'Mapeamento Facial', sublabel: 'Marcação anatômica 2D', icon: SlidersHorizontal },
-    { id: 'inventory', label: 'Estoque Injetáveis', sublabel: 'Frascos & ANVISA', icon: Package, alertBadge: inventory.some(i => i.currentStock <= i.minimumStock) },
+    { id: 'inventory', label: 'Estoque Injetáveis', sublabel: 'Frascos & ANVISA', icon: Package, alertBadge: criticalStockItems.length > 0 },
     { id: 'procedures', label: 'Procedimentos', sublabel: 'Protocolos & Tabela', icon: FileText },
     { id: 'financial', label: 'Financeiro', sublabel: 'Fluxo & Comissões', icon: DollarSign },
     { id: 'ai_assistant', label: 'IA Pós-Cuidado', sublabel: 'Auditoria & Recomendações', icon: Sparkles },
@@ -370,6 +432,18 @@ export default function App() {
 
         {/* Sidebar Footer Info */}
         <div className="p-4 border-t border-[#F1F5F9] bg-[#F8FAFC] rounded-b-3xl md:rounded-none">
+          <button
+            type="button"
+            onClick={() => {
+              setBackupOpen(true);
+              setMobileMenuOpen(false);
+            }}
+            className="w-full mb-3 py-2.5 px-4 bg-white border border-[#CBD5E1] hover:bg-[#F1F5F9] text-[#1D4ED8] rounded-2xl text-xs font-semibold transition-all flex items-center justify-center gap-2"
+          >
+            <DatabaseBackup className="w-4 h-4" />
+            <span>Backup dos dados</span>
+          </button>
+
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#2563EB] text-white flex items-center justify-center font-bold text-xs">
               DR
@@ -396,6 +470,27 @@ export default function App() {
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {/* Main Content View */}
         <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        {/* Falha de gravação local: os dados na tela ainda estão certos, mas não
+            sobrevivem a um recarregamento — o backup vira a saída imediata. */}
+        {storageError && (
+          <div
+            role="alert"
+            className="mb-6 flex items-start gap-3 rounded-2xl bg-[#FEF2F2] border border-[#FECACA] p-4"
+          >
+            <AlertTriangle className="w-4 h-4 text-[#B91C1C] shrink-0 mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-bold text-[#991B1B]">Não foi possível salvar no aparelho</p>
+              <p className="text-[11px] text-[#991B1B]/90 leading-relaxed mt-0.5">{storageError}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setBackupOpen(true)}
+              className="shrink-0 px-3.5 py-1.5 rounded-xl bg-white border border-[#FECACA] text-[#B91C1C] text-xs font-bold hover:bg-[#FEF2F2] transition-colors"
+            >
+              Backup
+            </button>
+          </div>
+        )}
         {/* MODULE 1: DASHBOARD / VISÃO GERAL */}
         {activeModule === 'dashboard' && (
           <div id="dashboard-view" className="space-y-8 animate-in fade-in">
@@ -453,7 +548,7 @@ export default function App() {
                   {todayAppointments.length}
                 </div>
                 <span className="text-[11px] text-[#334155] mt-1.5 block">
-                  {appointments.filter(a => a.status === 'concluido').length} já concluídos no mês
+                  {completedThisMonth} já concluídos no mês
                 </span>
               </div>
 
@@ -699,8 +794,10 @@ export default function App() {
                 <select
                   value={standalonePatientId}
                   onChange={(e) => setStandalonePatientId(e.target.value)}
-                  className="px-4 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-2xl text-xs font-semibold text-[#0F172A] outline-none w-full sm:w-64 focus:border-[#2563EB]"
+                  disabled={patients.length === 0}
+                  className="px-4 py-2.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-2xl text-xs font-semibold text-[#0F172A] outline-none w-full sm:w-64 focus:border-[#2563EB] disabled:opacity-60"
                 >
+                  {patients.length === 0 && <option value="">Nenhum paciente cadastrado</option>}
                   {patients.map(p => (
                     <option key={p.id} value={p.id}>{p.name}</option>
                   ))}
@@ -708,11 +805,28 @@ export default function App() {
               </div>
             </div>
 
-            <FaceMapStudio
-              points={faceMaps[standalonePatientId] || []}
-              onChangePoints={(pts) => handleUpdateFaceMap(standalonePatientId, pts)}
-              patientName={selectedPatientForFaceMap.name}
-            />
+            {/* Sem paciente selecionado não há prontuário gráfico a montar. */}
+            {selectedPatientForFaceMap ? (
+              <FaceMapStudio
+                points={faceMaps[standalonePatientId] || []}
+                onChangePoints={(pts) => handleUpdateFaceMap(standalonePatientId, pts)}
+                patientName={selectedPatientForFaceMap.name}
+              />
+            ) : (
+              <div className="bg-white rounded-3xl border border-[#CBD5E1] shadow-xs p-10 text-center space-y-3">
+                <Users className="w-8 h-8 text-[#94A3B8] mx-auto" />
+                <p className="text-xs text-[#334155]">
+                  Cadastre um paciente para iniciar o mapeamento facial.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setActiveModule('patients')}
+                  className="px-5 py-2.5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium text-xs rounded-full transition-all"
+                >
+                  Ir para Pacientes
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -753,6 +867,16 @@ export default function App() {
         )}
         </main>
       </div>
+
+      {backupOpen && (
+        <BackupModal
+          data={backupData}
+          onRestore={handleRestoreBackup}
+          onClose={() => setBackupOpen(false)}
+        />
+      )}
+
+      <PwaBanners pwa={pwa} />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import {
   Search, Calendar, Filter, ArrowUpRight, ArrowDownRight, UserCheck, X
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { todayISO } from '../utils/date';
 
 interface FinancialModuleProps {
   transactions: FinancialTransaction[];
@@ -27,7 +28,7 @@ export const FinancialModule: React.FC<FinancialModuleProps> = ({
     category: 'Procedimento HOF',
     description: '',
     amount: 1800,
-    date: new Date().toISOString().split('T')[0],
+    date: todayISO(),
     paymentMethod: 'pix',
     status: 'pago'
   });
@@ -59,7 +60,7 @@ export const FinancialModule: React.FC<FinancialModuleProps> = ({
       category: formData.category || 'Procedimento HOF',
       description: formData.description,
       amount: Number(formData.amount) || 0,
-      date: formData.date || new Date().toISOString().split('T')[0],
+      date: formData.date || todayISO(),
       paymentMethod: formData.paymentMethod as any || 'pix',
       status: formData.status as any || 'pago'
     };

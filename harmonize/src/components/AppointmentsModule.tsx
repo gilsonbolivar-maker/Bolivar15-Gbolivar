@@ -6,6 +6,7 @@ import {
   Sparkles, Check, X, Shield, ArrowRight, Pencil, Trash2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { parseISODate, toISODate, todayISO } from '../utils/date';
 
 interface AppointmentsModuleProps {
   appointments: Appointment[];
@@ -37,7 +38,7 @@ export const AppointmentsModule: React.FC<AppointmentsModuleProps> = ({
   onOpenPatientRecord,
   onDeleteAppointment
 }) => {
-  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState<string>(todayISO());
   const [selectedProfessional, setSelectedProfessional] = useState<string>('todos');
   const [selectedStatusFilter, setSelectedStatusFilter] = useState<string>('todos');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -47,7 +48,7 @@ export const AppointmentsModule: React.FC<AppointmentsModuleProps> = ({
   const [formData, setFormData] = useState<Partial<Appointment>>({
     patientId: patients[0]?.id || '',
     professionalId: professionals[0]?.id || '',
-    date: new Date().toISOString().split('T')[0],
+    date: todayISO(),
     time: '10:00',
     durationMinutes: 45,
     status: 'agendado',
@@ -178,9 +179,9 @@ export const AppointmentsModule: React.FC<AppointmentsModuleProps> = ({
           <button
             type="button"
             onClick={() => {
-              const d = new Date(selectedDate);
+              const d = parseISODate(selectedDate);
               d.setDate(d.getDate() - 1);
-              setSelectedDate(d.toISOString().split('T')[0]);
+              setSelectedDate(toISODate(d));
             }}
             className="p-2.5 hover:bg-[#F8FAFC] rounded-2xl text-[#334155] border border-[#CBD5E1] transition-colors"
           >
@@ -199,9 +200,9 @@ export const AppointmentsModule: React.FC<AppointmentsModuleProps> = ({
           <button
             type="button"
             onClick={() => {
-              const d = new Date(selectedDate);
+              const d = parseISODate(selectedDate);
               d.setDate(d.getDate() + 1);
-              setSelectedDate(d.toISOString().split('T')[0]);
+              setSelectedDate(toISODate(d));
             }}
             className="p-2.5 hover:bg-[#F8FAFC] rounded-2xl text-[#334155] border border-[#CBD5E1] transition-colors"
           >
@@ -210,7 +211,7 @@ export const AppointmentsModule: React.FC<AppointmentsModuleProps> = ({
 
           <button
             type="button"
-            onClick={() => setSelectedDate(new Date().toISOString().split('T')[0])}
+            onClick={() => setSelectedDate(todayISO())}
             className="px-4 py-2 bg-[#F1F5F9] hover:bg-[#F8FAFC] text-[#1E293B] border border-[#CBD5E1] text-xs font-medium rounded-full transition-colors"
           >
             Hoje

@@ -1,0 +1,65 @@
+{
+  "id": "/",
+  "name": "Harmonize Clinical — Gestão de Clínica Estética",
+  "short_name": "Harmonize",
+  "description": "Prontuário, mapeamento facial 2D de injetáveis, agenda de retoques, estoque ANVISA e financeiro para clínicas de harmonização orofacial.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "orientation": "any",
+  "background_color": "#102438",
+  "theme_color": "#102438",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["medical", "health", "productivity", "business"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Agenda de hoje",
+      "short_name": "Agenda",
+      "description": "Abrir os atendimentos e retoques do dia",
+      "url": "/?module=appointments",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Mapeamento facial",
+      "short_name": "Mapeamento",
+      "description": "Abrir o studio de marcação anatômica 2D",
+      "url": "/?module=facemap",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Pacientes",
+      "short_name": "Pacientes",
+      "description": "Abrir a lista de prontuários",
+      "url": "/?module=patients",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

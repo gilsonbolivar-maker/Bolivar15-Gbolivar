@@ -7,6 +7,7 @@ import {
   Camera, SlidersHorizontal, Trash2, Edit3, X, Download, HeartHandshake, Eye
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { todayISO } from '../utils/date';
 
 interface PatientsModuleProps {
   patients: Patient[];
@@ -80,7 +81,7 @@ export const PatientsModule: React.FC<PatientsModuleProps> = ({
       birthDate: '1992-05-15',
       gender: 'Feminino',
       tag: 'novo',
-      createdAt: new Date().toISOString().split('T')[0],
+      createdAt: todayISO(),
       avatarUrl: `https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80`,
       consentSigned: false,
       anamnesis: {
@@ -114,7 +115,7 @@ export const PatientsModule: React.FC<PatientsModuleProps> = ({
     const patientToSave: Patient = {
       ...(formData as Patient),
       id: formData.id || `pat-${Date.now()}`,
-      createdAt: formData.createdAt || new Date().toISOString().split('T')[0],
+      createdAt: formData.createdAt || todayISO(),
     };
 
     onSavePatient(patientToSave);

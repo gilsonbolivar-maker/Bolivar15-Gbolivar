@@ -1,4 +1,5 @@
 import { Patient, ProcedureCatalogItem, Appointment, ClinicalRecord, InventoryItem, FinancialTransaction, Professional, FaceMapPoint } from '../types';
+import { addDaysISO, todayISO } from '../utils/date';
 
 export const initialProfessionals: Professional[] = [
   {
@@ -771,7 +772,7 @@ export const initialAppointments: Appointment[] = [
     professionalName: 'Dra. Camila Vasconcelos',
     procedureIds: ['proc-botox-full', 'proc-preench-labial'],
     procedureNames: ['Toxina Botulínica - Full Face', 'Preenchimento Labial com Ácido Hialurônico (1ml)'],
-    date: new Date().toISOString().split('T')[0], // Today
+    date: todayISO(), // Today
     time: '09:30',
     durationMinutes: 75,
     status: 'confirmado',
@@ -790,7 +791,7 @@ export const initialAppointments: Appointment[] = [
     professionalName: 'Dra. Beatriz Mendes',
     procedureIds: ['proc-bio-sculptra'],
     procedureNames: ['Bioestimulador de Colágeno (Sculptra® PLLA)'],
-    date: new Date().toISOString().split('T')[0], // Today
+    date: todayISO(), // Today
     time: '11:00',
     durationMinutes: 60,
     status: 'agendado',
@@ -808,7 +809,7 @@ export const initialAppointments: Appointment[] = [
     professionalName: 'Dr. Lucas Silveira',
     procedureIds: ['proc-botox-bruxismo', 'proc-preench-mandibula'],
     procedureNames: ['Botox Masseter & Bruxismo', 'Contorno Mandibular & Mento'],
-    date: new Date().toISOString().split('T')[0], // Today
+    date: todayISO(), // Today
     time: '14:30',
     durationMinutes: 90,
     status: 'agendado',
@@ -827,7 +828,7 @@ export const initialAppointments: Appointment[] = [
     professionalName: 'Dra. Camila Vasconcelos',
     procedureIds: ['proc-botox-terco-sup'],
     procedureNames: ['Toxina Botulínica - Terço Superior'],
-    date: new Date().toISOString().split('T')[0], // Today
+    date: todayISO(), // Today
     time: '16:30',
     durationMinutes: 45,
     status: 'agendado',
@@ -845,7 +846,7 @@ export const initialAppointments: Appointment[] = [
     professionalName: 'Dra. Camila Vasconcelos',
     procedureIds: ['proc-botox-full'],
     procedureNames: ['Retoque de Botox (15 dias)'],
-    date: new Date(Date.now() + 15 * 86400000).toISOString().split('T')[0], // 15 days later
+    date: addDaysISO(15), // 15 days later
     time: '10:00',
     durationMinutes: 30,
     status: 'retorno_pendente',
@@ -989,7 +990,7 @@ export const initialTransactions: FinancialTransaction[] = [
     category: 'Procedimento HOF',
     description: 'Juliana Paes - Botox Full Face + Preenchimento Labial 1ml',
     amount: 3400,
-    date: new Date().toISOString().split('T')[0],
+    date: todayISO(),
     paymentMethod: 'pix',
     status: 'pago',
     patientId: 'pat-1',
@@ -1001,7 +1002,7 @@ export const initialTransactions: FinancialTransaction[] = [
     category: 'Harmonização',
     description: 'Rodrigo Fontes - Entrada Cartão (Masseter + Mandíbula)',
     amount: 2500,
-    date: new Date().toISOString().split('T')[0],
+    date: todayISO(),
     paymentMethod: 'cartao_credito',
     status: 'pago',
     patientId: 'pat-3',

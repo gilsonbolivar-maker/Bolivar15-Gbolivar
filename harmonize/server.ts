@@ -6,6 +6,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+/**
+ * Modelo usado nas rotas de IA. Configurável para não precisar editar o código
+ * quando o Google publicar/aposentar uma versão.
+ */
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+
 let aiClient: GoogleGenAI | null = null;
 function getAI() {
   if (!aiClient && process.env.GEMINI_API_KEY) {
@@ -108,7 +114,7 @@ Retorne APENAS um JSON estrito no seguinte formato:
 }`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.7-flash",
+        model: GEMINI_MODEL,
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -152,7 +158,7 @@ A mensagem deve conter:
 - Formatação bonita com bullet points e emojis adequados para WhatsApp.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.7-flash",
+        model: GEMINI_MODEL,
         contents: prompt
       });
 
@@ -204,7 +210,7 @@ Avalie riscos de reações adversas, contraindicações absolutas e relativas, e
 }`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.7-flash",
+        model: GEMINI_MODEL,
         contents: prompt,
         config: {
           responseMimeType: "application/json"
@@ -228,8 +234,31 @@ Avalie riscos de reações adversas, contraindicações absolutas e relativas, e
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
+
+    // O service worker nunca pode ser servido de cache: é ele quem controla a
+    // atualização de todo o resto. Um sw.js preso no cache trava o app numa
+    // versão antiga indefinidamente.
+    app.get('/sw.js', (_req: Request, res: Response) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Service-Worker-Allowed', '/');
+      res.sendFile(path.join(distPath, 'sw.js'));
+    });
+
+    app.use(
+      express.static(distPath, {
+        setHeaders: (res, filePath) => {
+          if (filePath.includes(`${path.sep}assets${path.sep}`)) {
+            // Bundles do Vite têm hash no nome — seguro cachear para sempre.
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          } else if (filePath.endsWith('index.html') || filePath.endsWith('.webmanifest')) {
+            res.setHeader('Cache-Control', 'no-cache');
+          }
+        },
+      }),
+    );
+
     app.get('*', (_req: Request, res: Response) => {
+      res.setHeader('Cache-Control', 'no-cache');
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }

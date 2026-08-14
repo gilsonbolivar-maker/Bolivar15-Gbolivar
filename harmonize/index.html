@@ -2,9 +2,27 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover libera as safe-area-inset do iPhone quando instalado -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Harmonize Clinical - Gestão de Clínica Estética & Harmonização Facial</title>
     <meta name="description" content="Sistema completo de gestão para clínicas de estética, harmonização facial, botox e bioestimuladores." />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#102438" />
+    <meta name="color-scheme" content="light" />
+    <meta name="application-name" content="Harmonize" />
+
+    <!-- iOS: o Safari ignora o manifest e exige estas tags para instalar -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Harmonize" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,4 +32,3 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
